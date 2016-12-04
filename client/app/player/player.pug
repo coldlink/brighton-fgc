@@ -4,5 +4,7 @@
       .thumbnail.text-center
         img(ng-src='{{playerCtrl.getImage(player)}}', alt='{{player.handle}}')
         .caption
-          h3 {{player.team ? player.team + ' | ' : ''}}{{player.handle}}
+          h4 {{player.team ? player.team + ' | ' : ''}}{{player.handle}}
           p {{player.name}}
+          p
+            a(href="#").btn.btn-primary More Info

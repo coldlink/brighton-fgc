@@ -9,7 +9,9 @@ import routes from './event.routes';
 
 export class EventComponent {
   pastEvents = [];
+  pastEventsChunk = [];
   upcomingEvents = [];
+  upcomingEventsChunk = [];
 
   /*@ngInject*/
   constructor($http) {
@@ -17,7 +19,7 @@ export class EventComponent {
   }
 
   $onInit() {
-    this.$http.get('/api/players')
+    this.$http.get('/api/events')
       .then(response => {
         console.log(response.data);
         this.sortEvents(response.data);
@@ -26,13 +28,17 @@ export class EventComponent {
 
   sortEvents(events) {
     events = events || this.events;
+
     _.each(events, v => {
       if(new Date(v.date_time).getTime() < Date.now()) {
-        this.pastEvents.push(v);
+        this.pastEvents.unshift(v);
       } else {
         this.upcomingEvents.push(v);
       }
     });
+
+    this.pastEventsChunk = _.chunk(this.pastEvents, 3);
+    this.upcomingEventsChunk = _.chunk(this.upcomingEvents, 3);
   }
 }
 
