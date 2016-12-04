@@ -1,4 +1,7 @@
 .container
+  .row
+    .col-xs-12
+      h1 Players
   .row(ng-repeat='chunk in playerCtrl.playersChunk')
     .col-sm-4(ng-repeat='player in chunk')
       .thumbnail.text-center

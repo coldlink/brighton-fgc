@@ -1,1 +1,12 @@
-.container This is the game view.
+.container
+  .row
+    .col-xs-12
+      h1 Games
+  .row(ng-repeat='chunk in gameCtrl.gamesChunk')
+    .col-sm-4(ng-repeat='game in chunk')
+      .thumbnail.text-center
+        img(ng-src='{{game.image_url}}', alt='{{game.short}}')
+        .caption
+          h4 {{game.name}}
+          p
+            a(href="#").btn.btn-primary More Info

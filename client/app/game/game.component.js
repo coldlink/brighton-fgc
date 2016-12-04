@@ -3,12 +3,31 @@ const angular = require('angular');
 
 const uiRouter = require('angular-ui-router');
 
+const _ = require('lodash');
+
 import routes from './game.routes';
 
 export class GameComponent {
+  games = [];
+  gamesChunk = [];
+
   /*@ngInject*/
-  constructor() {
-    this.message = 'Hello';
+  constructor($http) {
+    this.$http = $http;
+  }
+
+  $onInit() {
+    this.$http.get('/api/games')
+      .then(response => {
+        console.log(response.data);
+        this.sortGames(response.data);
+      });
+  }
+
+  sortGames(games) {
+    games = games || this.games;
+    this.games = _.sortBy(games, ['name']);
+    this.gamesChunk = _.chunk(this.games, 3);
   }
 }
 

@@ -1,6 +1,9 @@
 .container
   .row
     .col-xs-12
+      h1 Events
+  .row
+    .col-xs-12
       h3 Upcoming Events
   .row(ng-repeat='chunk in eventCtrl.upcomingEventsChunk')
     .col-sm-4(ng-repeat='event in chunk')
