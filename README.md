@@ -1,8 +1,10 @@
-# fgc
+# Brighton FGC Website
+
+The Brighton Fighting Game Community Website and Resource
 
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 4.1.0.
 
-## Getting Started
+## Getting Started with Development
 
 ### Prerequisites
 
@@ -19,10 +21,8 @@ This project was generated with the [Angular Full-Stack Generator](https://githu
 
 3. Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
 
+4. A /server/config/local.env.js is required for enviroment variables, see /server/config/local.env.sample.js.
+
 ## Build & development
 
 Run `gulp build` for building and `gulp serve` for preview.
-
-## Testing
-
-Running `npm test` will run the unit tests with karma.
