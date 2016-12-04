@@ -7,7 +7,6 @@ var EventSchema = new mongoose.Schema({
   name: String,
   date_time: Date,
   event_url: String,
-  tournaments: [mongoose.Schema.Types.ObjectId],
   meta: mongoose.Schema.Types.Mixed
 });
 
