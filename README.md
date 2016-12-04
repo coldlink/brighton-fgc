@@ -1,5 +1,7 @@
 # Brighton FGC Website
 
+Under development. Not yet live.
+
 The Brighton Fighting Game Community Website and Resource
 
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 4.1.0.
