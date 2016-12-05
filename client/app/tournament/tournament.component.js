@@ -3,12 +3,44 @@ const angular = require('angular');
 
 const uiRouter = require('angular-ui-router');
 
+const _ = require('lodash');
+
 import routes from './tournament.routes';
 
 export class TournamentComponent {
+  pastTournaments = [];
+  pastTournamentsChunk = [];
+  upcomingTournaments = [];
+  upcomingTournamentsChunk = [];
+
   /*@ngInject*/
-  constructor() {
-    this.message = 'Hello';
+  constructor($http) {
+    this.$http = $http;
+  }
+
+  $onInit() {
+    this.$http.get('/api/tournaments')
+      .then(response => {
+        console.log(response.data);
+        this.sortTournaments(response.data);
+      });
+  }
+
+  sortTournaments(tournaments) {
+    tournaments = tournaments || this.tournaments;
+
+    _.each(tournaments, (v, i) => {
+      if (new Date(v.date_time).getTime() < Date.now()) {
+        this.pastTournaments.push(v);
+      } else {
+        this.upcomingTournaments.push(v);
+      }
+    });
+
+    this.pastTournaments = _.reverse(_.sortBy(this.pastTournaments, o => new Date(o.date_time)));
+    this.upcomingTournaments = _.sortBy(this.upcomingTournaments, o => new Date(o.date_time));
+    this.pastTournamentsChunk = _.chunk(this.pastTournaments, 3);
+    this.upcomingTournamentsChunk = _.chunk(this.upcomingTournaments, 3);
   }
 }
 

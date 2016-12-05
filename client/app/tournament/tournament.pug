@@ -2,3 +2,31 @@
   .row
     .col-xs-12
       h1 Tournaments
+  .row
+    .col-xs-12
+      h3 Upcoming Tournaments
+  .row(ng-repeat='chunk in tournamentCtrl.upcomingTournamentsChunk')
+    .col-sm-4(ng-repeat='tournament in chunk')
+      .thumbnail.text-center
+        .caption
+          h4 {{tournament.name}}
+          p {{tournament.date_time | date:'mediumDate'}}
+          p
+            a(ng-href='{{tournament.bracket_url}}', title="{{tournament.name}}")
+              i.fa.fa-facebook
+          p
+            a(href="#").btn.btn-primary More Info
+  .row
+    .col-xs-12
+      h3 Past Tournaments
+  .row(ng-repeat='chunk in tournamentCtrl.pastTournamentsChunk')
+    .col-sm-4(ng-repeat='tournament in chunk')
+      .thumbnail.text-center
+        .caption
+          h4 {{tournament.name}}
+          p {{tournament.date_time | date:'mediumDate'}}
+          p
+            a(ng-href='{{tournament.bracket_url}}', title="{{tournament.name}}")
+              i.fa.fa-facebook
+          p
+            a(href="#").btn.btn-primary More Info
