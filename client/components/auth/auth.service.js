@@ -1,5 +1,7 @@
 'use strict';
 
+const _ = require('lodash');
+
 class _User {
   _id = '';
   name = '';

@@ -65,14 +65,14 @@ function handleError(res, statusCode) {
 
 // Gets a list of Players
 export function index(req, res) {
-  return Player.find().exec()
+  return Player.find({}, '-name').exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
 // Gets a single Player from the DB
 export function show(req, res) {
-  return Player.findById(req.params.id).exec()
+  return Player.findById(req.params.id, '-name').exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));

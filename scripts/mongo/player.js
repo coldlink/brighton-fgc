@@ -67,13 +67,15 @@ for(var i = 0; i < playerData.length; i++) {
   print(JSON.stringify(playerData[i]));
 
   db.players.update({
-    'name': playerData[i].name
-    // '_id': ObjectId(playerData[i]._id)
+    // 'name': playerData[i].name
+    '_id': ObjectId(playerData[i]._id)
   }, {
     '$set': {
+      '_id': ObjectId(playerData[i]._id),
       'name': playerData[i].name,
       'handle': playerData[i].handle,
       'team': playerData[i].team,
+      'isStaff': playerData[i].isStaff ? true : false,
       'challonge_username': playerData[i].challonge_username,
       'twitter': playerData[i].twitter
     }

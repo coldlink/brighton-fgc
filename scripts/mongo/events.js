@@ -66,16 +66,20 @@ var eventData = csvTojs(cat('./csv/events.csv'));
 
 for(var i = 0; i < eventData.length; i++) {
   print(JSON.stringify(eventData[i]));
-
-  db.events.update({
-    'name': eventData[i].name
-    // '_id': ObjectId(eventData[i]._id)
-  },{
+  var _id = eventData[i]._id;
+  var query = {};
+  if(_id) {
+    query._id = ObjectId(_id);
+  } else {
+    query.name = eventData[i].name;
+  }
+  db.events.update(query, {
     '$set': {
+      '_id': _id ? ObjectId(_id) : new ObjectId(),
       'number': eventData[i].number,
       'name': eventData[i].name,
       'date_time': new Date(eventData[i].date_time),
       'event_url': eventData[i].event_url
     }
-  },{'upsert': true})
+  }, {'upsert': true});
 }

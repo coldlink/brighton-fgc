@@ -10,7 +10,7 @@
       .thumbnail.text-center
         .caption
           h4 {{event.name}}
-          p {{event.date_time | date:'shortDate'}}
+          p {{event.date_time | date:'mediumDate'}}
           p
             a(ng-href='{{event.event_url}}', title="{{event.name}}")
               i.fa.fa-facebook
@@ -24,7 +24,7 @@
       .thumbnail.text-center
         .caption
           h4 {{event.name}}
-          p {{event.date_time | date:'shortDate'}}
+          p {{event.date_time | date:'mediumDate'}}
           p
             a(ng-href='{{event.event_url}}', title="{{event.name}}")
               i.fa.fa-facebook

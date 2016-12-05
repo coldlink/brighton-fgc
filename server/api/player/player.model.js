@@ -9,6 +9,7 @@ var PlayerSchema = new mongoose.Schema({
   image_url: String,
   twitter: String,
   team: String,
+  isStaff: Boolean,
   meta: {type: mongoose.Schema.Types.Mixed, default: {}}
 });
 

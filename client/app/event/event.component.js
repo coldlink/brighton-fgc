@@ -29,14 +29,16 @@ export class EventComponent {
   sortEvents(events) {
     events = events || this.events;
 
-    _.each(events, v => {
-      if(new Date(v.date_time).getTime() < Date.now()) {
-        this.pastEvents.unshift(v);
+    _.each(events, (v, i) => {
+      if (new Date(v.date_time).getTime() < Date.now()) {
+        this.pastEvents.push(v);
       } else {
         this.upcomingEvents.push(v);
       }
     });
 
+    this.pastEvents = _.reverse(_.sortBy(this.pastEvents, o => new Date(o.date_time)));
+    this.upcomingEvents = _.sortBy(this.upcomingEvents, o => new Date(o.date_time));
     this.pastEventsChunk = _.chunk(this.pastEvents, 3);
     this.upcomingEventsChunk = _.chunk(this.upcomingEvents, 3);
   }
