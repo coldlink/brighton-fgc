@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-export default function routes($stateProvider) {
-  'ngInject';
+export default function routes ($stateProvider) {
+  'ngInject'
 
   $stateProvider.state('login', {
     url: '/login',
@@ -13,12 +13,12 @@ export default function routes($stateProvider) {
       url: '/logout?referrer',
       referrer: 'main',
       template: '',
-      controller($state, Auth) {
-        'ngInject';
+      controller ($state, Auth) {
+        'ngInject'
 
-        var referrer = $state.params.referrer || $state.current.referrer || 'main';
-        Auth.logout();
-        $state.go(referrer);
+        var referrer = $state.params.referrer || $state.current.referrer || 'main'
+        Auth.logout()
+        $state.go(referrer)
       }
     })
     // .state('signup', {
@@ -33,5 +33,5 @@ export default function routes($stateProvider) {
       controller: 'SettingsController',
       controllerAs: 'vm',
       authenticate: true
-    });
+    })
 }

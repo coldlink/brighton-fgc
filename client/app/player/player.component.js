@@ -1,37 +1,36 @@
-'use strict';
-const angular = require('angular');
+'use strict'
+const angular = require('angular')
 
-const uiRouter = require('angular-ui-router');
+const uiRouter = require('angular-ui-router')
 
-const _ = require('lodash');
+const _ = require('lodash')
 
-import routes from './player.routes';
+import routes from './player.routes'
 
 export class PlayerComponent {
-  players = [];
-  playersChunk = [];
-
-  /*@ngInject*/
-  constructor($http) {
-    this.$http = $http;
+  /* @ngInject */
+  constructor ($http) {
+    this.$http = $http
+    this.players = []
+    this.playersChunk = []
   }
 
-  $onInit() {
+  $onInit () {
     this.$http.get('/api/players')
       .then(response => {
-        console.log(response.data);
-        this.sortPlayers(response.data);
-      });
+        console.log(response.data)
+        this.sortPlayers(response.data)
+      })
   }
 
-  sortPlayers(players) {
-    players = players || this.players;
-    this.players = _.sortBy(players, ['handle']);
-    this.playersChunk = _.chunk(this.players, 3);
+  sortPlayers (players) {
+    players = players || this.players
+    this.players = _.sortBy(players, ['handle'])
+    this.playersChunk = _.chunk(this.players, 3)
   }
 
-  getImage(player) {
-    return player.image_url || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y';
+  getImage (player) {
+    return player.image_url || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y'
   }
 }
 
@@ -42,4 +41,4 @@ export default angular.module('fgcApp.player', [uiRouter])
     controller: PlayerComponent,
     controllerAs: 'playerCtrl'
   })
-  .name;
+  .name

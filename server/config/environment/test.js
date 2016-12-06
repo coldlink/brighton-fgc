@@ -1,5 +1,5 @@
-'use strict';
-/*eslint no-process-env:0*/
+'use strict'
+/* eslint no-process-env:0 */
 
 // Test specific configuration
 // ===========================
@@ -18,4 +18,4 @@ module.exports = {
       }
     }
   }
-};
+}

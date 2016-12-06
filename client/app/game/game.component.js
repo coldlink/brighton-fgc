@@ -1,33 +1,32 @@
-'use strict';
-const angular = require('angular');
+'use strict'
+const angular = require('angular')
 
-const uiRouter = require('angular-ui-router');
+const uiRouter = require('angular-ui-router')
 
-const _ = require('lodash');
+const _ = require('lodash')
 
-import routes from './game.routes';
+import routes from './game.routes'
 
 export class GameComponent {
-  games = [];
-  gamesChunk = [];
-
-  /*@ngInject*/
-  constructor($http) {
-    this.$http = $http;
+  /* @ngInject */
+  constructor ($http) {
+    this.$http = $http
+    this.games = []
+    this.gamesChunk = []
   }
 
-  $onInit() {
+  $onInit () {
     this.$http.get('/api/games')
       .then(response => {
-        console.log(response.data);
-        this.sortGames(response.data);
-      });
+        console.log(response.data)
+        this.sortGames(response.data)
+      })
   }
 
-  sortGames(games) {
-    games = games || this.games;
-    this.games = _.sortBy(games, ['name']);
-    this.gamesChunk = _.chunk(this.games, 3);
+  sortGames (games) {
+    games = games || this.games
+    this.games = _.sortBy(games, ['name'])
+    this.gamesChunk = _.chunk(this.games, 3)
   }
 }
 
@@ -38,4 +37,4 @@ export default angular.module('fgcApp.game', [uiRouter])
     controller: GameComponent,
     controllerAs: 'gameCtrl'
   })
-  .name;
+  .name

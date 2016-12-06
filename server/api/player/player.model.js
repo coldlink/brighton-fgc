@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 var PlayerSchema = new mongoose.Schema({
   name: String,
@@ -11,6 +11,6 @@ var PlayerSchema = new mongoose.Schema({
   team: String,
   isStaff: Boolean,
   meta: {type: mongoose.Schema.Types.Mixed, default: {}}
-});
+})
 
-export default mongoose.model('Player', PlayerSchema);
+export default mongoose.model('Player', PlayerSchema)

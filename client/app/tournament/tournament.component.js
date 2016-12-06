@@ -1,46 +1,45 @@
-'use strict';
-const angular = require('angular');
+'use strict'
+const angular = require('angular')
 
-const uiRouter = require('angular-ui-router');
+const uiRouter = require('angular-ui-router')
 
-const _ = require('lodash');
+const _ = require('lodash')
 
-import routes from './tournament.routes';
+import routes from './tournament.routes'
 
 export class TournamentComponent {
-  pastTournaments = [];
-  pastTournamentsChunk = [];
-  upcomingTournaments = [];
-  upcomingTournamentsChunk = [];
-
-  /*@ngInject*/
-  constructor($http) {
-    this.$http = $http;
+  /* @ngInject */
+  constructor ($http) {
+    this.$http = $http
+    this.pastTournaments = []
+    this.pastTournamentsChunk = []
+    this.upcomingTournaments = []
+    this.upcomingTournamentsChunk = []
   }
 
-  $onInit() {
+  $onInit () {
     this.$http.get('/api/tournaments')
       .then(response => {
-        console.log(response.data);
-        this.sortTournaments(response.data);
-      });
+        console.log(response.data)
+        this.sortTournaments(response.data)
+      })
   }
 
-  sortTournaments(tournaments) {
-    tournaments = tournaments || this.tournaments;
+  sortTournaments (tournaments) {
+    tournaments = tournaments || this.tournaments
 
     _.each(tournaments, (v, i) => {
       if (new Date(v.date_time).getTime() < Date.now()) {
-        this.pastTournaments.push(v);
+        this.pastTournaments.push(v)
       } else {
-        this.upcomingTournaments.push(v);
+        this.upcomingTournaments.push(v)
       }
-    });
+    })
 
-    this.pastTournaments = _.reverse(_.sortBy(this.pastTournaments, o => new Date(o.date_time)));
-    this.upcomingTournaments = _.sortBy(this.upcomingTournaments, o => new Date(o.date_time));
-    this.pastTournamentsChunk = _.chunk(this.pastTournaments, 3);
-    this.upcomingTournamentsChunk = _.chunk(this.upcomingTournaments, 3);
+    this.pastTournaments = _.reverse(_.sortBy(this.pastTournaments, o => new Date(o.date_time)))
+    this.upcomingTournaments = _.sortBy(this.upcomingTournaments, o => new Date(o.date_time))
+    this.pastTournamentsChunk = _.chunk(this.pastTournaments, 3)
+    this.upcomingTournamentsChunk = _.chunk(this.upcomingTournaments, 3)
   }
 }
 
@@ -51,4 +50,4 @@ export default angular.module('fgcApp.tournament', [uiRouter])
     controller: TournamentComponent,
     controllerAs: 'tournamentCtrl'
   })
-  .name;
+  .name

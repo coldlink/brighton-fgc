@@ -1,16 +1,11 @@
-'use strict';
+'use strict'
 
-import mongoose from 'mongoose';
-
-let Player = require('../player/player.model');
-let Event = require('../event/event.model');
-let Series = require('../series/series.model');
-let Game = require('../game/game.model')
+import mongoose from 'mongoose'
 
 var TournamentSchema = new mongoose.Schema({
   name: String,
   type: String,
-  game:{ type: mongoose.Schema.Types.ObjectId, ref: 'Game'},
+  game: {type: mongoose.Schema.Types.ObjectId, ref: 'Game'},
   date_time: Date,
   date_time_end: Date,
   players: [{type: mongoose.Schema.Types.ObjectId}],
@@ -18,6 +13,6 @@ var TournamentSchema = new mongoose.Schema({
   series: [{type: mongoose.Schema.Types.ObjectId}],
   bracket_url: String,
   meta: mongoose.Schema.Types.Mixed
-});
+})
 
-export default mongoose.model('Tournament', TournamentSchema);
+export default mongoose.model('Tournament', TournamentSchema)

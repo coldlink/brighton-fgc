@@ -1,46 +1,45 @@
-'use strict';
-const angular = require('angular');
+'use strict'
+const angular = require('angular')
 
-const uiRouter = require('angular-ui-router');
+const uiRouter = require('angular-ui-router')
 
-const _ = require('lodash');
+const _ = require('lodash')
 
-import routes from './event.routes';
+import routes from './event.routes'
 
 export class EventComponent {
-  pastEvents = [];
-  pastEventsChunk = [];
-  upcomingEvents = [];
-  upcomingEventsChunk = [];
-
-  /*@ngInject*/
-  constructor($http) {
-    this.$http = $http;
+  /* @ngInject */
+  constructor ($http) {
+    this.$http = $http
+    this.pastEvents = []
+    this.pastEventsChunk = []
+    this.upcomingEvents = []
+    this.upcomingEventsChunk = []
   }
 
-  $onInit() {
+  $onInit () {
     this.$http.get('/api/events')
       .then(response => {
-        console.log(response.data);
-        this.sortEvents(response.data);
-      });
+        console.log(response.data)
+        this.sortEvents(response.data)
+      })
   }
 
-  sortEvents(events) {
-    events = events || this.events;
+  sortEvents (events) {
+    events = events || this.events
 
     _.each(events, (v, i) => {
       if (new Date(v.date_time).getTime() < Date.now()) {
-        this.pastEvents.push(v);
+        this.pastEvents.push(v)
       } else {
-        this.upcomingEvents.push(v);
+        this.upcomingEvents.push(v)
       }
-    });
+    })
 
-    this.pastEvents = _.reverse(_.sortBy(this.pastEvents, o => new Date(o.date_time)));
-    this.upcomingEvents = _.sortBy(this.upcomingEvents, o => new Date(o.date_time));
-    this.pastEventsChunk = _.chunk(this.pastEvents, 3);
-    this.upcomingEventsChunk = _.chunk(this.upcomingEvents, 3);
+    this.pastEvents = _.reverse(_.sortBy(this.pastEvents, o => new Date(o.date_time)))
+    this.upcomingEvents = _.sortBy(this.upcomingEvents, o => new Date(o.date_time))
+    this.pastEventsChunk = _.chunk(this.pastEvents, 3)
+    this.upcomingEventsChunk = _.chunk(this.upcomingEvents, 3)
   }
 }
 
@@ -51,4 +50,4 @@ export default angular.module('fgcApp.event', [uiRouter])
     controller: EventComponent,
     controllerAs: 'eventCtrl'
   })
-  .name;
+  .name

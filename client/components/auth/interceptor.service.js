@@ -1,28 +1,28 @@
-'use strict';
+'use strict'
 
-export function authInterceptor($rootScope, $q, $cookies, $injector, Util) {
-  'ngInject';
+export function authInterceptor ($rootScope, $q, $cookies, $injector, Util) {
+  'ngInject'
 
-  var state;
+  var state
   return {
     // Add authorization token to headers
-    request(config) {
-      config.headers = config.headers || {};
-      if($cookies.get('token') && Util.isSameOrigin(config.url)) {
-        config.headers.Authorization = `Bearer ${$cookies.get('token')}`;
+    request (config) {
+      config.headers = config.headers || {}
+      if ($cookies.get('token') && Util.isSameOrigin(config.url)) {
+        config.headers.Authorization = `Bearer ${$cookies.get('token')}`
       }
-      return config;
+      return config
     },
 
     // Intercept 401s and redirect you to login
-    responseError(response) {
-      if(response.status === 401) {
+    responseError (response) {
+      if (response.status === 401) {
         (state || (state = $injector.get('$state')))
-        .go('login');
+        .go('login')
         // remove any stale tokens
-        $cookies.remove('token');
+        $cookies.remove('token')
       }
-      return $q.reject(response);
+      return $q.reject(response)
     }
-  };
+  }
 }

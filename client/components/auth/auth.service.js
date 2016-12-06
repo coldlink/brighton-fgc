@@ -1,32 +1,34 @@
-'use strict';
+'use strict'
 
-const _ = require('lodash');
+const _ = require('lodash')
 
 class _User {
-  _id = '';
-  name = '';
-  email = '';
-  role = '';
-  $promise = undefined;
+  constructor () {
+    this._id = ''
+    this.name = ''
+    this.email = ''
+    this.role = ''
+    this.$promise = undefined
+  }
 }
 
-export function AuthService($location, $http, $cookies, $q, appConfig, Util, User) {
-  'ngInject';
+export function AuthService ($location, $http, $cookies, $q, appConfig, Util, User) {
+  'ngInject'
 
-  var safeCb = Util.safeCb;
-  var currentUser = new _User();
-  var userRoles = appConfig.userRoles || [];
+  var safeCb = Util.safeCb
+  var currentUser = new _User()
+  var userRoles = appConfig.userRoles || []
   /**
    * Check if userRole is >= role
    * @param {String} userRole - role of current user
    * @param {String} role - role to check against
    */
-  var hasRole = function(userRole, role) {
-    return userRoles.indexOf(userRole) >= userRoles.indexOf(role);
-  };
+  var hasRole = function (userRole, role) {
+    return userRoles.indexOf(userRole) >= userRoles.indexOf(role)
+  }
 
-  if($cookies.get('token') && $location.path() !== '/logout') {
-    currentUser = User.get();
+  if ($cookies.get('token') && $location.path() !== '/logout') {
+    currentUser = User.get()
   }
 
   var Auth = {
@@ -37,7 +39,7 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @param  {Function} callback - function(error, user)
      * @return {Promise}
      */
-    login({
+    login ({
       email,
       password
     }, callback) {
@@ -46,27 +48,27 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
         password
       })
         .then(res => {
-          $cookies.put('token', res.data.token);
-          currentUser = User.get();
-          return currentUser.$promise;
+          $cookies.put('token', res.data.token)
+          currentUser = User.get()
+          return currentUser.$promise
         })
         .then(user => {
-          safeCb(callback)(null, user);
-          return user;
+          safeCb(callback)(null, user)
+          return user
         })
         .catch(err => {
-          Auth.logout();
-          safeCb(callback)(err.data);
-          return $q.reject(err.data);
-        });
+          Auth.logout()
+          safeCb(callback)(err.data)
+          return $q.reject(err.data)
+        })
     },
 
     /**
      * Delete access token and user info
      */
-    logout() {
-      $cookies.remove('token');
-      currentUser = new _User();
+    logout () {
+      $cookies.remove('token')
+      currentUser = new _User()
     },
 
     /**
@@ -76,16 +78,16 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @param  {Function} callback - function(error, user)
      * @return {Promise}
      */
-    createUser(user, callback) {
-      return User.save(user, function(data) {
-        $cookies.put('token', data.token);
-        currentUser = User.get();
-        return safeCb(callback)(null, user);
-      }, function(err) {
-        Auth.logout();
-        return safeCb(callback)(err);
+    createUser (user, callback) {
+      return User.save(user, function (data) {
+        $cookies.put('token', data.token)
+        currentUser = User.get()
+        return safeCb(callback)(null, user)
+      }, function (err) {
+        Auth.logout()
+        return safeCb(callback)(err)
       })
-        .$promise;
+        .$promise
     },
 
     /**
@@ -96,18 +98,18 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @param  {Function} callback    - function(error, user)
      * @return {Promise}
      */
-    changePassword(oldPassword, newPassword, callback) {
+    changePassword (oldPassword, newPassword, callback) {
       return User.changePassword({
         id: currentUser._id
       }, {
         oldPassword,
         newPassword
-      }, function() {
-        return safeCb(callback)(null);
-      }, function(err) {
-        return safeCb(callback)(err);
+      }, function () {
+        return safeCb(callback)(null)
+      }, function (err) {
+        return safeCb(callback)(err)
       })
-        .$promise;
+        .$promise
     },
 
     /**
@@ -116,17 +118,17 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @param  {Function} [callback] - function(user)
      * @return {Promise}
      */
-    getCurrentUser(callback) {
-      var value = _.get(currentUser, '$promise') ? currentUser.$promise : currentUser;
+    getCurrentUser (callback) {
+      var value = _.get(currentUser, '$promise') ? currentUser.$promise : currentUser
 
       return $q.when(value)
         .then(user => {
-          safeCb(callback)(user);
-          return user;
+          safeCb(callback)(user)
+          return user
         }, () => {
-          safeCb(callback)({});
-          return {};
-        });
+          safeCb(callback)({})
+          return {}
+        })
     },
 
     /**
@@ -134,8 +136,8 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      *
      * @return {Object}
      */
-    getCurrentUserSync() {
-      return currentUser;
+    getCurrentUserSync () {
+      return currentUser
     },
 
     /**
@@ -144,14 +146,14 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @param  {Function} [callback] - function(is)
      * @return {Promise}
      */
-    isLoggedIn(callback) {
+    isLoggedIn (callback) {
       return Auth.getCurrentUser(undefined)
         .then(user => {
-          let is = _.get(user, 'role');
+          let is = _.get(user, 'role')
 
-          safeCb(callback)(is);
-          return is;
-        });
+          safeCb(callback)(is)
+          return is
+        })
     },
 
     /**
@@ -159,8 +161,8 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      *
      * @return {Bool}
      */
-    isLoggedInSync() {
-      return !!_.get(currentUser, 'role');
+    isLoggedInSync () {
+      return !!_.get(currentUser, 'role')
     },
 
     /**
@@ -170,14 +172,14 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @param  {Function} [callback] - function(has)
      * @return {Promise}
      */
-    hasRole(role, callback) {
+    hasRole (role, callback) {
       return Auth.getCurrentUser(undefined)
         .then(user => {
-          let has = hasRole(_.get(user, 'role'), role);
+          let has = hasRole(_.get(user, 'role'), role)
 
-          safeCb(callback)(has);
-          return has;
-        });
+          safeCb(callback)(has)
+          return has
+        })
     },
 
     /**
@@ -186,8 +188,8 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @param  {String} role - the role to check against
      * @return {Bool}
      */
-    hasRoleSync(role) {
-      return hasRole(_.get(currentUser, 'role'), role);
+    hasRoleSync (role) {
+      return hasRole(_.get(currentUser, 'role'), role)
     },
 
     /**
@@ -197,8 +199,8 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      * @param  {Function|*} callback - optional, function(is)
      * @return {Bool|Promise}
      */
-    isAdmin() {
-      return Auth.hasRole(...[].concat.apply(['admin'], arguments));
+    isAdmin () {
+      return Auth.hasRole(...[].concat.apply(['admin'], arguments))
     },
 
     /**
@@ -206,8 +208,8 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      *
      * @return {Bool}
      */
-    isAdminSync() {
-      return Auth.hasRoleSync('admin');
+    isAdminSync () {
+      return Auth.hasRoleSync('admin')
     },
 
     /**
@@ -215,10 +217,10 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
      *
      * @return {String} - a token string used for authenticating
      */
-    getToken() {
-      return $cookies.get('token');
+    getToken () {
+      return $cookies.get('token')
     }
-  };
+  }
 
-  return Auth;
+  return Auth
 }

@@ -1,34 +1,34 @@
-'use strict';
+'use strict'
 
-import app from '../..';
-import User from './user.model';
-import request from 'supertest';
+import app from '../..'
+import User from './user.model'
+import request from 'supertest'
 
-describe('User API:', function() {
-  var user;
+describe('User API:', function () {
+  var user
 
   // Clear users before testing
-  before(function() {
-    return User.remove().then(function() {
+  before(function () {
+    return User.remove().then(function () {
       user = new User({
         name: 'Fake User',
         email: 'test@example.com',
         password: 'password'
-      });
+      })
 
-      return user.save();
-    });
-  });
+      return user.save()
+    })
+  })
 
   // Clear users after testing
-  after(function() {
-    return User.remove();
-  });
+  after(function () {
+    return User.remove()
+  })
 
-  describe('GET /api/users/me', function() {
-    var token;
+  describe('GET /api/users/me', function () {
+    var token
 
-    before(function(done) {
+    before(function (done) {
       request(app)
         .post('/auth/local')
         .send({
@@ -38,28 +38,28 @@ describe('User API:', function() {
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          token = res.body.token;
-          done();
-        });
-    });
+          token = res.body.token
+          done()
+        })
+    })
 
-    it('should respond with a user profile when authenticated', function(done) {
+    it('should respond with a user profile when authenticated', function (done) {
       request(app)
         .get('/api/users/me')
         .set('authorization', `Bearer ${token}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          res.body._id.toString().should.equal(user._id.toString());
-          done();
-        });
-    });
+          res.body._id.toString().should.equal(user._id.toString())
+          done()
+        })
+    })
 
-    it('should respond with a 401 when not authenticated', function(done) {
+    it('should respond with a 401 when not authenticated', function (done) {
       request(app)
         .get('/api/users/me')
         .expect(401)
-        .end(done);
-    });
-  });
-});
+        .end(done)
+    })
+  })
+})

@@ -1,4 +1,4 @@
-import angular from 'angular';
+import angular from 'angular'
 
 export class FooterComponent {}
 
@@ -7,4 +7,4 @@ export default angular.module('directives.footer', [])
     template: require('./footer.pug'),
     controller: FooterComponent
   })
-  .name;
+  .name

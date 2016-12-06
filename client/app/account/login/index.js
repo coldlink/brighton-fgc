@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-import angular from 'angular';
-import LoginController from './login.controller';
+import angular from 'angular'
+import LoginController from './login.controller'
 
 export default angular.module('fgcApp.login', [])
   .controller('LoginController', LoginController)
-  .name;
+  .name

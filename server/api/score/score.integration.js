@@ -1,35 +1,35 @@
-'use strict';
+'use strict'
 
-var app = require('../..');
-import request from 'supertest';
+var app = require('../..')
+import request from 'supertest'
 
-var newScore;
+var newScore
 
-describe('Score API:', function() {
-  describe('GET /api/scores', function() {
-    var scores;
+describe('Score API:', function () {
+  describe('GET /api/scores', function () {
+    var scores
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       request(app)
         .get('/api/scores')
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          scores = res.body;
-          done();
-        });
-    });
+          scores = res.body
+          done()
+        })
+    })
 
-    it('should respond with JSON array', function() {
-      scores.should.be.instanceOf(Array);
-    });
-  });
+    it('should respond with JSON array', function () {
+      scores.should.be.instanceOf(Array)
+    })
+  })
 
-  describe('POST /api/scores', function() {
-    beforeEach(function(done) {
+  describe('POST /api/scores', function () {
+    beforeEach(function (done) {
       request(app)
         .post('/api/scores')
         .send({
@@ -39,51 +39,51 @@ describe('Score API:', function() {
         .expect(201)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          newScore = res.body;
-          done();
-        });
-    });
+          newScore = res.body
+          done()
+        })
+    })
 
-    it('should respond with the newly created score', function() {
-      newScore.name.should.equal('New Score');
-      newScore.info.should.equal('This is the brand new score!!!');
-    });
-  });
+    it('should respond with the newly created score', function () {
+      newScore.name.should.equal('New Score')
+      newScore.info.should.equal('This is the brand new score!!!')
+    })
+  })
 
-  describe('GET /api/scores/:id', function() {
-    var score;
+  describe('GET /api/scores/:id', function () {
+    var score
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       request(app)
         .get(`/api/scores/${newScore._id}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          score = res.body;
-          done();
-        });
-    });
+          score = res.body
+          done()
+        })
+    })
 
-    afterEach(function() {
-      score = {};
-    });
+    afterEach(function () {
+      score = {}
+    })
 
-    it('should respond with the requested score', function() {
-      score.name.should.equal('New Score');
-      score.info.should.equal('This is the brand new score!!!');
-    });
-  });
+    it('should respond with the requested score', function () {
+      score.name.should.equal('New Score')
+      score.info.should.equal('This is the brand new score!!!')
+    })
+  })
 
-  describe('PUT /api/scores/:id', function() {
-    var updatedScore;
+  describe('PUT /api/scores/:id', function () {
+    var updatedScore
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       request(app)
         .put(`/api/scores/${newScore._id}`)
         .send({
@@ -92,47 +92,47 @@ describe('Score API:', function() {
         })
         .expect(200)
         .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if(err) {
-            return done(err);
+        .end(function (err, res) {
+          if (err) {
+            return done(err)
           }
-          updatedScore = res.body;
-          done();
-        });
-    });
+          updatedScore = res.body
+          done()
+        })
+    })
 
-    afterEach(function() {
-      updatedScore = {};
-    });
+    afterEach(function () {
+      updatedScore = {}
+    })
 
-    it('should respond with the original score', function() {
-      updatedScore.name.should.equal('New Score');
-      updatedScore.info.should.equal('This is the brand new score!!!');
-    });
+    it('should respond with the original score', function () {
+      updatedScore.name.should.equal('New Score')
+      updatedScore.info.should.equal('This is the brand new score!!!')
+    })
 
-    it('should respond with the updated score on a subsequent GET', function(done) {
+    it('should respond with the updated score on a subsequent GET', function (done) {
       request(app)
         .get(`/api/scores/${newScore._id}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          let score = res.body;
+          let score = res.body
 
-          score.name.should.equal('Updated Score');
-          score.info.should.equal('This is the updated score!!!');
+          score.name.should.equal('Updated Score')
+          score.info.should.equal('This is the updated score!!!')
 
-          done();
-        });
-    });
-  });
+          done()
+        })
+    })
+  })
 
-  describe('PATCH /api/scores/:id', function() {
-    var patchedScore;
+  describe('PATCH /api/scores/:id', function () {
+    var patchedScore
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       request(app)
         .patch(`/api/scores/${newScore._id}`)
         .send([
@@ -141,48 +141,48 @@ describe('Score API:', function() {
         ])
         .expect(200)
         .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if(err) {
-            return done(err);
+        .end(function (err, res) {
+          if (err) {
+            return done(err)
           }
-          patchedScore = res.body;
-          done();
-        });
-    });
+          patchedScore = res.body
+          done()
+        })
+    })
 
-    afterEach(function() {
-      patchedScore = {};
-    });
+    afterEach(function () {
+      patchedScore = {}
+    })
 
-    it('should respond with the patched score', function() {
-      patchedScore.name.should.equal('Patched Score');
-      patchedScore.info.should.equal('This is the patched score!!!');
-    });
-  });
+    it('should respond with the patched score', function () {
+      patchedScore.name.should.equal('Patched Score')
+      patchedScore.info.should.equal('This is the patched score!!!')
+    })
+  })
 
-  describe('DELETE /api/scores/:id', function() {
-    it('should respond with 204 on successful removal', function(done) {
+  describe('DELETE /api/scores/:id', function () {
+    it('should respond with 204 on successful removal', function (done) {
       request(app)
         .delete(`/api/scores/${newScore._id}`)
         .expect(204)
         .end(err => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          done();
-        });
-    });
+          done()
+        })
+    })
 
-    it('should respond with 404 when score does not exist', function(done) {
+    it('should respond with 404 when score does not exist', function (done) {
       request(app)
         .delete(`/api/scores/${newScore._id}`)
         .expect(404)
         .end(err => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          done();
-        });
-    });
-  });
-});
+          done()
+        })
+    })
+  })
+})

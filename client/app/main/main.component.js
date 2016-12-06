@@ -1,18 +1,14 @@
-import angular from 'angular';
-import uiRouter from 'angular-ui-router';
-import routing from './main.routes';
+import angular from 'angular'
+import uiRouter from 'angular-ui-router'
+import routing from './main.routes'
 
 export class MainController {
-
-  awesomeThings = [];
-  newThing = '';
-
-  /*@ngInject*/
-  constructor($http) {
-    this.$http = $http;
+  /* @ngInject */
+  constructor ($http) {
+    this.$http = $http
   }
 
-  $onInit() {
+  $onInit () {
 
   }
 }
@@ -23,4 +19,4 @@ export default angular.module('fgcApp.main', [uiRouter])
     template: require('./main.pug'),
     controller: MainController
   })
-  .name;
+  .name

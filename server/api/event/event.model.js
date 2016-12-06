@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 var EventSchema = new mongoose.Schema({
   number: Number,
@@ -8,6 +8,6 @@ var EventSchema = new mongoose.Schema({
   date_time: Date,
   event_url: String,
   meta: mongoose.Schema.Types.Mixed
-});
+})
 
-export default mongoose.model('Event', EventSchema);
+export default mongoose.model('Event', EventSchema)

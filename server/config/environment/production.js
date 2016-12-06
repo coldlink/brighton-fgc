@@ -1,5 +1,5 @@
-'use strict';
-/*eslint no-process-env:0*/
+'use strict'
+/* eslint no-process-env:0 */
 
 // Production specific configuration
 // =================================
@@ -21,4 +21,4 @@ module.exports = {
       || process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME
       || 'mongodb://localhost/fgc'
   }
-};
+}

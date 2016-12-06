@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-export function UserResource($resource) {
-  'ngInject';
+export function UserResource ($resource) {
+  'ngInject'
 
   return $resource('/api/users/:id/:controller', {
     id: '@_id'
@@ -18,5 +18,5 @@ export function UserResource($resource) {
         id: 'me'
       }
     }
-  });
+  })
 }

@@ -1,35 +1,35 @@
-'use strict';
+'use strict'
 
-var app = require('../..');
-import request from 'supertest';
+var app = require('../..')
+import request from 'supertest'
 
-var newPlayer;
+var newPlayer
 
-describe('Player API:', function() {
-  describe('GET /api/players', function() {
-    var players;
+describe('Player API:', function () {
+  describe('GET /api/players', function () {
+    var players
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       request(app)
         .get('/api/players')
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          players = res.body;
-          done();
-        });
-    });
+          players = res.body
+          done()
+        })
+    })
 
-    it('should respond with JSON array', function() {
-      players.should.be.instanceOf(Array);
-    });
-  });
+    it('should respond with JSON array', function () {
+      players.should.be.instanceOf(Array)
+    })
+  })
 
-  describe('POST /api/players', function() {
-    beforeEach(function(done) {
+  describe('POST /api/players', function () {
+    beforeEach(function (done) {
       request(app)
         .post('/api/players')
         .send({
@@ -39,51 +39,51 @@ describe('Player API:', function() {
         .expect(201)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          newPlayer = res.body;
-          done();
-        });
-    });
+          newPlayer = res.body
+          done()
+        })
+    })
 
-    it('should respond with the newly created player', function() {
-      newPlayer.name.should.equal('New Player');
-      newPlayer.info.should.equal('This is the brand new player!!!');
-    });
-  });
+    it('should respond with the newly created player', function () {
+      newPlayer.name.should.equal('New Player')
+      newPlayer.info.should.equal('This is the brand new player!!!')
+    })
+  })
 
-  describe('GET /api/players/:id', function() {
-    var player;
+  describe('GET /api/players/:id', function () {
+    var player
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       request(app)
         .get(`/api/players/${newPlayer._id}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          player = res.body;
-          done();
-        });
-    });
+          player = res.body
+          done()
+        })
+    })
 
-    afterEach(function() {
-      player = {};
-    });
+    afterEach(function () {
+      player = {}
+    })
 
-    it('should respond with the requested player', function() {
-      player.name.should.equal('New Player');
-      player.info.should.equal('This is the brand new player!!!');
-    });
-  });
+    it('should respond with the requested player', function () {
+      player.name.should.equal('New Player')
+      player.info.should.equal('This is the brand new player!!!')
+    })
+  })
 
-  describe('PUT /api/players/:id', function() {
-    var updatedPlayer;
+  describe('PUT /api/players/:id', function () {
+    var updatedPlayer
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       request(app)
         .put(`/api/players/${newPlayer._id}`)
         .send({
@@ -92,47 +92,47 @@ describe('Player API:', function() {
         })
         .expect(200)
         .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if(err) {
-            return done(err);
+        .end(function (err, res) {
+          if (err) {
+            return done(err)
           }
-          updatedPlayer = res.body;
-          done();
-        });
-    });
+          updatedPlayer = res.body
+          done()
+        })
+    })
 
-    afterEach(function() {
-      updatedPlayer = {};
-    });
+    afterEach(function () {
+      updatedPlayer = {}
+    })
 
-    it('should respond with the original player', function() {
-      updatedPlayer.name.should.equal('New Player');
-      updatedPlayer.info.should.equal('This is the brand new player!!!');
-    });
+    it('should respond with the original player', function () {
+      updatedPlayer.name.should.equal('New Player')
+      updatedPlayer.info.should.equal('This is the brand new player!!!')
+    })
 
-    it('should respond with the updated player on a subsequent GET', function(done) {
+    it('should respond with the updated player on a subsequent GET', function (done) {
       request(app)
         .get(`/api/players/${newPlayer._id}`)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          let player = res.body;
+          let player = res.body
 
-          player.name.should.equal('Updated Player');
-          player.info.should.equal('This is the updated player!!!');
+          player.name.should.equal('Updated Player')
+          player.info.should.equal('This is the updated player!!!')
 
-          done();
-        });
-    });
-  });
+          done()
+        })
+    })
+  })
 
-  describe('PATCH /api/players/:id', function() {
-    var patchedPlayer;
+  describe('PATCH /api/players/:id', function () {
+    var patchedPlayer
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       request(app)
         .patch(`/api/players/${newPlayer._id}`)
         .send([
@@ -141,48 +141,48 @@ describe('Player API:', function() {
         ])
         .expect(200)
         .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if(err) {
-            return done(err);
+        .end(function (err, res) {
+          if (err) {
+            return done(err)
           }
-          patchedPlayer = res.body;
-          done();
-        });
-    });
+          patchedPlayer = res.body
+          done()
+        })
+    })
 
-    afterEach(function() {
-      patchedPlayer = {};
-    });
+    afterEach(function () {
+      patchedPlayer = {}
+    })
 
-    it('should respond with the patched player', function() {
-      patchedPlayer.name.should.equal('Patched Player');
-      patchedPlayer.info.should.equal('This is the patched player!!!');
-    });
-  });
+    it('should respond with the patched player', function () {
+      patchedPlayer.name.should.equal('Patched Player')
+      patchedPlayer.info.should.equal('This is the patched player!!!')
+    })
+  })
 
-  describe('DELETE /api/players/:id', function() {
-    it('should respond with 204 on successful removal', function(done) {
+  describe('DELETE /api/players/:id', function () {
+    it('should respond with 204 on successful removal', function (done) {
       request(app)
         .delete(`/api/players/${newPlayer._id}`)
         .expect(204)
         .end(err => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          done();
-        });
-    });
+          done()
+        })
+    })
 
-    it('should respond with 404 when player does not exist', function(done) {
+    it('should respond with 404 when player does not exist', function (done) {
       request(app)
         .delete(`/api/players/${newPlayer._id}`)
         .expect(404)
         .end(err => {
-          if(err) {
-            return done(err);
+          if (err) {
+            return done(err)
           }
-          done();
-        });
-    });
-  });
-});
+          done()
+        })
+    })
+  })
+})

@@ -1,15 +1,15 @@
-'use strict';
-/*eslint no-process-env:0*/
+'use strict'
+/* eslint no-process-env:0 */
 
-import path from 'path';
-import _ from 'lodash';
+import path from 'path'
+import _ from 'lodash'
 
-/*function requiredProcessEnv(name) {
+/* function requiredProcessEnv(name) {
   if(!process.env[name]) {
     throw new Error('You must set the ' + name + ' environment variable');
   }
   return process.env[name];
-}*/
+} */
 
 // All configurations will extend these options
 // ============================================
@@ -44,11 +44,11 @@ var all = {
       }
     }
   }
-};
+}
 
 // Export the config object based on the NODE_ENV
 // ==============================================
 module.exports = _.merge(
   all,
   require('./shared'),
-  require(`./${process.env.NODE_ENV}.js`) || {});
+  require(`./${process.env.NODE_ENV}.js`) || {})

@@ -1,14 +1,14 @@
-'use strict';
-const angular = require('angular');
+'use strict'
+const angular = require('angular')
 
-const uiRouter = require('angular-ui-router');
+const uiRouter = require('angular-ui-router')
 
-import routes from './series.routes';
+import routes from './series.routes'
 
 export class SeriesComponent {
-  /*@ngInject*/
-  constructor() {
-    this.message = 'Hello';
+  /* @ngInject */
+  constructor () {
+    this.message = 'Hello'
   }
 }
 
@@ -19,4 +19,4 @@ export default angular.module('fgcApp.series', [uiRouter])
     controller: SeriesComponent,
     controllerAs: 'seriesCtrl'
   })
-  .name;
+  .name
