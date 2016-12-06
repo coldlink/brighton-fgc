@@ -43,11 +43,33 @@ export class EventComponent {
   }
 }
 
+export class EventSingleComponent {
+  /* @ngInject */
+  constructior ($http, $stateParams, Util) {
+    this.$http = $http
+    this.$stateParms = $stateParams
+    this.Util = Util
+  }
+
+  $onInit () {
+    this.$http.get(`/api/events/${this.$stateParams.id}`)
+      .then(response => {
+        console.log(response.data)
+        this.event = response.data
+      })
+  }
+}
+
 export default angular.module('fgcApp.event', [uiRouter])
   .config(routes)
   .component('event', {
     template: require('./event.pug'),
     controller: EventComponent,
     controllerAs: 'eventCtrl'
+  })
+  .component('eventSingle', {
+    template: require('./event.single.pug'),
+    controller: EventSingleComponent,
+    controllerAs: 'eventSingleCtrl'
   })
   .name

@@ -8,6 +8,12 @@ var EventSchema = new mongoose.Schema({
   date_time: Date,
   event_url: String,
   meta: mongoose.Schema.Types.Mixed
+}, { toJSON: { virtuals: true } })
+
+EventSchema.virtual('tournaments', {
+  ref: 'Tournament',
+  localField: '_id',
+  foreignField: 'event'
 })
 
 export default mongoose.model('Event', EventSchema)
