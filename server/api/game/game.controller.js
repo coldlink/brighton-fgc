@@ -72,7 +72,9 @@ export function index (req, res) {
 
 // Gets a single Game from the DB
 export function show (req, res) {
-  return Game.findById(req.params.id).exec()
+  return Game.findById(req.params.id)
+    .populate('tournaments')
+    .exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res))

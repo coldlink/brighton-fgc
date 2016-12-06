@@ -30,11 +30,39 @@ export class GameComponent {
   }
 }
 
+export class GameSingleComponent {
+  /* @ngInject */
+  constructor ($http, $stateParams, Util) {
+    this.$http = $http
+    this.$stateParams = $stateParams
+    this.Util = Util
+  }
+
+  $onInit () {
+    console.log(this.$stateParams)
+    this.$http.get(`/api/games/${this.$stateParams.id}`)
+      .then(response => {
+        console.log(response.data)
+        this.game = response.data
+        this.game.tournaments = _.reverse(_.sortBy(this.game.tournaments, o => new Date(o.date_time)))
+      })
+  }
+
+  getDateTime (dateTime) {
+    return new Date(dateTime).getTime()
+  }
+}
+
 export default angular.module('fgcApp.game', [uiRouter])
   .config(routes)
   .component('game', {
     template: require('./game.pug'),
     controller: GameComponent,
     controllerAs: 'gameCtrl'
+  })
+  .component('gameSingle', {
+    template: require('./game.single.pug'),
+    controller: GameSingleComponent,
+    controllerAs: 'gameSingleCtrl'
   })
   .name

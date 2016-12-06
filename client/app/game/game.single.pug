@@ -1,0 +1,108 @@
+.container
+  .row
+    .col-xs-12
+      h1 Game
+      h2 {{gameSingleCtrl.game.name}}
+  .row
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Game Information
+        .panel-body.text-center
+          .row
+            .col-xs-12
+              img(ng-src='{{gameSingleCtrl.game.image_url}}', alt='{{gameSingleCtrl.game.short}}').img-responsive.img-thumbnail
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-xs-12
+              b Name:
+            .col-xs-12
+              | {{gameSingleCtrl.game.name}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-xs-12
+              p More information coming soon!
+  .row
+    .col-xs-12
+      h3 Tournaments
+  .row
+    div(ng-class='gameSingleCtrl.game.tournaments.length > 1 ? "col-sm-6" : "col-xs-12"', ng-repeat='tournament in gameSingleCtrl.game.tournaments')
+      .panel.panel-primary
+        .panel-heading
+          .panel-title {{tournament.name}}
+        .panel-body
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Name:
+            .col-xs-12.text-left.visible-xs
+              b Name:
+            .col-md-9.col-sm-8.text-left
+              | {{tournament.name}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Type:
+            .col-xs-12.text-left.visible-xs
+              b Type:
+            .col-md-9.col-sm-8.text-left
+              | {{gameSingleCtrl.Util.getTournamentType(tournament.type)}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Date Start:
+            .col-xs-12.text-left.visible-xs
+              b Date Start:
+            .col-md-9.col-sm-8.text-left
+              | {{gameSingleCtrl.getDateTime(tournament.date_time) | date:'fullDate'}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Time Start:
+            .col-xs-12.text-left.visible-xs
+              b Time Start:
+            .col-md-9.col-sm-8.text-left
+              | {{gameSingleCtrl.getDateTime(tournament.date_time) | date:'shortTime'}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Date End:
+            .col-xs-12.text-left.visible-xs
+              b Date End:
+            .col-md-9.col-sm-8.text-left
+              | {{gameSingleCtrl.getDateTime(tournament.date_time_end) | date:'fullDate'}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Time End:
+            .col-xs-12.text-left.visible-xs
+              b Time End:
+            .col-md-9.col-sm-8.text-left
+              | {{gameSingleCtrl.getDateTime(tournament.date_time_end) | date:'shortTime'}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Game:
+            .col-xs-12.text-left.visible-xs
+              b Game:
+            .col-md-9.col-sm-8.text-left
+              a(ui-sref='gameSingle({id: tournament.game._id})', title='{{tournament.game.name}}') {{tournament.game.name}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Bracket URL:
+            .col-xs-12.text-left.visible-xs
+              b Bracket URL:
+            .col-md-9.col-sm-8.text-left
+              a(ng-href='{{tournament.bracket_url}}', title='Bracket', target='_blank').fa.fa-code-fork
+          .row
+            .col-xs-12
+              br
+          .row.text-center
+            .col-xs-12
+              a(ui-sref='tournamentSingle({id: tournament._id})', title='Full Tournament Information').btn.btn-primary Full Tournament Information

@@ -7,4 +7,8 @@ export default function ($stateProvider) {
       url: '/game',
       template: '<game></game>'
     })
+    .state('gameSingle', {
+      url: '/game/:id',
+      template: '<game-single></game-single>'
+    })
 }

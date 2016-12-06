@@ -5,8 +5,8 @@
   .row(ng-repeat='chunk in gameCtrl.gamesChunk')
     .col-sm-4(ng-repeat='game in chunk')
       .thumbnail.text-center
-        img(ng-src='{{game.image_url}}', alt='{{game.short}}')
+        img(ng-src='{{game.image_url}}', alt='{{game.short}}').img-responsive.img-thumbnail
         .caption
           h4 {{game.name}}
           p
-            a(href="#").btn.btn-primary More Info
+            a(ui-sref='gameSingle({id: game._id})', name='{{game.name}}').btn.btn-primary More Info

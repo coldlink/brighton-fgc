@@ -12,7 +12,7 @@
           h4 {{tournament.name}}
           p {{tournament.date_time | date:'mediumDate'}}
           p
-            img(ng-src='{{tournament.game.image_url}}', alt='{{tournament.game.short}}').img-rounded
+            img(ng-src='{{tournament.game.image_url}}', alt='{{tournament.game.short}}').img-responsive.img-thumbnail
           p {{tournament.game.name}}
           p.btn-group.btn-group-justified
             a(ui-sref='tournamentSingle({id: tournament._id})').btn.btn-primary More Info
@@ -27,7 +27,7 @@
           h4 {{tournament.name}}
           p {{tournament.date_time | date:'mediumDate'}}
           p
-            img(ng-src='{{tournament.game.image_url}}', alt='{{tournament.game.short}}').img-rounded
+            img(ng-src='{{tournament.game.image_url}}', alt='{{tournament.game.short}}').img-responsive.img-thumbnail
           p {{tournament.game.name}}
           p.btn-group.btn-group-justified
             a(ui-sref='tournamentSingle({id: tournament._id})').btn.btn-primary More Info
