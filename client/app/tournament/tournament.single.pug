@@ -1,0 +1,134 @@
+.container
+  .row
+    .col-xs-12
+      h1 Tournament
+      h2 {{tournamentSingleCtrl.tournament ? tournamentSingleCtrl.tournament.name : 'Single Tournament'}}
+  .row
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Tournament Information
+        .panel-body
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Name:
+            .col-xs-12.text-left.visible-xs
+              b Name:
+            .col-md-9.col-sm-8.text-left
+              | {{tournamentSingleCtrl.tournament.name}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Type:
+            .col-xs-12.text-left.visible-xs
+              b Type:
+            .col-md-9.col-sm-8.text-left
+              | {{tournamentSingleCtrl.Util.getTournamentType(tournamentSingleCtrl.tournament.type)}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Date Start:
+            .col-xs-12.text-left.visible-xs
+              b Date Start:
+            .col-md-9.col-sm-8.text-left
+              | {{tournamentSingleCtrl.getDateTime(tournamentSingleCtrl.tournament.date_time) | date:'fullDate'}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Time Start:
+            .col-xs-12.text-left.visible-xs
+              b Time Start:
+            .col-md-9.col-sm-8.text-left
+              | {{tournamentSingleCtrl.getDateTime(tournamentSingleCtrl.tournament.date_time) | date:'shortTime'}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Date End:
+            .col-xs-12.text-left.visible-xs
+              b Date End:
+            .col-md-9.col-sm-8.text-left
+              | {{tournamentSingleCtrl.getDateTime(tournamentSingleCtrl.tournament.date_time_end) | date:'fullDate'}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Time End:
+            .col-xs-12.text-left.visible-xs
+              b Time End:
+            .col-md-9.col-sm-8.text-left
+              | {{tournamentSingleCtrl.getDateTime(tournamentSingleCtrl.tournament.date_time_end) | date:'shortTime'}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Game:
+            .col-xs-12.text-left.visible-xs
+              b Game:
+            .col-md-9.col-sm-8.text-left
+              a(ui-sref='gameSingle({id: tournamentSingleCtrl.tournament.game._id})', title='{{tournamentSingleCtrl.tournament.game.name}}') {{tournamentSingleCtrl.tournament.game.name}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Bracket URL:
+            .col-xs-12.text-left.visible-xs
+              b Bracket URL:
+            .col-md-9.col-sm-8.text-left
+              a(ng-href='{{tournamentSingleCtrl.tournament.bracket_url}}', title='Bracket', target='_blank').class {{tournamentSingleCtrl.tournament.bracket_url}}
+  .row
+    div(ng-class='tournamentSingleCtrl.tournament.event.length > 1 ? "col-sm-6" : "col-xs-12"', ng-repeat='event in tournamentSingleCtrl.tournament.event')
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Event Information
+        .panel-body
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Name:
+            .col-xs-12.text-left.visible-xs
+              b Name:
+            .col-md-9.col-sm-8.text-left
+              | {{event.name}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Event Page:
+            .col-xs-12.text-left.visible-xs
+              b Event Page:
+            .col-md-9.col-sm-8.text-left
+              a(ng-href='{{event.event_url}}', title='Bracket', target='_blank')
+                span.fa.fa-facebook-square
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Date Start:
+            .col-xs-12.text-left.visible-xs
+              b Date Start:
+            .col-md-9.col-sm-8.text-left
+              | {{tournamentSingleCtrl.getDateTime(event.date_time) | date:'fullDate'}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Time Start:
+            .col-xs-12.text-left.visible-xs
+              b Time Start:
+            .col-md-9.col-sm-8.text-left
+              | {{tournamentSingleCtrl.getDateTime(event.date_time) | date:'shortTime'}}
+          .row
+            .col-xs-12
+              br
+          .row.text-center
+            .col-xs-12
+              a(ui-sref='eventSingle({id: event._id})', title='Full Event Information').btn.btn-primary Full Event Information
+  .row
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Players/Results
+        .panel-body
+          p Coming Soon!
+  .row
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Bracket
+        .panel-body
+          p Coming Soon!

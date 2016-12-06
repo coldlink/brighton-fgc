@@ -75,7 +75,9 @@ export function index (req, res) {
 
 // Gets a single Tournament from the DB
 export function show (req, res) {
-  return Tournament.findById(req.params.id).exec()
+  return Tournament.findById(req.params.id)
+    .populate('game event')
+    .exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res))

@@ -43,11 +43,38 @@ export class TournamentComponent {
   }
 }
 
+export class TournamentSingleComponent {
+  /* @ngInject */
+  constructor ($http, $stateParams, Util) {
+    this.$http = $http
+    this.$stateParams = $stateParams
+    this.Util = Util
+  }
+
+  $onInit () {
+    console.log(this.$stateParams)
+    this.$http.get(`/api/tournaments/${this.$stateParams.id}`)
+      .then(response => {
+        console.log(response.data)
+        this.tournament = response.data
+      })
+  }
+
+  getDateTime (dateTime) {
+    return new Date(dateTime).getTime()
+  }
+}
+
 export default angular.module('fgcApp.tournament', [uiRouter])
   .config(routes)
   .component('tournament', {
     template: require('./tournament.pug'),
     controller: TournamentComponent,
     controllerAs: 'tournamentCtrl'
+  })
+  .component('tournamentSingle', {
+    template: require('./tournament.single.pug'),
+    controller: TournamentSingleComponent,
+    controllerAs: 'tournamentSingleCtrl'
   })
   .name

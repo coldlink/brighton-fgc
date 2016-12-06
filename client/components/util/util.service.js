@@ -61,6 +61,19 @@ export function UtilService ($window) {
         return hostnameCheck && protocolCheck && portCheck
       })
       return origins.length >= 1
+    },
+
+    getTournamentType (type) {
+      switch (type) {
+        case 'de':
+          return 'Double Elimination'
+        case 'se':
+          return 'Single Elimination'
+        case 'rr':
+          return 'Round Robin'
+        default:
+          return 'Unknown'
+      }
     }
   }
 
