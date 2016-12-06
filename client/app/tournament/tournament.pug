@@ -12,10 +12,11 @@
           h4 {{tournament.name}}
           p {{tournament.date_time | date:'mediumDate'}}
           p
-            a(ng-href='{{tournament.bracket_url}}', title="{{tournament.name}}")
-              i.fa.fa-facebook
-          p
+            img(ng-src='{{tournament.game.image_url}}', alt='{{tournament.game.short}}').img-rounded
+          p {{tournament.game.name}}
+          p.btn-group.btn-group-justified
             a(href="#").btn.btn-primary More Info
+            a(ng-href='{{tournament.bracket_url}}', title="{{tournament.name}}").btn.btn-primary Bracket
   .row
     .col-xs-12
       h3 Past Tournaments
@@ -26,7 +27,8 @@
           h4 {{tournament.name}}
           p {{tournament.date_time | date:'mediumDate'}}
           p
-            a(ng-href='{{tournament.bracket_url}}', title="{{tournament.name}}")
-              i.fa.fa-facebook
-          p
+            img(ng-src='{{tournament.game.image_url}}', alt='{{tournament.game.short}}').img-rounded
+          p {{tournament.game.name}}
+          p.btn-group.btn-group-justified
             a(href="#").btn.btn-primary More Info
+            a(ng-href='{{tournament.bracket_url}}', title="{{tournament.name}}").btn.btn-primary Bracket
