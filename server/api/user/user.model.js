@@ -1,7 +1,7 @@
 'use strict'
 /* eslint no-invalid-this:0 */
 import crypto from 'crypto'
-mongoose.Promise = require('bluebird')
+mongoose.Promise = global.Promise
 import mongoose, {Schema} from 'mongoose'
 
 var UserSchema = new Schema({

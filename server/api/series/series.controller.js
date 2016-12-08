@@ -65,7 +65,10 @@ function handleError (res, statusCode) {
 
 // Gets a list of Seriess
 export function index (req, res) {
-  return Series.find().exec()
+  return Series
+    .find()
+    .populate('game')
+    .exec()
     .then(respondWithResult(res))
     .catch(handleError(res))
 }

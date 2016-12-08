@@ -4,8 +4,8 @@ import mongoose from 'mongoose'
 
 var SeriesSchema = new mongoose.Schema({
   name: String,
-  tournaments: [mongoose.Schema.Types.ObjectId],
-  game: mongoose.Schema.Types.ObjectId,
+  game: {type: mongoose.Schema.Types.ObjectId, ref: 'Game'},
+  isCurrent: Boolean,
   meta: mongoose.Schema.Types.Mixed
 })
 

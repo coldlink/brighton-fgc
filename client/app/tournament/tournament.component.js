@@ -26,9 +26,9 @@ export class TournamentComponent {
   }
 
   sortTournaments (tournaments) {
-    tournaments = tournaments || this.tournaments
+    this.tournaments = tournaments || this.tournaments
 
-    _.each(tournaments, (v, i) => {
+    _.each(this.tournaments, (v, i) => {
       if (new Date(v.date_time).getTime() < Date.now()) {
         this.pastTournaments.push(v)
       } else {

@@ -3,9 +3,9 @@
 import mongoose from 'mongoose'
 
 var ScoreSchema = new mongoose.Schema({
-  name: String,
-  info: String,
-  active: Boolean
+  _tournamentId: mongoose.Schema.Types.ObjectId,
+  _playerId: mongoose.Schema.Types.ObjectId,
+  score: mongoose.Schema.Types.ObjectId
 })
 
 export default mongoose.model('Score', ScoreSchema)

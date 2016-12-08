@@ -1,4 +1,4 @@
-//mongo fgc-dev tournaments.js
+//mongo fgc-dev scores.js
 
 //csv to js object function
 var lastHeader;
@@ -62,36 +62,25 @@ function csvTojs(csv) {
   return result;
 }
 
-function ObjectIdEvents(events) {
-  events = events.split(',');
-  events.forEach(function(elem, index) {
-    events[index] = elem ? ObjectId(elem) : '';
-  });
-  return events;
-}
+var eventData = csvTojs(cat('./csv/scores.csv'));
 
-var tournamentData = csvTojs(cat('./csv/tournaments.csv'));
-
-for(var i = 0; i < tournamentData.length; i++) {
-  print(JSON.stringify(tournamentData[i]));
-  var _id = tournamentData[i]._id;
-  var query = {};
-  if(_id) {
-    query._id = ObjectId(_id);
-  } else {
-    query.name = tournamentData[i].name;
-  }
-  db.tournaments.update(query, {
-    '$set': {
-      // '_id': _id ? ObjectId(_id) : new ObjectId(),
-      // 'type': tournamentData[i].type,
-      // 'name': tournamentData[i].name,
-      // 'game': ObjectId(tournamentData[i].game),
-      // 'date_time': new Date(tournamentData[i].date_time),
-      // 'date_time_end': new Date(tournamentData[i].date_time_end),
-      // 'bracket_url': tournamentData[i].bracket_url,
-      // 'event': ObjectIdEvents(tournamentData[i].event),
-      'series': ObjectIdEvents(tournamentData[i].series)
+for(var i = 0; i < eventData.length; i++) {
+  Object.keys(eventData[i]).forEach(function (elem, j) {
+    print(elem)
+    if (elem !== '_id' && elem !== 'name' && j !== Object.keys(eventData[i]).length - 1) {
+      print(eventData[i][elem]);
+      db.scores.update({
+       _tournamentId: ObjectId(elem),
+       _playerId: ObjectId(eventData[i]._id)
+      }, {
+        $set: {
+          _tournamentId: ObjectId(elem),
+          _playerId: ObjectId(eventData[i]._id),
+          score: eventData[i][elem] ? Number(eventData[i][elem]) : 0
+        }
+      }, {
+        upsert: true
+      })
     }
-  }, {'upsert': true});
+  })
 }

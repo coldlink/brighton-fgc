@@ -12,6 +12,9 @@
 
 import jsonpatch from 'fast-json-patch'
 import Score from './score.model'
+import Tournament from '../tournament/tournament.model'
+import mongoose from 'mongoose'
+import _ from 'lodash'
 
 function respondWithResult (res, statusCode) {
   statusCode = statusCode || 200
@@ -90,7 +93,7 @@ export function upsert (req, res) {
   if (req.body._id) {
     delete req.body._id
   }
-  return Score.findOneAndUpdate({_id: req.params.id}, req.body, {upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+  return Score.findOneAndUpdate({ _id: req.params.id }, req.body, { upsert: true, setDefaultsOnInsert: true, runValidators: true }).exec()
 
     .then(respondWithResult(res))
     .catch(handleError(res))
@@ -113,5 +116,52 @@ export function destroy (req, res) {
   return Score.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
+    .catch(handleError(res))
+}
+
+export function topBySeries (req, res) {
+  let q = Tournament
+    .find({
+      series: mongoose.Types.ObjectId(req.params._id)
+    }, '_id')
+    .exec()
+
+  q
+    .then(tournaments => {
+      tournaments = _.map(tournaments, '_id')
+      let sq = Score
+        .aggregate([{
+          $match: {
+            _tournamentId: {
+              $in: tournaments
+            }
+          }
+        }, {
+          $group: {
+            _id: '$_playerId',
+            score: {
+              $sum: '$score'
+            }
+          }
+        }, {
+          $sort: {
+            score: -1
+          }
+        }, {
+          $limit: 8
+        }, {
+          $lookup: {
+            from: 'players',
+            localField: '_id',
+            foreignField: '_id',
+            as: 'player'
+          }
+        }])
+        .exec()
+
+      sq
+        .then(respondWithResult(res))
+        .catch(handleError(res))
+    })
     .catch(handleError(res))
 }

@@ -1,4 +1,85 @@
 .container
   .row
     .col-xs-12
-      h1 Tournament Series
+      h1 Series
+  .row
+    .col-xs-12
+      h3 Current Series
+  .row(ng-repeat='series in seriesCtrl.currentSeries')
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title {{series.name}}
+        .panel-body
+          .row
+            .col-sm-6.col-xs-12
+              .row
+                col-xs-12.text-center
+                  h4 {{series.game.name}}
+              .row
+                .col-xs-12
+                  br
+              .row
+                .col-xs-12.text-center
+                  img(ng-src='{{series.game.image_url}}', alt='{{series.game.short}}').img-responsive.img-thumbnail
+              .row
+                .col-xs-12
+                  br
+            .col-sm-6.col-xs-12.text-center
+              .row
+                .col-xs-12
+                  h4 Top 8 Standings
+              .row
+                .col-xs-12
+                  br
+              .row
+                .col-xs-12
+                  top-players(series='{{series._id}}')
+        .row
+          .col-xs-12.text-center
+            a(ui-sref='seriesSingle({id: series._id})').btn.btn-primary Full Standings &amp; More Info
+        .row
+          .col-xs-12
+            br
+  .row
+    .col-xs-12
+      h3 Past Series
+  .row(ng-repeat='series in seriesCtrl.pastSeries')
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title {{series.name}}
+        .panel-body
+          .row
+            .col-sm-6.col-xs-12
+              .row
+                col-xs-12.text-center
+                  h4 {{series.game.name}}
+              .row
+                .col-xs-12
+                  br
+              .row
+                .col-xs-12.text-center
+                  img(ng-src='{{series.game.image_url}}', alt='{{series.game.short}}').img-responsive.img-thumbnail
+              .row
+                .col-xs-12
+                  br
+              .row
+                .col-xs-12.text-center
+                  a(ui-sref='seriesSingle({id: series._id})').btn.btn-primary Full Standings &amp; More Info
+            .col-sm-6.col-xs-12.text-center
+              .row
+                .col-xs-12
+                  h4 Top 8 Standings
+              .row
+                .col-xs-12
+                  br
+              .row
+                .col-xs-12
+                  top-players(series='{{series._id}}')
+        .row
+          .col-xs-12.text-center
+            a(ui-sref='seriesSingle({id: series._id})').btn.btn-primary Full Standings &amp; More Info
+        .row
+          .col-xs-12
+            br

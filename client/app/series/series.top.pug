@@ -1,0 +1,10 @@
+table.table.table-hover
+  thead
+    th Rank
+    th Player
+    th Score
+  tbody
+    tr(ng-repeat='score in seriesTopPlayersCtrl.top')
+      td {{$index + 1}}
+      td {{score.player[0].handle}}
+      td {{score.score}}
