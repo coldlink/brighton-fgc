@@ -62,7 +62,9 @@ function csvTojs(csv) {
   return result;
 }
 
-var eventData = csvTojs(cat('./csv/scores.csv'));
+// var eventData = csvTojs(cat('./csv/scores.csv'));
+// var eventData = csvTojs(cat('./csv/scores2016usf4.csv'));
+var eventData = csvTojs(cat('./csv/scores2015usf4.csv'));
 
 for(var i = 0; i < eventData.length; i++) {
   Object.keys(eventData[i]).forEach(function (elem, j) {
