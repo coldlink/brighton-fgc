@@ -15,7 +15,7 @@
             a(ng-href='{{event.event_url}}', title="{{event.name}}")
               i.fa.fa-facebook
           p
-            a(href="#").btn.btn-primary More Info
+            a(ui-sref='eventSingle({id: event._id})', title='Full Event Information').btn.btn-primary More Info
   .row
     .col-xs-12
       h3 Past Events
@@ -29,4 +29,4 @@
             a(ng-href='{{event.event_url}}', title="{{event.name}}")
               i.fa.fa-facebook
           p
-            a(href="#").btn.btn-primary More Info
+            a(ui-sref='eventSingle({id: event._id})', title='Full Event Information').btn.btn-primary More Info

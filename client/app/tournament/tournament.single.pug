@@ -73,7 +73,7 @@
             .col-xs-12.text-left.visible-xs
               b Bracket URL:
             .col-md-9.col-sm-8.text-left
-              a(ng-href='{{tournamentSingleCtrl.tournament.bracket_url}}', title='Bracket', target='_blank').class {{tournamentSingleCtrl.tournament.bracket_url}}
+              a(ng-href='{{tournamentSingleCtrl.tournament.bracket_url}}', title='Bracket', target='_blank').fa.fa-code-fork
   .row
     div(ng-class='tournamentSingleCtrl.tournament.event.length > 1 ? "col-sm-6" : "col-xs-12"', ng-repeat='event in tournamentSingleCtrl.tournament.event')
       .panel.panel-primary

@@ -3,3 +3,119 @@
     .col-xs-12
       h1 Event
       h2 {{eventSingleCtrl.event.name}}
+  .row
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Event Information
+        .panel-body
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Name:
+            .col-xs-12.text-left.visible-xs
+              b Name:
+            .col-md-9.col-sm-8.text-left
+              | {{eventSingleCtrl.event.name}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b HABREWKEN:
+            .col-xs-12.text-left.visible-xs
+              b HABREWKEN:
+            .col-md-9.col-sm-8.text-left
+              | {{eventSingleCtrl.event.number}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Date:
+            .col-xs-12.text-left.visible-xs
+              b Date:
+            .col-md-9.col-sm-8.text-left
+              | {{eventSingleCtrl.getDateTime(eventSingleCtrl.event.date_time) | date:'fullDate'}}
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Time:
+            .col-xs-12.text-left.visible-xs
+              b Time:
+            .col-md-9.col-sm-8.text-left
+              | {{eventSingleCtrl.getDateTime(eventSingleCtrl.event.date_time) | date:'shortTime'}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Event Page:
+            .col-xs-12.text-left.visible-xs
+              b Event Page:
+            .col-md-9.col-sm-8.text-left
+              a(ng-href="{{eventSingleCtrl.event.event_url}}", title="{{eventSingleCtrl.event.namee}}").fa.fa-facebook-square
+  .row
+    div(ng-class='eventSingleCtrl.event.tournaments.length > 1 ? "col-sm-6" : "col-xs-12"', ng-repeat='tournament in eventSingleCtrl.event.tournaments')
+      .panel.panel-primary
+        .panel-heading
+          .panel-title {{tournament.name}}
+        .panel-body.text-center
+          .row
+            .col-xs-12
+              b Name
+          .row
+            .col-xs-12
+              | {{tournament.name}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-xs-12
+              b Type
+          .row
+            .col-xs-12
+              | {{eventSingleCtrl.Util.getTournamentType(tournament.type)}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-xs-12
+              b Date Start
+          .row
+            .col-xs-12
+              | {{eventSingleCtrl.getDateTime(tournament.date_time) | date:'fullDate'}}
+          .row
+            .col-xs-12
+              b Time Start
+          .row
+            .col-xs-12
+              | {{eventSingleCtrl.getDateTime(tournament.date_time) | date:'shortTime'}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-xs-12
+              b Date End
+          .row
+            .col-xs-12
+              | {{eventSingleCtrl.getDateTime(tournament.date_time_end) | date:'fullDate'}}
+          .row
+            .col-xs-12
+              b Time End
+          .row
+            .col-xs-12
+              | {{eventSingleCtrl.getDateTime(tournament.date_time_end) | date:'shortTime'}}
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-xs-12
+              b Game
+          .row
+            .col-xs-12
+              a(ui-sref='gameSingle({id: tournament.game})') Game
+          .row
+            .col-xs-12
+              b Bracket URL
+          .row
+            .col-xs-12
+              a(ng-href='{{tournament.bracket_url}}', title='Bracket', target='_blank').fa.fa-code-fork

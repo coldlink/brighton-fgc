@@ -45,18 +45,23 @@ export class EventComponent {
 
 export class EventSingleComponent {
   /* @ngInject */
-  constructior ($http, $stateParams, Util) {
+  constructor ($http, $stateParams, Util) {
     this.$http = $http
-    this.$stateParms = $stateParams
+    this.$stateParams = $stateParams
     this.Util = Util
   }
 
   $onInit () {
+    console.log(this)
     this.$http.get(`/api/events/${this.$stateParams.id}`)
       .then(response => {
         console.log(response.data)
         this.event = response.data
       })
+  }
+
+  getDateTime (dateTime) {
+    return new Date(dateTime).getTime()
   }
 }
 

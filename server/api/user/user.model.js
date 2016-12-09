@@ -198,12 +198,12 @@ UserSchema.methods = {
       }
     }
 
-    var defaultIterations = 10000
-    var defaultKeyLength = 64
+    var defaultIterations = 100000
+    var defaultKeyLength = 512
     var salt = new Buffer(this.salt, 'base64')
 
     if (!callback) {
-      return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength)
+      return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength, 'sha512')
         .toString('base64')
     }
 
