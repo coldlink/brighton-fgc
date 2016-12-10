@@ -7,4 +7,8 @@ export default function ($stateProvider) {
       url: '/series',
       template: '<series></series>'
     })
+    .state('seriesSingle', {
+      url: '/series/:id',
+      template: '<series-single></series-single>'
+    })
 }

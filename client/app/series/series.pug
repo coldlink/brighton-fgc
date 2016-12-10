@@ -34,7 +34,7 @@
                   br
               .row
                 .col-xs-12
-                  top-players(series='{{series._id}}')
+                  top-players(series='{{series._id}}', type='top')
         .row
           .col-xs-12.text-center
             a(ui-sref='seriesSingle({id: series._id})').btn.btn-primary Full Standings &amp; More Info
@@ -70,7 +70,7 @@
                   br
               .row
                 .col-xs-12
-                  top-players(series='{{series._id}}')
+                  top-players(series='{{series._id}}', type='top')
         .row
           .col-xs-12.text-center
             a(ui-sref='seriesSingle({id: series._id})').btn.btn-primary Full Standings &amp; More Info

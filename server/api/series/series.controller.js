@@ -75,7 +75,10 @@ export function index (req, res) {
 
 // Gets a single Series from the DB
 export function show (req, res) {
-  return Series.findById(req.params.id).exec()
+  return Series
+    .findById(req.params.id)
+    .populate('tournaments game')
+    .exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res))

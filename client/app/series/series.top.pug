@@ -1,10 +1,21 @@
-table.table.table-hover
-  thead
-    th Rank
-    th Player
-    th Score
-  tbody
-    tr(ng-repeat='score in seriesTopPlayersCtrl.top')
-      td {{$index + 1}}
-      td {{score.player[0].handle}}
-      td {{score.score}}
+.row.text-center
+  .col-xs-12
+    table.table.table-hover
+      thead
+        th.text-center
+          h4 Rank
+        th.text-center
+          h4 Player
+        th.text-center
+          h4 Score
+      tbody
+        tr(ng-repeat='score in seriesTopPlayersCtrl.top | limitTo:seriesTopPlayersCtrl.limit')
+          td
+            b {{$index + 1}}
+          td
+            b {{score.player[0].handle}}
+          td {{score.score}}
+.row(ng-if='seriesTopPlayersCtrl.type === "all"').text-center
+  .col-xs-12
+    button.btn.btn-primary(ng-if='seriesTopPlayersCtrl.limit === 16', ng-click='seriesTopPlayersCtrl.showAll()') Show All
+    button.btn.btn-primary(ng-if='seriesTopPlayersCtrl.limit === seriesTopPlayersCtrl.top.length', ng-click='seriesTopPlayersCtrl.showLess()') Show Less

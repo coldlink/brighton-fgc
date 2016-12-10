@@ -1,0 +1,29 @@
+.container
+  .row
+    .col-xs-12
+      h1 Series
+  .row
+    .col-xs-12
+      h2 {{seriesSingleCtrl.series.name}}
+  .row
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Game
+        .panel-body.text-center
+          .row
+            .ccol-xs-12
+              img(ng-src='{{seriesSingleCtrl.series.game.image_url}}', alt='{{seriesSingleCtrl.series.game.short}}').img-responsive.img-thumbnail
+          .row
+            .col-xs-12
+              h2
+                a(ui-sref="gameSingle({id: seriesSingleCtrl.series.game._id})", title="{{seriesSingleCtrl.series.game.short}}") {{seriesSingleCtrl.series.game.name}}
+  .row
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title {{seriesSingleCtrl.series.name}} Standings
+        .panel-body
+          .row
+            .col-xs-12
+              top-players(ng-if='seriesSingleCtrl.series', series='{{seriesSingleCtrl.series._id}}', type='all')

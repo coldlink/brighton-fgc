@@ -48,10 +48,42 @@ export class SeriesTopPlayerComponent {
 
   $onInit () {
     console.log(this.series)
-    this.$http.get(`/api/scores/series/top/${this.series}`)
+    console.log(this.type)
+
+    if (this.type === 'all') this.limit = 16
+
+    this.$http.get(`/api/scores/series/${this.type}/${this.series}`)
       .then(response => {
         console.log(response)
         this.top = response.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  showAll () {
+    this.limit = this.top.length
+  }
+
+  showLess () {
+    this.limit = 16
+  }
+}
+
+export class SeriesSingleComponent {
+  /* @ngInject */
+  constructor ($http, $stateParams) {
+    this.$http = $http
+    this.$stateParams = $stateParams
+  }
+
+  $onInit () {
+    console.log(this.series)
+    this.$http.get(`/api/series/${this.$stateParams.id}`)
+      .then(response => {
+        console.log(response)
+        this.series = response.data
       })
   }
 }
@@ -68,7 +100,13 @@ export default angular.module('fgcApp.series', [uiRouter])
     controller: SeriesTopPlayerComponent,
     controllerAs: 'seriesTopPlayersCtrl',
     bindings: {
-      series: '@'
+      series: '@',
+      type: '@'
     }
+  })
+  .component('seriesSingle', {
+    template: require('./series.single.pug'),
+    controller: SeriesSingleComponent,
+    controllerAs: 'seriesSingleCtrl'
   })
   .name

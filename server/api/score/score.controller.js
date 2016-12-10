@@ -165,3 +165,48 @@ export function topBySeries (req, res) {
     })
     .catch(handleError(res))
 }
+
+export function allBySeries (req, res) {
+  let q = Tournament
+    .find({
+      series: mongoose.Types.ObjectId(req.params._id)
+    }, '_id')
+    .exec()
+
+  q
+    .then(tournaments => {
+      tournaments = _.map(tournaments, '_id')
+      let sq = Score
+        .aggregate([{
+          $match: {
+            _tournamentId: {
+              $in: tournaments
+            }
+          }
+        }, {
+          $group: {
+            _id: '$_playerId',
+            score: {
+              $sum: '$score'
+            }
+          }
+        }, {
+          $sort: {
+            score: -1
+          }
+        }, {
+          $lookup: {
+            from: 'players',
+            localField: '_id',
+            foreignField: '_id',
+            as: 'player'
+          }
+        }])
+        .exec()
+
+      sq
+        .then(respondWithResult(res))
+        .catch(handleError(res))
+    })
+    .catch(handleError(res))
+}
