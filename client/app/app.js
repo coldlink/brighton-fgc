@@ -1,5 +1,7 @@
 'use strict'
 
+import jQuery from 'jquery'
+
 import angular from 'angular'
 // import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies'
@@ -38,6 +40,10 @@ angular.module('fgcApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstr
   .config(routeConfig)
   .run(function ($rootScope, $location, Auth) {
     'ngInject'
+
+    window.$ = jQuery
+    window.jQuery = jQuery
+
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedIn(function (loggedIn) {

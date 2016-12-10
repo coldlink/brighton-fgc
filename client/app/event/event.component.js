@@ -9,8 +9,10 @@ import routes from './event.routes'
 
 export class EventComponent {
   /* @ngInject */
-  constructor ($http) {
+  constructor ($http, $window, $timeout) {
     this.$http = $http
+    this.$window = $window
+    this.$timeout = $timeout
     this.pastEvents = []
     this.pastEventsChunk = []
     this.upcomingEvents = []
@@ -40,6 +42,10 @@ export class EventComponent {
     this.upcomingEvents = _.sortBy(this.upcomingEvents, o => new Date(o.date_time))
     this.pastEventsChunk = _.chunk(this.pastEvents, 3)
     this.upcomingEventsChunk = _.chunk(this.upcomingEvents, 3)
+
+    this.$timeout(() => {
+      this.$window.$('.match-height').matchHeight()
+    }, 250)
   }
 }
 

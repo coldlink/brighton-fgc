@@ -7,6 +7,6 @@
       .thumbnail.text-center
         img(ng-src='{{playerCtrl.getImage(player)}}', alt='{{player.handle}}')
         .caption
-          h4 {{player.team ? player.team + ' | ' : ''}}{{player.handle}}
+          h4.match-height {{player.team ? player.team + ' | ' : ''}}{{player.handle}}
           p
             a(href="#").btn.btn-primary More Info

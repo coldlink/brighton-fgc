@@ -9,8 +9,10 @@ import routes from './player.routes'
 
 export class PlayerComponent {
   /* @ngInject */
-  constructor ($http) {
+  constructor ($http, $window, $timeout) {
     this.$http = $http
+    this.$window = $window
+    this.$timeout = $timeout
     this.players = []
     this.playersChunk = []
   }
@@ -27,6 +29,10 @@ export class PlayerComponent {
     players = players || this.players
     this.players = _.sortBy(players, ['handle'])
     this.playersChunk = _.chunk(this.players, 3)
+
+    this.$timeout(() => {
+      this.$window.$('.match-height').matchHeight()
+    }, 250)
   }
 
   getImage (player) {

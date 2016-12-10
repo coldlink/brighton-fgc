@@ -51,7 +51,9 @@ module.exports = function makeWebpackConfig(options) {
 
                 'angular-ui-bootstrap',
                 'angular-ui-router',
-                'lodash'
+                'lodash',
+                'jquery',
+                'jquery-match-height'
             ]
         };
     }

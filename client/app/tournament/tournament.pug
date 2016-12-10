@@ -9,11 +9,11 @@
     .col-sm-4(ng-repeat='tournament in chunk')
       .thumbnail.text-center
         .caption
-          h4 {{tournament.name}}
+          h4.match-height {{tournament.name}}
           p {{tournament.date_time | date:'mediumDate'}}
           p
             img(ng-src='{{tournament.game.image_url}}', alt='{{tournament.game.short}}').img-responsive.img-thumbnail
-          p {{tournament.game.name}}
+          p.match-height-1 {{tournament.game.name}}
           p.btn-group.btn-group-justified
             a(ui-sref='tournamentSingle({id: tournament._id})').btn.btn-primary More Info
             a(ng-href='{{tournament.bracket_url}}', title='{{tournament.name}}', target='_blank').btn.btn-primary Bracket
@@ -24,11 +24,11 @@
     .col-sm-4(ng-repeat='tournament in chunk')
       .thumbnail.text-center
         .caption
-          h4 {{tournament.name}}
+          h4.match-height {{tournament.name}}
           p {{tournament.date_time | date:'mediumDate'}}
           p
             img(ng-src='{{tournament.game.image_url}}', alt='{{tournament.game.short}}').img-responsive.img-thumbnail
-          p {{tournament.game.name}}
+          p.match-height-1 {{tournament.game.name}}
           p.btn-group.btn-group-justified
             a(ui-sref='tournamentSingle({id: tournament._id})').btn.btn-primary More Info
             a(ng-href='{{tournament.bracket_url}}', title='{{tournament.name}}', target='_blank').btn.btn-primary Bracket

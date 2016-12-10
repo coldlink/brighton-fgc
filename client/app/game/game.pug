@@ -7,6 +7,6 @@
       .thumbnail.text-center
         img(ng-src='{{game.image_url}}', alt='{{game.short}}').img-responsive.img-thumbnail
         .caption
-          h4 {{game.name}}
+          h4.match-height {{game.name}}
           p
             a(ui-sref='gameSingle({id: game._id})', name='{{game.name}}').btn.btn-primary More Info

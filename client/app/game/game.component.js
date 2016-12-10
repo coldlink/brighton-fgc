@@ -9,8 +9,10 @@ import routes from './game.routes'
 
 export class GameComponent {
   /* @ngInject */
-  constructor ($http) {
+  constructor ($http, $window, $timeout) {
     this.$http = $http
+    this.$window = $window
+    this.$timeout = $timeout
     this.games = []
     this.gamesChunk = []
   }
@@ -27,6 +29,10 @@ export class GameComponent {
     games = games || this.games
     this.games = _.sortBy(games, ['name'])
     this.gamesChunk = _.chunk(this.games, 3)
+
+    this.$timeout(() => {
+      this.$window.$('.match-height').matchHeight()
+    }, 250)
   }
 }
 

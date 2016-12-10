@@ -9,8 +9,10 @@ import routes from './tournament.routes'
 
 export class TournamentComponent {
   /* @ngInject */
-  constructor ($http) {
+  constructor ($http, $window, $timeout) {
     this.$http = $http
+    this.$window = $window
+    this.$timeout = $timeout
     this.pastTournaments = []
     this.pastTournamentsChunk = []
     this.upcomingTournaments = []
@@ -40,6 +42,11 @@ export class TournamentComponent {
     this.upcomingTournaments = _.sortBy(this.upcomingTournaments, o => new Date(o.date_time))
     this.pastTournamentsChunk = _.chunk(this.pastTournaments, 3)
     this.upcomingTournamentsChunk = _.chunk(this.upcomingTournaments, 3)
+
+    this.$timeout(() => {
+      this.$window.$('.match-height').matchHeight()
+      this.$window.$('.match-height-1').matchHeight()
+    }, 250)
   }
 }
 
