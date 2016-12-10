@@ -9,12 +9,15 @@
         th.text-center
           h4 Score
       tbody
-        tr(ng-repeat='score in seriesTopPlayersCtrl.top | limitTo:seriesTopPlayersCtrl.limit')
-          td
-            b {{$index + 1}}
-          td
-            b {{score.player[0].handle}}
-          td {{score.score}}
+        tr(ng-repeat='score in seriesTopPlayersCtrl.top | limitTo:seriesTopPlayersCtrl.limit', ng-click='seriesTopPlayersCtrl.goToSeriesPlayer(score.player[0]._id)')
+            td
+              a(ui-sref='seriesPlayer({series_id: seriesTopPlayersCtrl.series, player_id: score.player[0]._id})').no-decoration
+                b {{$index + 1}}
+            td
+              a(ui-sref='seriesPlayer({series_id: seriesTopPlayersCtrl.series, player_id: score.player[0]._id})').no-decoration
+                b {{score.player[0].handle}}
+            td
+              a(ui-sref='seriesPlayer({series_id: seriesTopPlayersCtrl.series, player_id: score.player[0]._id})').no-decoration {{score.score}}
 .row(ng-if='seriesTopPlayersCtrl.type === "all"').text-center
   .col-xs-12
     button.btn.btn-primary(ng-if='seriesTopPlayersCtrl.limit === 16', ng-click='seriesTopPlayersCtrl.showAll()') Show All

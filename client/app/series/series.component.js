@@ -42,8 +42,9 @@ export class SeriesComponent {
 
 export class SeriesTopPlayerComponent {
   /* @ngInject */
-  constructor ($http) {
+  constructor ($http, $state) {
     this.$http = $http
+    this.$state = $state
   }
 
   $onInit () {
@@ -69,6 +70,14 @@ export class SeriesTopPlayerComponent {
   showLess () {
     this.limit = 16
   }
+
+  goToSeriesPlayer (player_id) {
+    this.$state
+      .go('seriesPlayer', {
+        player_id,
+        series_id: this.series
+      })
+  }
 }
 
 export class SeriesSingleComponent {
@@ -84,6 +93,23 @@ export class SeriesSingleComponent {
       .then(response => {
         console.log(response)
         this.series = response.data
+      })
+  }
+}
+
+export class SeriesPlayerComponent {
+  /* @ngInject */
+  constructor ($http, $stateParams) {
+    this.$http = $http
+    this.$stateParams = $stateParams
+  }
+
+  $onInit () {
+    console.log(this.$stateParams)
+    this.$http.get(`/api/series/${this.$stateParams.series_id}/player/${this.$stateParams.player_id}`)
+      .then(response => {
+        console.log(response)
+        this.scores = response.data
       })
   }
 }
@@ -108,5 +134,10 @@ export default angular.module('fgcApp.series', [uiRouter])
     template: require('./series.single.pug'),
     controller: SeriesSingleComponent,
     controllerAs: 'seriesSingleCtrl'
+  })
+  .component('seriesPlayer', {
+    template: require('./series.player.pug'),
+    controller: SeriesPlayerComponent,
+    controllerAs: 'seriesPlayerCtrl'
   })
   .name

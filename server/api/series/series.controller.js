@@ -12,6 +12,11 @@
 
 import jsonpatch from 'fast-json-patch'
 import Series from './series.model'
+import Player from '../player/player.model'
+import Tournament from '../tournament/tournament.model'
+import Score from '../score/score.model.js'
+import mongoose from 'mongoose'
+import _ from 'lodash'
 
 function respondWithResult (res, statusCode) {
   statusCode = statusCode || 200
@@ -96,7 +101,7 @@ export function upsert (req, res) {
   if (req.body._id) {
     delete req.body._id
   }
-  return Series.findOneAndUpdate({_id: req.params.id}, req.body, {upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+  return Series.findOneAndUpdate({ _id: req.params.id }, req.body, { upsert: true, setDefaultsOnInsert: true, runValidators: true }).exec()
 
     .then(respondWithResult(res))
     .catch(handleError(res))
@@ -119,5 +124,75 @@ export function destroy (req, res) {
   return Series.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
+    .catch(handleError(res))
+}
+
+// get player scores from a series and tournaments
+export function getSeriesPlayer (req, res) {
+  let promises = []
+
+  promises.push(new Promise((resolve, reject) => {
+    let query = Series
+      .findById(req.params.series_id)
+      .exec()
+
+    query
+      .then(series => resolve(series))
+      .catch(err => reject(err))
+  }))
+
+  promises.push(new Promise((resolve, reject) => {
+    let query = Player
+      .findById(req.params.player_id)
+      .exec()
+
+    query
+      .then(player => resolve(player))
+      .catch(err => reject(err))
+  }))
+
+  promises.push(new Promise((resolve, reject) => {
+    let query = Tournament
+      .find({
+        series: mongoose.Types.ObjectId(req.params.series_id)
+      }, '_id')
+      .exec()
+
+    query
+      .then(tournaments => {
+        tournaments = _.map(tournaments, '_id')
+
+        let sq = Score
+          .aggregate([{
+            $match: {
+              _tournamentId: {
+                $in: tournaments
+              },
+              _playerId: mongoose.Types.ObjectId(req.params.player_id)
+            }
+          }, {
+            $lookup: {
+              from: 'tournaments',
+              localField: '_tournamentId',
+              foreignField: '_id',
+              as: 'tournament'
+            }
+          }, {
+            $sort: {
+              'tournament.date_time': -1
+            }
+          }])
+          .exec()
+
+        sq
+          .then(data => resolve(data))
+          .catch(err => reject(err))
+      })
+      .catch(err => reject(err))
+  }))
+
+  Promise
+    .all(promises)
+    .then(respondWithResult(res))
     .catch(handleError(res))
 }
