@@ -20,7 +20,7 @@ export class PlayerComponent {
   $onInit () {
     this.$http.get('/api/players')
       .then(response => {
-        console.log(response.data)
+        //console.log(response.data)
         this.sortPlayers(response.data)
       })
   }

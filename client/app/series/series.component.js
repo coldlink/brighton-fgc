@@ -19,7 +19,7 @@ export class SeriesComponent {
   $onInit () {
     this.$http.get('/api/series')
       .then(response => {
-        console.log(response.data)
+        //console.log(response.data)
         this.sortSeries(response.data)
       })
   }
@@ -35,8 +35,8 @@ export class SeriesComponent {
       }
     })
 
-    console.log(this.currentSeries)
-    console.log(this.pastSeries)
+    //console.log(this.currentSeries)
+    //console.log(this.pastSeries)
   }
 }
 
@@ -48,18 +48,18 @@ export class SeriesTopPlayerComponent {
   }
 
   $onInit () {
-    console.log(this.series)
-    console.log(this.type)
+    //console.log(this.series)
+    //console.log(this.type)
 
     if (this.type === 'all') this.limit = 16
 
     this.$http.get(`/api/scores/series/${this.type}/${this.series}`)
       .then(response => {
-        console.log(response)
+        //console.log(response)
         this.top = response.data
       })
       .catch(err => {
-        console.log(err)
+        //console.log(err)
       })
   }
 
@@ -94,10 +94,10 @@ export class SeriesSingleComponent {
   }
 
   $onInit () {
-    console.log(this.series)
+    //console.log(this.series)
     this.$http.get(`/api/series/${this.$stateParams.id}`)
       .then(response => {
-        console.log(response)
+        //console.log(response)
         this.series = response.data
       })
   }
@@ -113,10 +113,10 @@ export class SeriesPlayerComponent {
   }
 
   $onInit () {
-    console.log(this.$stateParams)
+    //console.log(this.$stateParams)
     this.$http.get(`/api/series/${this.$stateParams.series_id}/player/${this.$stateParams.player_id}`)
       .then(response => {
-        console.log(response)
+        //console.log(response)
         this.series = response.data[0]
         this.player = response.data[1]
         this.tournaments = response.data[2]

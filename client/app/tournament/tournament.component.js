@@ -22,7 +22,7 @@ export class TournamentComponent {
   $onInit () {
     this.$http.get('/api/tournaments')
       .then(response => {
-        console.log(response.data)
+        //console.log(response.data)
         this.sortTournaments(response.data)
       })
   }
@@ -60,10 +60,10 @@ export class TournamentSingleComponent {
   }
 
   $onInit () {
-    console.log(this.$stateParams)
+    //console.log(this.$stateParams)
     this.$http.get(`/api/tournaments/${this.$stateParams.id}`)
       .then(response => {
-        console.log(response.data)
+        //console.log(response.data)
         this.tournament = response.data
       })
   }
@@ -73,7 +73,7 @@ export class TournamentSingleComponent {
   }
 
   getEmbed (url) {
-    console.log(url)
+    //console.log(url)
     return this.$sce.trustAsResourceUrl(`${url}/module?multiplier=1&match_width_multiplier=1&show_final_results=0&show_standings=1&theme=1`)
   }
 }

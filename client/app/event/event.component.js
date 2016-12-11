@@ -22,7 +22,7 @@ export class EventComponent {
   $onInit () {
     this.$http.get('/api/events')
       .then(response => {
-        console.log(response.data)
+        //console.log(response.data)
         this.sortEvents(response.data)
       })
   }
@@ -58,10 +58,10 @@ export class EventSingleComponent {
   }
 
   $onInit () {
-    console.log(this)
+    //console.log(this)
     this.$http.get(`/api/events/${this.$stateParams.id}`)
       .then(response => {
-        console.log(response.data)
+        //console.log(response.data)
         this.event = response.data
       })
   }
