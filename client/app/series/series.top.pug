@@ -12,7 +12,7 @@
         tr(ng-repeat='score in seriesTopPlayersCtrl.top | limitTo:seriesTopPlayersCtrl.limit', ng-click='seriesTopPlayersCtrl.goToSeriesPlayer(score.player[0]._id)')
             td
               a(ui-sref='seriesPlayer({series_id: seriesTopPlayersCtrl.series, player_id: score.player[0]._id})').no-decoration
-                b {{$index + 1}}
+                b {{seriesTopPlayersCtrl.getRank(score.player[0]._id)}}
             td
               a(ui-sref='seriesPlayer({series_id: seriesTopPlayersCtrl.series, player_id: score.player[0]._id})').no-decoration
                 b {{score.player[0].handle}}

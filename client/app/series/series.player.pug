@@ -15,7 +15,10 @@
           .row
             .col-sm-6.text-center
               h5 Series Score
-              h2 {{seriesPlayerCtrl.totalScore}}
+              h2 {{seriesPlayerCtrl.score.score}}
+              br
+              h5 Current Rank
+              h2 {{seriesPlayerCtrl.score.rank}}
             .col-sm-6.text-center
               table.table.table-hover
                 thead
@@ -31,6 +34,7 @@
                     td
                       a.no-decoration(ui-sref='tournamentSingle({id: tournament.tournament[0]._id})')
                         b {{tournament.score}}
-              br
-              button.btn.btn-primary(ng-if='seriesPlayerCtrl.limit === 5', ng-click='seriesPlayerCtrl.showAll()') Show All
-              button.btn.btn-primary(ng-if='seriesPlayerCtrl.limit === seriesPlayerCtrl.tournaments.length', ng-click='seriesPlayerCtrl.showLess()') Show Less
+              div(ng-if='seriesPlayerCtrl.tournaments.length > 5')
+                br
+                button.btn.btn-primary(ng-if='seriesPlayerCtrl.limit === 5', ng-click='seriesPlayerCtrl.showAll()') Show All
+                button.btn.btn-primary(ng-if='seriesPlayerCtrl.limit === seriesPlayerCtrl.tournaments.length', ng-click='seriesPlayerCtrl.showLess()') Show Less

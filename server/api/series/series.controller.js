@@ -207,8 +207,7 @@ export function getSeriesPlayer (req, res) {
             $match: {
               _tournamentId: {
                 $in: tournaments
-              },
-              _playerId: mongoose.Types.ObjectId(req.params.player_id)
+              }
             }
           }, {
             $group: {
@@ -217,11 +216,21 @@ export function getSeriesPlayer (req, res) {
                 $sum: '$score'
               }
             }
+          }, {
+            $sort: {
+              score: -1
+            }
           }])
           .exec()
 
         sq
-          .then(data => resolve(data))
+          .then(data => {
+            let playerIndex = _.findIndex(data, o => o._id.toString() === req.params.player_id)
+            let scoreIndex = _.findIndex(data, o => o.score === data[playerIndex].score)
+
+            data[scoreIndex].rank = scoreIndex + 1
+            resolve(data[scoreIndex])
+          })
           .catch(err => reject(err))
       })
       .catch(err => reject(err))

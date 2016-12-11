@@ -78,6 +78,12 @@ export class SeriesTopPlayerComponent {
         series_id: this.series
       })
   }
+
+  getRank (playerId) {
+    let pi = _.findIndex(this.top, o => o._id === playerId)
+    let si = _.findIndex(this.top, o => o.score === this.top[pi].score)
+    return si + 1
+  }
 }
 
 export class SeriesSingleComponent {
@@ -114,7 +120,7 @@ export class SeriesPlayerComponent {
         this.series = response.data[0]
         this.player = response.data[1]
         this.tournaments = response.data[2]
-        this.totalScore = response.data[3][0].score
+        this.score = response.data[3]
       })
   }
 
