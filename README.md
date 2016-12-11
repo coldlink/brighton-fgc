@@ -1,6 +1,6 @@
 # Brighton FGC Website
 
-Under development. Not yet live.
+[Brighton FGC Website](https://fgc.mkn.sh)
 
 The Brighton Fighting Game Community Website and Resource
 
