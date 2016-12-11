@@ -74,6 +74,7 @@ export class TournamentSingleComponent {
 
   getEmbed (url) {
     //console.log(url)
+    url = url.replace('http', 'https')
     return this.$sce.trustAsResourceUrl(`${url}/module?multiplier=1&match_width_multiplier=1&show_final_results=0&show_standings=1&theme=1`)
   }
 }
