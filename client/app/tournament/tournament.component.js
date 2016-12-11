@@ -52,10 +52,11 @@ export class TournamentComponent {
 
 export class TournamentSingleComponent {
   /* @ngInject */
-  constructor ($http, $stateParams, Util) {
+  constructor ($http, $stateParams, Util, $sce) {
     this.$http = $http
     this.$stateParams = $stateParams
     this.Util = Util
+    this.$sce = $sce
   }
 
   $onInit () {
@@ -69,6 +70,11 @@ export class TournamentSingleComponent {
 
   getDateTime (dateTime) {
     return new Date(dateTime).getTime()
+  }
+
+  getEmbed (url) {
+    console.log(url)
+    return this.$sce.trustAsResourceUrl(`${url}/module?multiplier=1&match_width_multiplier=1&show_final_results=0&show_standings=1&theme=1`)
   }
 }
 

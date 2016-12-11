@@ -66,14 +66,14 @@
             .col-xs-12.text-left.visible-xs
               b Game:
             .col-md-9.col-sm-8.text-left
-              a(ui-sref='gameSingle({id: tournamentSingleCtrl.tournament.game._id})', title='{{tournamentSingleCtrl.tournament.game.name}}') {{tournamentSingleCtrl.tournament.game.name}}
+              a(ui-sref='gameSingle({id: tournamentSingleCtrl.tournament.game._id})', title='{{tournamentSingleCtrl.tournament.game.name}}').no-decoration {{tournamentSingleCtrl.tournament.game.name}}
           .row
             .col-md-3.col-sm-4.text-right.hidden-xs
               b Bracket URL:
             .col-xs-12.text-left.visible-xs
               b Bracket URL:
             .col-md-9.col-sm-8.text-left
-              a(ng-href='{{tournamentSingleCtrl.tournament.bracket_url}}', title='Bracket', target='_blank').fa.fa-code-fork
+              a(ng-href='{{tournamentSingleCtrl.tournament.bracket_url}}', title='Bracket', target='_blank').fa.fa-code-fork.no-decoration
   .row
     div(ng-class='tournamentSingleCtrl.tournament.event.length > 1 ? "col-sm-6" : "col-xs-12"', ng-repeat='event in tournamentSingleCtrl.tournament.event')
       .panel.panel-primary
@@ -93,7 +93,7 @@
             .col-xs-12.text-left.visible-xs
               b Event Page:
             .col-md-9.col-sm-8.text-left
-              a(ng-href='{{event.event_url}}', title='Bracket', target='_blank')
+              a(ng-href='{{event.event_url}}', title='Bracket', target='_blank').no-decoration
                 span.fa.fa-facebook-square
           .row
             .col-xs-12
@@ -122,13 +122,6 @@
     .col-xs-12
       .panel.panel-primary
         .panel-heading
-          .panel-title Players/Results
-        .panel-body
-          p Coming Soon!
-  .row
-    .col-xs-12
-      .panel.panel-primary
-        .panel-heading
-          .panel-title Bracket
-        .panel-body
-          p Coming Soon!
+          .panel-title Bracket/Standings from Challonge
+        .panel-body(style='padding: 0')
+          iframe(ng-if='tournamentSingleCtrl.tournament.bracket_url', ng-src='{{tournamentSingleCtrl.getEmbed(tournamentSingleCtrl.tournament.bracket_url)}}', width='100%', height='600', frameborder='0', scrolling='auto', allowtransparency='true')

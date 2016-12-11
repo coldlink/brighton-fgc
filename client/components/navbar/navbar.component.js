@@ -11,6 +11,9 @@ export class NavbarComponent {
       title: 'Home',
       state: 'main'
     }, {
+      title: 'Info',
+      state: 'info'
+    }, {
       title: 'Series',
       state: 'series'
     }, {
@@ -19,10 +22,12 @@ export class NavbarComponent {
     }, {
       title: 'Tournaments',
       state: 'tournament'
-    }, {
+    },
+    /* {
       title: 'Players',
       state: 'player'
-    }, {
+    }, */
+    {
       title: 'Games',
       state: 'game'
     }]

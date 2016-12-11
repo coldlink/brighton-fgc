@@ -52,7 +52,7 @@
             .col-xs-12.text-left.visible-xs
               b Event Page:
             .col-md-9.col-sm-8.text-left
-              a(ng-href="{{eventSingleCtrl.event.event_url}}", title="{{eventSingleCtrl.event.namee}}").fa.fa-facebook-square
+              a(ng-href="{{eventSingleCtrl.event.event_url}}", title="{{eventSingleCtrl.event.namee}}").fa.fa-facebook-square.no-decoration
   .row
     div(ng-class='eventSingleCtrl.event.tournaments.length > 1 ? "col-sm-6" : "col-xs-12"', ng-repeat='tournament in eventSingleCtrl.event.tournaments')
       .panel.panel-primary
@@ -112,10 +112,10 @@
               b Game
           .row
             .col-xs-12
-              a(ui-sref='gameSingle({id: tournament.game})') Game
+              a(ui-sref='gameSingle({id: tournament.game})').no-decoration Game
           .row
             .col-xs-12
               b Bracket URL
           .row
             .col-xs-12
-              a(ng-href='{{tournament.bracket_url}}', title='Bracket', target='_blank').fa.fa-code-fork
+              a(ng-href='{{tournament.bracket_url}}', title='Bracket', target='_blank').fa.fa-code-fork.no-decoration

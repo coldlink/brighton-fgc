@@ -25,6 +25,7 @@ import footer from '../components/footer/footer.component'
 import main from './main/main.component'
 import constants from './app.constants'
 import util from '../components/util/util.module'
+import InfoComponent from './info/info.component';
 
 import SeriesComponent from './series/series.component'
 import TournamentComponent from './tournament/tournament.component'
@@ -35,7 +36,7 @@ import EventComponent from './event/event.component'
 import './app.scss'
 
 angular.module('fgcApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap, _Auth, account,
-  admin, navbar, footer, main, constants, util, SeriesComponent, TournamentComponent, PlayerComponent, GameComponent, EventComponent
+  admin, navbar, footer, main, constants, util, SeriesComponent, TournamentComponent, PlayerComponent, GameComponent, EventComponent, InfoComponent
 ])
   .config(routeConfig)
   .run(function ($rootScope, $location, Auth) {

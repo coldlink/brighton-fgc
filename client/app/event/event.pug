@@ -12,7 +12,7 @@
           h4.match-height {{event.name}}
           p {{event.date_time | date:'mediumDate'}}
           p
-            a(ng-href='{{event.event_url}}', title="{{event.name}}")
+            a(ng-href='{{event.event_url}}', title="{{event.name}}").no-decoration
               i.fa.fa-facebook
           p
             a(ui-sref='eventSingle({id: event._id})', title='Full Event Information').btn.btn-primary More Info
@@ -26,7 +26,7 @@
           h4.match-height {{event.name}}
           p {{event.date_time | date:'mediumDate'}}
           p
-            a(ng-href='{{event.event_url}}', title="{{event.name}}")
+            a(ng-href='{{event.event_url}}', title="{{event.name}}").no-decoration
               i.fa.fa-facebook
           p
             a(ui-sref='eventSingle({id: event._id})', title='Full Event Information').btn.btn-primary More Info
