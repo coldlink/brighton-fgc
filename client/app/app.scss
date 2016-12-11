@@ -22,6 +22,16 @@ $fa-font-path: '/assets/fonts/font-awesome/';
   text-decoration: none !important;
 }
 
+.table {
+	table-layout:fixed;
+}
+
+.table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 // Component styles are injected through gulp
 /* inject:scss */
 @import 'admin/admin';

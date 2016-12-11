@@ -191,6 +191,42 @@ export function getSeriesPlayer (req, res) {
       .catch(err => reject(err))
   }))
 
+  promises.push(new Promise((resolve, reject) => {
+    let query = Tournament
+      .find({
+        series: mongoose.Types.ObjectId(req.params.series_id)
+      }, '_id')
+      .exec()
+
+    query
+      .then(tournaments => {
+        tournaments = _.map(tournaments, '_id')
+
+        let sq = Score
+          .aggregate([{
+            $match: {
+              _tournamentId: {
+                $in: tournaments
+              },
+              _playerId: mongoose.Types.ObjectId(req.params.player_id)
+            }
+          }, {
+            $group: {
+              _id: '$_playerId',
+              score: {
+                $sum: '$score'
+              }
+            }
+          }])
+          .exec()
+
+        sq
+          .then(data => resolve(data))
+          .catch(err => reject(err))
+      })
+      .catch(err => reject(err))
+  }))
+
   Promise
     .all(promises)
     .then(respondWithResult(res))

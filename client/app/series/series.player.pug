@@ -1,6 +1,36 @@
 .container
   .row
     .col-xs-12
-      h1 Series Player
-      h2 {{seriesPlayerCtrl.$stateParams.series_id}}
-      h2 {{seriesPlayerCtrl.$stateParams.player_id}}
+      h1 Series
+  .row
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title
+            h4 {{seriesPlayerCtrl.series.name}}
+        .panel-body
+          .row.text-center
+            .col-xs-12
+              h3 {{seriesPlayerCtrl.player.handle}}
+          .row
+            .col-sm-6.text-center
+              h5 Series Score
+              h2 {{seriesPlayerCtrl.totalScore}}
+            .col-sm-6.text-center
+              table.table.table-hover
+                thead
+                  th.text-center
+                    h5 Tournament
+                  th.text-center
+                    h5 Score
+                tbody
+                  tr(ng-repeat='tournament in seriesPlayerCtrl.tournaments | limitTo:seriesPlayerCtrl.limit', ng-click='seriesPlayerCtrl.goToTournament(tournament.tournament[0]._id)')
+                    td
+                      b
+                        a.no-decoration(ui-sref='tournamentSingle({id: tournament.tournament[0]._id})') {{tournament.tournament[0].name}}
+                    td
+                      a.no-decoration(ui-sref='tournamentSingle({id: tournament.tournament[0]._id})')
+                        b {{tournament.score}}
+              br
+              button.btn.btn-primary(ng-if='seriesPlayerCtrl.limit === 5', ng-click='seriesPlayerCtrl.showAll()') Show All
+              button.btn.btn-primary(ng-if='seriesPlayerCtrl.limit === seriesPlayerCtrl.tournaments.length', ng-click='seriesPlayerCtrl.showLess()') Show Less

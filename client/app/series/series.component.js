@@ -99,9 +99,11 @@ export class SeriesSingleComponent {
 
 export class SeriesPlayerComponent {
   /* @ngInject */
-  constructor ($http, $stateParams) {
+  constructor ($http, $stateParams, $state) {
     this.$http = $http
     this.$stateParams = $stateParams
+    this.$state = $state
+    this.limit = 5
   }
 
   $onInit () {
@@ -109,8 +111,23 @@ export class SeriesPlayerComponent {
     this.$http.get(`/api/series/${this.$stateParams.series_id}/player/${this.$stateParams.player_id}`)
       .then(response => {
         console.log(response)
-        this.scores = response.data
+        this.series = response.data[0]
+        this.player = response.data[1]
+        this.tournaments = response.data[2]
+        this.totalScore = response.data[3][0].score
       })
+  }
+
+  showAll () {
+    this.limit = this.tournaments.length
+  }
+
+  showLess () {
+    this.limit = 5
+  }
+
+  goToTournament (id) {
+    this.$state.go('tournamentSingle', {id})
   }
 }
 
