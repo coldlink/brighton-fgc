@@ -25,7 +25,7 @@ import footer from '../components/footer/footer.component'
 import main from './main/main.component'
 import constants from './app.constants'
 import util from '../components/util/util.module'
-import InfoComponent from './info/info.component';
+import InfoComponent from './info/info.component'
 
 import SeriesComponent from './series/series.component'
 import TournamentComponent from './tournament/tournament.component'
