@@ -30,6 +30,9 @@ export class NavbarComponent {
     {
       title: 'Games',
       state: 'game'
+    }, {
+      title: 'Stream',
+      state: 'stream'
     }]
 
     this.isCollapsed = true
