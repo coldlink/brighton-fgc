@@ -31,8 +31,8 @@
       h3 Tournaments
   .row
     div(ng-class='gameSingleCtrl.game.tournaments.length > 1 ? "col-sm-6" : "col-xs-12"', ng-repeat='tournament in gameSingleCtrl.game.tournaments')
-      .panel.panel-primary
-        .panel-heading
+      .panel.panel-primary.match-height
+        .panel-heading.match-height-1
           .panel-title {{tournament.name}}
         .panel-body
           .row
