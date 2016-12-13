@@ -9,10 +9,11 @@ import routes from './game.routes'
 
 export class GameComponent {
   /* @ngInject */
-  constructor ($http, $window, $timeout) {
+  constructor ($http, $window, $timeout, $state) {
     this.$http = $http
     this.$window = $window
     this.$timeout = $timeout
+    this.$state = $state
     this.games = []
     this.gamesChunk = []
   }
@@ -22,6 +23,9 @@ export class GameComponent {
       .then(response => {
         // console.log(response.data)
         this.sortGames(response.data)
+      })
+      .catch(err => {
+        this.errorHandler(err)
       })
   }
 
@@ -34,16 +38,21 @@ export class GameComponent {
       this.$window.$('.match-height').matchHeight()
     }, 250)
   }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
+  }
 }
 
 export class GameSingleComponent {
   /* @ngInject */
-  constructor ($http, $stateParams, Util, $window, $timeout) {
+  constructor ($http, $stateParams, Util, $window, $timeout, $state) {
     this.$http = $http
     this.$window = $window
     this.$timeout = $timeout
     this.$stateParams = $stateParams
     this.Util = Util
+    this.$state = $state
   }
 
   $onInit () {
@@ -59,10 +68,17 @@ export class GameSingleComponent {
           this.$window.$('.match-height-1').matchHeight()
         }, 250)
       })
+      .catch(err => {
+        this.errorHandler(err)
+      })
   }
 
   getDateTime (dateTime) {
     return new Date(dateTime).getTime()
+  }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
   }
 }
 

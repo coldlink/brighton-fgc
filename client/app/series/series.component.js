@@ -9,8 +9,9 @@ import routes from './series.routes'
 
 export class SeriesComponent {
   /* @ngInject */
-  constructor ($http) {
+  constructor ($http, $state) {
     this.$http = $http
+    this.$state = $state
     this.series = []
     this.currentSeries = []
     this.pastSeries = []
@@ -19,8 +20,11 @@ export class SeriesComponent {
   $onInit () {
     this.$http.get('/api/series')
       .then(response => {
-        //console.log(response.data)
+        // console.log(response.data)
         this.sortSeries(response.data)
+      })
+      .catch(err => {
+        this.errorHandler(err)
       })
   }
 
@@ -35,8 +39,12 @@ export class SeriesComponent {
       }
     })
 
-    //console.log(this.currentSeries)
-    //console.log(this.pastSeries)
+    // console.log(this.currentSeries)
+    // console.log(this.pastSeries)
+  }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
   }
 }
 
@@ -48,18 +56,18 @@ export class SeriesTopPlayerComponent {
   }
 
   $onInit () {
-    //console.log(this.series)
-    //console.log(this.type)
+    // console.log(this.series)
+    // console.log(this.type)
 
     if (this.type === 'all') this.limit = 16
 
     this.$http.get(`/api/scores/series/${this.type}/${this.series}`)
       .then(response => {
-        //console.log(response)
+        // console.log(response)
         this.top = response.data
       })
       .catch(err => {
-        //console.log(err)
+        this.errorHandler(err)
       })
   }
 
@@ -84,22 +92,34 @@ export class SeriesTopPlayerComponent {
     let si = _.findIndex(this.top, o => o.score === this.top[pi].score)
     return si + 1
   }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
+  }
 }
 
 export class SeriesSingleComponent {
   /* @ngInject */
-  constructor ($http, $stateParams) {
+  constructor ($http, $stateParams, $state) {
     this.$http = $http
     this.$stateParams = $stateParams
+    this.$state = $state
   }
 
   $onInit () {
-    //console.log(this.series)
+    // console.log(this.series)
     this.$http.get(`/api/series/${this.$stateParams.id}`)
       .then(response => {
-        //console.log(response)
+        // console.log(response)
         this.series = response.data
       })
+      .catch(err => {
+        this.errorHandler(err)
+      })
+  }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
   }
 }
 
@@ -113,14 +133,17 @@ export class SeriesPlayerComponent {
   }
 
   $onInit () {
-    //console.log(this.$stateParams)
+    // console.log(this.$stateParams)
     this.$http.get(`/api/series/${this.$stateParams.series_id}/player/${this.$stateParams.player_id}`)
       .then(response => {
-        //console.log(response)
+        // console.log(response)
         this.series = response.data[0]
         this.player = response.data[1]
         this.tournaments = response.data[2]
         this.score = response.data[3]
+      })
+      .catch(err => {
+        this.errorHandler(err)
       })
   }
 
@@ -134,6 +157,10 @@ export class SeriesPlayerComponent {
 
   goToTournament (id) {
     this.$state.go('tournamentSingle', {id})
+  }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
   }
 }
 

@@ -9,10 +9,11 @@ import routes from './player.routes'
 
 export class PlayerComponent {
   /* @ngInject */
-  constructor ($http, $window, $timeout) {
+  constructor ($http, $window, $timeout, $state) {
     this.$http = $http
     this.$window = $window
     this.$timeout = $timeout
+    this.$state = $state
     this.players = []
     this.playersChunk = []
   }
@@ -20,9 +21,10 @@ export class PlayerComponent {
   $onInit () {
     this.$http.get('/api/players')
       .then(response => {
-        //console.log(response.data)
+        // console.log(response.data)
         this.sortPlayers(response.data)
       })
+      .catch(err => this.errorHandler(err))
   }
 
   sortPlayers (players) {
@@ -37,6 +39,10 @@ export class PlayerComponent {
 
   getImage (player) {
     return player.image_url || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y'
+  }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
   }
 }
 

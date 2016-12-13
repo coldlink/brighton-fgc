@@ -1,6 +1,6 @@
 {
   "name": "fgc",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "main": "server/index.js",
   "dependencies": {
     "angular": "~1.5.5",

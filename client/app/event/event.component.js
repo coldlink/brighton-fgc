@@ -9,10 +9,11 @@ import routes from './event.routes'
 
 export class EventComponent {
   /* @ngInject */
-  constructor ($http, $window, $timeout) {
+  constructor ($http, $window, $timeout, $state) {
     this.$http = $http
     this.$window = $window
     this.$timeout = $timeout
+    this.$state = $state
     this.pastEvents = []
     this.pastEventsChunk = []
     this.upcomingEvents = []
@@ -22,8 +23,11 @@ export class EventComponent {
   $onInit () {
     this.$http.get('/api/events')
       .then(response => {
-        //console.log(response.data)
+        // console.log(response.data)
         this.sortEvents(response.data)
+      })
+      .catch(err => {
+        this.errorHandler(err)
       })
   }
 
@@ -47,27 +51,39 @@ export class EventComponent {
       this.$window.$('.match-height').matchHeight()
     }, 250)
   }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
+  }
 }
 
 export class EventSingleComponent {
   /* @ngInject */
-  constructor ($http, $stateParams, Util) {
+  constructor ($http, $stateParams, Util, $state) {
     this.$http = $http
     this.$stateParams = $stateParams
     this.Util = Util
+    this.$state = $state
   }
 
   $onInit () {
-    //console.log(this)
+    // console.log(this)
     this.$http.get(`/api/events/${this.$stateParams.id}`)
       .then(response => {
-        //console.log(response.data)
+        // console.log(response.data)
         this.event = response.data
+      })
+      .catch(err => {
+        this.errorHandler(err)
       })
   }
 
   getDateTime (dateTime) {
     return new Date(dateTime).getTime()
+  }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
   }
 }
 

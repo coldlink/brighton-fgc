@@ -9,10 +9,11 @@ import routes from './tournament.routes'
 
 export class TournamentComponent {
   /* @ngInject */
-  constructor ($http, $window, $timeout) {
+  constructor ($http, $window, $timeout, $state) {
     this.$http = $http
     this.$window = $window
     this.$timeout = $timeout
+    this.$state = $state
     this.pastTournaments = []
     this.pastTournamentsChunk = []
     this.upcomingTournaments = []
@@ -22,8 +23,11 @@ export class TournamentComponent {
   $onInit () {
     this.$http.get('/api/tournaments')
       .then(response => {
-        //console.log(response.data)
+        // console.log(response.data)
         this.sortTournaments(response.data)
+      })
+      .catch(err => {
+        this.errorHandler(err)
       })
   }
 
@@ -48,23 +52,31 @@ export class TournamentComponent {
       this.$window.$('.match-height-1').matchHeight()
     }, 250)
   }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
+  }
 }
 
 export class TournamentSingleComponent {
   /* @ngInject */
-  constructor ($http, $stateParams, Util, $sce) {
+  constructor ($http, $stateParams, Util, $sce, $state) {
     this.$http = $http
     this.$stateParams = $stateParams
     this.Util = Util
     this.$sce = $sce
+    this.$state = $state
   }
 
   $onInit () {
-    //console.log(this.$stateParams)
+    // console.log(this.$stateParams)
     this.$http.get(`/api/tournaments/${this.$stateParams.id}`)
       .then(response => {
-        //console.log(response.data)
+        // console.log(response.data)
         this.tournament = response.data
+      })
+      .catch(err => {
+        this.errorHandler(err)
       })
   }
 
@@ -73,9 +85,13 @@ export class TournamentSingleComponent {
   }
 
   getEmbed (url) {
-    //console.log(url)
+    // console.log(url)
     url = url.replace('http', 'https')
     return this.$sce.trustAsResourceUrl(`${url}/module?multiplier=1&match_width_multiplier=1&show_final_results=0&show_standings=1&theme=1`)
+  }
+
+  errorHandler (err) {
+    return this.$state.go('error', {error: err})
   }
 }
 
