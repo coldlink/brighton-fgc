@@ -65,7 +65,10 @@ function csvTojs(csv) {
 var playerData = csvTojs(cat('./csv/players.csv'));
 for(var i = 0; i < playerData.length; i++) {
   print(JSON.stringify(playerData[i]));
-
+  var challonge_name = playerData[i].challonge_name.split(',');
+  challonge_name.forEach(function (elem, i) {
+    challonge_name[i] = elem.trim()
+  })
   db.players.update({
     // 'name': playerData[i].name
     '_id': ObjectId(playerData[i]._id)
@@ -77,6 +80,7 @@ for(var i = 0; i < playerData.length; i++) {
       'team': playerData[i].team,
       'isStaff': playerData[i].isStaff ? true : false,
       'challonge_username': playerData[i].challonge_username,
+      'challonge_name': challonge_name,
       'twitter': playerData[i].twitter
     }
   }, {

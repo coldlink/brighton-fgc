@@ -11,6 +11,7 @@ export default function (app) {
   // Insert routes below
   app.use('/api/characters', require('./api/character'))
   app.use('/api/scores', require('./api/score'))
+  app.use('/api/matches', require('./api/match'))
   app.use('/api/games', require('./api/game'))
   app.use('/api/series', require('./api/series'))
   app.use('/api/attendance', require('./api/attendance'))

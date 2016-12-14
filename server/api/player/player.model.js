@@ -6,6 +6,7 @@ var PlayerSchema = new mongoose.Schema({
   name: String,
   handle: String,
   challonge_username: String,
+  challonge_name: [String],
   image_url: String,
   twitter: String,
   team: String,
