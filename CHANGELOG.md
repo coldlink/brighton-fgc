@@ -1,4 +1,7 @@
 #Changelog
+##0.4.2 (2016-12-14)
+  - Add event venue to events.
+
 ##0.4.1 (2016-12-14)
   - Add tournament link to single event page.
 

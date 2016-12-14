@@ -53,6 +53,13 @@
               b Event Page:
             .col-md-9.col-sm-8.text-left
               a(ng-href="{{eventSingleCtrl.event.event_url}}", title="{{eventSingleCtrl.event.namee}}").fa.fa-facebook-square.no-decoration
+          .row
+            .col-md-3.col-sm-4.text-right.hidden-xs
+              b Venue:
+            .col-xs-12.text-left.visible-xs
+              b Venue:
+            .col-md-9.col-sm-8.text-left
+              a(ng-href="{{eventSingleCtrl.event.venue.link}}", title="{{eventSingleCtrl.event.venue.name}}").no-decoration {{eventSingleCtrl.event.venue.name}}
   .row
     div(ng-class='eventSingleCtrl.event.tournaments.length > 1 ? "col-sm-6" : "col-xs-12"', ng-repeat='tournament in eventSingleCtrl.event.tournaments')
       .panel.panel-primary
