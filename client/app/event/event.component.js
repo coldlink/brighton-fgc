@@ -76,6 +76,15 @@ export class EventSingleComponent {
       .catch(err => {
         this.errorHandler(err)
       })
+
+    this.$http.get(`/api/games/names`)
+      .then(response => {
+        console.log(response)
+        this.games = response.data
+      })
+      .catch(err => {
+        this.errorHandler(err)
+      })
   }
 
   getDateTime (dateTime) {
@@ -84,6 +93,13 @@ export class EventSingleComponent {
 
   errorHandler (err) {
     return this.$state.go('error', {error: err})
+  }
+
+  getName (id) {
+    console.log(id)
+    let game = _.find(this.games, o => o._id === id)
+    console.log(game)
+    return game ? game.name : 'Game'
   }
 }
 

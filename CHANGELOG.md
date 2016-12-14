@@ -1,4 +1,7 @@
 #Changelog
+##0.4.1 (2016-12-14)
+  - Add tournament link to single event page.
+
 ##0.4.0 (2016-12-14)
   - Add caching to speed up request.
 

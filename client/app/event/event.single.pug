@@ -112,10 +112,16 @@
               b Game
           .row
             .col-xs-12
-              a(ui-sref='gameSingle({id: tournament.game})').no-decoration Game
+              a(ui-sref='gameSingle({id: tournament.game})').no-decoration {{eventSingleCtrl.getName(tournament.game)}}
           .row
             .col-xs-12
               b Bracket URL
           .row
             .col-xs-12
               a(ng-href='{{tournament.bracket_url}}', title='Bracket', target='_blank').fa.fa-code-fork.no-decoration
+          .row
+            .col-xs-12
+              br
+          .row
+            .col-xs-12
+              a(ui-sref='tournamentSingle({id: tournament._id})', title='More Tournament Information').btn.btn-primary More Tournament Information

@@ -80,6 +80,16 @@ export function show (req, res) {
     .catch(handleError(res))
 }
 
+export function getName (req, res) {
+  return Game
+    .find()
+    .select('_id name')
+    .exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res))
+}
+
 // Creates a new Game in the DB
 export function create (req, res) {
   return Game.create(req.body)
