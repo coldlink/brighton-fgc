@@ -551,7 +551,8 @@ gulp.task('copy:assets', () => {
 
 gulp.task('copy:server', () => {
     return gulp.src([
-        'package.json'
+        'package.json',
+        'ecosystem.config.js'
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
 });

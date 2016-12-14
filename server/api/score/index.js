@@ -3,13 +3,14 @@
 var express = require('express')
 var controller = require('./score.controller')
 const auth = require('../../auth/auth.service')
+const cache = require('express-redis-cache')({ expire: 60 * 60 * 1 })
 
 var router = express.Router()
 
-router.get('/', controller.index)
-router.get('/:id', controller.show)
-router.get('/series/top/:_id', controller.topBySeries)
-router.get('/series/all/:_id', controller.allBySeries)
+router.get('/', cache.route(), controller.index)
+router.get('/:id', cache.route(), controller.show)
+router.get('/series/top/:_id', cache.route(), controller.topBySeries)
+router.get('/series/all/:_id', cache.route(), controller.allBySeries)
 router.post('/', auth.hasRole('admin'), controller.create)
 router.put('/:id', auth.hasRole('admin'), controller.upsert)
 router.patch('/:id', auth.hasRole('admin'), controller.patch)

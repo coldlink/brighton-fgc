@@ -1,4 +1,7 @@
 #Changelog
+##0.4.0 (2016-12-14)
+  - Add caching to speed up request.
+
 ##0.3.3 (2016-12-14)
   - Move hosting to DigitalOcean
 
