@@ -1,4 +1,7 @@
 #Changelog
+##0.3.3 (2016-12-14)
+  - Move hosting to DigitalOcean
+
 ##0.3.2 (2016-12-13)
   - Add optimize-js to webpack config
 
