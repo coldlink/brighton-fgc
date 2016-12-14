@@ -1,4 +1,6 @@
 #Changelog
+##0.3.2 (2016-12-13)
+  - Add optimize-js to webpack config
 
 ##0.3.1 (2016-12-13)
   - Add changelog
