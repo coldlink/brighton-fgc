@@ -11,7 +11,7 @@
 'use strict'
 
 import jsonpatch from 'fast-json-patch'
-import Score from './score.model'
+import Match from './match.model'
 import Tournament from '../tournament/tournament.model'
 import mongoose from 'mongoose'
 import _ from 'lodash'
@@ -66,54 +66,54 @@ function handleError (res, statusCode) {
   }
 }
 
-// Gets a list of Scores
+// Gets a list of Matchs
 export function index (req, res) {
-  return Score.find().exec()
+  return Match.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res))
 }
 
-// Gets a single Score from the DB
+// Gets a single Match from the DB
 export function show (req, res) {
-  return Score.findById(req.params.id).exec()
+  return Match.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res))
 }
 
-// Creates a new Score in the DB
+// Creates a new Match in the DB
 export function create (req, res) {
-  return Score.create(req.body)
+  return Match.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res))
 }
 
-// Upserts the given Score in the DB at the specified ID
+// Upserts the given Match in the DB at the specified ID
 export function upsert (req, res) {
   if (req.body._id) {
     delete req.body._id
   }
-  return Score.findOneAndUpdate({ _id: req.params.id }, req.body, { upsert: true, setDefaultsOnInsert: true, runValidators: true }).exec()
+  return Match.findOneAndUpdate({ _id: req.params.id }, req.body, { upsert: true, setDefaultsOnInsert: true, runValidators: true }).exec()
 
     .then(respondWithResult(res))
     .catch(handleError(res))
 }
 
-// Updates an existing Score in the DB
+// Updates an existing Match in the DB
 export function patch (req, res) {
   if (req.body._id) {
     delete req.body._id
   }
-  return Score.findById(req.params.id).exec()
+  return Match.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(patchUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res))
 }
 
-// Deletes a Score from the DB
+// Deletes a Match from the DB
 export function destroy (req, res) {
-  return Score.findById(req.params.id).exec()
+  return Match.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res))
