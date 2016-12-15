@@ -41,7 +41,7 @@ angular.module('fgcApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstr
   admin, navbar, footer, main, constants, util, SeriesComponent, TournamentComponent, PlayerComponent, GameComponent, EventComponent, InfoComponent, StreamComponent, ErrorComponent
 ])
   .config(routeConfig)
-  .run(function ($rootScope, $location, Auth) {
+  .run(function ($rootScope, $location, Auth, $window) {
     'ngInject'
 
     window.$ = jQuery
@@ -54,6 +54,10 @@ angular.module('fgcApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstr
           $location.path('/login')
         }
       })
+    })
+
+    $rootScope.$on('$stateChangeSuccess', function () {
+      $window.dataLayer.push({event: 'dynamicPageView'})
     })
   })
 
