@@ -1,4 +1,7 @@
 #Changelog
+##0.4.3 (2016-12-14)
+  - Dynamic Page View event push to GTM on state change success.
+
 ##0.4.2 (2016-12-14)
   - Add event venue to events.
 
