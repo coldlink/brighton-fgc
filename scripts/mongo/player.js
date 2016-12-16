@@ -69,12 +69,15 @@ for(var i = 0; i < playerData.length; i++) {
   challonge_name.forEach(function (elem, i) {
     challonge_name[i] = elem.trim()
   })
+
+  var id = playerData[i]._id ? ObjectId(playerData[i]._id) : new ObjectId()
+
   db.players.update({
     // 'name': playerData[i].name
-    '_id': ObjectId(playerData[i]._id)
+    '_id': id
   }, {
     '$set': {
-      '_id': ObjectId(playerData[i]._id),
+      '_id': id,
       'name': playerData[i].name,
       'handle': playerData[i].handle,
       'team': playerData[i].team,
