@@ -1,4 +1,7 @@
 #Changelog
+##0.5.0 (2016-12-17)
+  - Add statistics to series player pages
+  
 ##0.4.3 (2016-12-15)
   - Dynamic Page View event push to GTM on state change success.
   - Fix issue with new match model
