@@ -14,4 +14,7 @@ router.put('/:id', auth.hasRole('admin'), controller.upsert)
 router.patch('/:id', auth.hasRole('admin'), controller.patch)
 router.delete('/:id', auth.hasRole('admin'), controller.destroy)
 
+router.get('/:id/statistics', controller.statistics)
+router.get('/:id/statistics/:type/:typeId', controller.statisticsExtra)
+
 module.exports = router

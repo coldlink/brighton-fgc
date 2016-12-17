@@ -12,6 +12,10 @@
 
 import jsonpatch from 'fast-json-patch'
 import Player from './player.model'
+import Match from '../match/match.model'
+import Tournament from '../tournament/tournament.model'
+import mongoose from 'mongoose'
+import _ from 'lodash'
 
 function respondWithResult (res, statusCode) {
   statusCode = statusCode || 200
@@ -90,7 +94,7 @@ export function upsert (req, res) {
   if (req.body._id) {
     delete req.body._id
   }
-  return Player.findOneAndUpdate({_id: req.params.id}, req.body, {upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+  return Player.findOneAndUpdate({ _id: req.params.id }, req.body, { upsert: true, setDefaultsOnInsert: true, runValidators: true }).exec()
 
     .then(respondWithResult(res))
     .catch(handleError(res))
@@ -113,5 +117,177 @@ export function destroy (req, res) {
   return Player.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
+    .catch(handleError(res))
+}
+
+export function statistics (req, res) {
+  let matchAgg = Match
+    .aggregate([{
+      $match: {
+        $or: [{
+          _player1Id: mongoose.Types.ObjectId(req.params.id)
+        }, {
+          _player2Id: mongoose.Types.ObjectId(req.params.id)
+        }]
+      }
+    }, {
+      $project: {
+        _id: 1,
+        _tournamentId: 1,
+        _player1Id: 1,
+        _player2Id: 1,
+        _winnerId: 1,
+        _loserId: 1,
+        score: 1,
+        round: 1
+      }
+    }])
+    .exec()
+
+  matchAgg
+    .then(datas => getStats(req, res, datas))
+    .catch(handleError(res))
+}
+
+export function statisticsExtra (req, res) {
+  // req.params.type - series/game
+  if (!req.params.type || (req.params.type !== 'series' && req.params.type !== 'game')) {
+    return res.status(422).send('Validation Error')
+  }
+
+  if (req.params.type && !req.params.typeId) return res.status(422).send('Validation Error')
+
+  // get tournaments by name or series
+  let tournamentQuery = Tournament
+    .find({
+      [req.params.type]: mongoose.Types.ObjectId(req.params.typeId)
+    }, '_id')
+    .exec()
+
+  tournamentQuery
+    .then(tournaments => {
+      tournaments = _.map(tournaments, '_id')
+      let matchAgg = Match
+        .aggregate([{
+          $match: {
+            _tournamentId: {
+              $in: tournaments
+            },
+            $or: [{
+              _player1Id: mongoose.Types.ObjectId(req.params.id)
+            }, {
+              _player2Id: mongoose.Types.ObjectId(req.params.id)
+            }]
+          }
+        }, {
+          $project: {
+            _id: 1,
+            _tournamentId: 1,
+            _player1Id: 1,
+            _player2Id: 1,
+            _winnerId: 1,
+            _loserId: 1,
+            score: 1,
+            round: 1
+          }
+        }])
+        .exec()
+
+      matchAgg
+        .then(datas => getStats(req, res, datas))
+        .catch(handleError(res))
+    })
+    .catch(handleError(res))
+}
+
+const getStats = (req, res, datas) => {
+  if (!datas || !datas.length) return res.status(404).send('Not Found')
+  // console.log(datas)
+  let proms = []
+
+  // calculate total matches
+  proms.push(new Promise((resolve, reject) => {
+    resolve(datas.length)
+  }))
+
+  // calculate matches won
+  proms.push(new Promise((resolve, reject) => {
+    resolve(_.groupBy(datas, '_winnerId')[req.params.id].length)
+  }))
+
+  // calculate matches lost
+  proms.push(new Promise((resolve, reject) => {
+    resolve(_.groupBy(datas, '_loserId')[req.params.id].length)
+  }))
+
+  // calculate games
+  proms.push(new Promise((resolve, reject) => {
+    let games = {
+      played: 0,
+      win: 0
+    }
+    _.each(datas, match => {
+      let player
+      if (match._player1Id.toString() === req.params.id) {
+        player = 1
+      } else {
+        player = 2
+      }
+
+      _.each(match.score, score => {
+        games.played += Number(score.p1) + Number(score.p2)
+        if (player === 1) games.win += Number(score.p1)
+        else games.win += Number(score.p2)
+      })
+    })
+    games.loss = games.played - games.win
+    games.winRate = games.win / games.played * 100
+    resolve(games)
+  }))
+
+  // get player info
+  proms.push(new Promise((resolve, reject) => {
+    let query = Player
+      .findById(req.params.id, '-name')
+      .exec()
+
+    query
+      .then(player => {
+        if (!player) return reject('Not Found')
+        resolve(player)
+      })
+      .catch(err => reject(err))
+  }))
+
+  // meta information
+  proms.push(new Promise((resolve, reject) => {
+    let meta = {
+      playerId: req.params.id
+    }
+
+    if (req.params.type && req.params.typeId) {
+      meta.type = req.params.type
+      meta.typeId = req.params.typeId
+    }
+
+    resolve(meta)
+  }))
+
+  Promise
+    .all(proms)
+    .then(values => {
+      let resObj = {
+        matches: {
+          played: values[0],
+          win: values[1],
+          loss: values[2],
+          winRate: values[1] / values[0] * 100
+        },
+        games: values[3],
+        player: values[values.length - 2],
+        meta: values[values.length - 1]
+      }
+      return res.status(200).json(resObj)
+    })
     .catch(handleError(res))
 }
