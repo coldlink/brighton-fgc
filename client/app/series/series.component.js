@@ -44,7 +44,7 @@ export class SeriesComponent {
   }
 
   errorHandler (err) {
-    return this.$state.go('error', {error: err})
+    return this.$state.go('error', { error: err })
   }
 }
 
@@ -94,7 +94,7 @@ export class SeriesTopPlayerComponent {
   }
 
   errorHandler (err) {
-    return this.$state.go('error', {error: err})
+    return this.$state.go('error', { error: err })
   }
 }
 
@@ -119,7 +119,7 @@ export class SeriesSingleComponent {
   }
 
   errorHandler (err) {
-    return this.$state.go('error', {error: err})
+    return this.$state.go('error', { error: err })
   }
 }
 
@@ -145,6 +145,15 @@ export class SeriesPlayerComponent {
       .catch(err => {
         this.errorHandler(err)
       })
+
+    this.$http.get(`/api/players/${this.$stateParams.player_id}/statistics/series/${this.$stateParams.series_id}`)
+      .then(response => {
+        console.log(response)
+        this.statistics = response.data
+      })
+      .catch(err => {
+        this.errorHandler(err)
+      })
   }
 
   showAll () {
@@ -156,11 +165,11 @@ export class SeriesPlayerComponent {
   }
 
   goToTournament (id) {
-    this.$state.go('tournamentSingle', {id})
+    this.$state.go('tournamentSingle', { id })
   }
 
   errorHandler (err) {
-    return this.$state.go('error', {error: err})
+    return this.$state.go('error', { error: err })
   }
 }
 

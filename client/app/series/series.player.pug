@@ -38,3 +38,55 @@
                 br
                 button.btn.btn-primary(ng-if='seriesPlayerCtrl.limit === 5', ng-click='seriesPlayerCtrl.showAll()') Show All
                 button.btn.btn-primary(ng-if='seriesPlayerCtrl.limit === seriesPlayerCtrl.tournaments.length', ng-click='seriesPlayerCtrl.showLess()') Show Less
+  .row
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title
+            h4 Statistics
+        .panel-body
+          .row.text-center
+            .col-sm-6
+              .row
+                .col-xs-12
+                  h4 Matches
+              .row
+                .col-xs-12
+                  h3 {{seriesPlayerCtrl.statistics.matches.winRate | number:1}}%
+                    br
+                    small Win Rate
+              .row
+                .col-xs-4
+                  h4 {{seriesPlayerCtrl.statistics.matches.played | number:0}}
+                    br
+                    small Played
+                .col-xs-4
+                  h4 {{seriesPlayerCtrl.statistics.matches.win | number:0}}
+                    br
+                    small Wins
+                .col-xs-4
+                  h4 {{seriesPlayerCtrl.statistics.matches.loss | number:0}}
+                    br
+                    small Losses
+            .col-sm-6
+              .row
+                .col-xs-12
+                  h4 Games
+              .row
+                .col-xs-12
+                  h3 {{seriesPlayerCtrl.statistics.games.winRate | number:1}}%
+                    br
+                    small Win Rate
+              .row
+                .col-xs-4
+                  h4 {{seriesPlayerCtrl.statistics.games.played | number:0}}
+                    br
+                    small Played
+                .col-xs-4
+                  h4 {{seriesPlayerCtrl.statistics.games.win | number:0}}
+                    br
+                    small Wins
+                .col-xs-4
+                  h4 {{seriesPlayerCtrl.statistics.games.loss | number:0}}
+                    br
+                    small Losses
