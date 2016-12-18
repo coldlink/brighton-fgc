@@ -139,7 +139,8 @@ export function statistics (req, res) {
         _winnerId: 1,
         _loserId: 1,
         score: 1,
-        round: 1
+        round: 1,
+        completed_at: '$challonge_match_obj.completed_at'
       }
     }])
     .exec()
@@ -188,7 +189,8 @@ export function statisticsExtra (req, res) {
             _winnerId: 1,
             _loserId: 1,
             score: 1,
-            round: 1
+            round: 1,
+            completed_at: '$challonge_match_obj.completed_at'
           }
         }])
         .exec()
@@ -202,7 +204,9 @@ export function statisticsExtra (req, res) {
 
 const getStats = (req, res, datas) => {
   if (!datas || !datas.length) return res.status(404).send('Not Found')
-  // console.log(datas)
+  // sort by date
+  datas = _.reverse(_.sortBy(datas, o => new Date(o.completed_at)))
+
   let proms = []
 
   // calculate total matches
@@ -245,6 +249,57 @@ const getStats = (req, res, datas) => {
     resolve(games)
   }))
 
+  // get last 3 matches
+  proms.push(new Promise((resolve, reject) => {
+    let oppProms = []
+
+    _.each(_.slice(datas, 0, 3), match => {
+      oppProms.push(new Promise((resolve, reject) => {
+        let opp
+        if (match._player1Id.toString() === req.params.id) opp = 2
+        else opp = 1
+
+        let oppQuery = Player
+          .findById(match[`_player${opp}Id`], '_id handle')
+          .exec()
+
+        oppQuery
+          .then(opponent => {
+            let isWinner
+            if (match._winnerId.toString() === req.params.id) isWinner = true
+            else isWinner = false
+
+            let playerScr = []
+            let opponentScr = []
+
+            _.each(match.score, score => {
+              if (opp === 2) {
+                playerScr.push(Number(score.p1))
+                opponentScr.push(Number(score.p2))
+              } else {
+                playerScr.push(Number(score.p2))
+                opponentScr.push(Number(score.p1))
+              }
+            })
+
+            resolve({
+              isWinner,
+              playerScr,
+              opponentScr,
+              opponent,
+              completed_at: new Date(match.completed_at).getTime()
+            })
+          })
+          .catch(err => reject(err))
+      }))
+    })
+
+    Promise
+      .all(oppProms)
+      .then(values => resolve(values))
+      .catch(err => reject(err))
+  }))
+
   // get player info
   proms.push(new Promise((resolve, reject) => {
     let query = Player
@@ -284,6 +339,7 @@ const getStats = (req, res, datas) => {
           winRate: values[1] / values[0] * 100
         },
         games: values[3],
+        latestMatches: values[4],
         player: values[values.length - 2],
         meta: values[values.length - 1]
       }

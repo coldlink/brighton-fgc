@@ -49,7 +49,7 @@
             .col-sm-6
               .row
                 .col-xs-12
-                  h4 Matches
+                  h3 Matches
               .row
                 .col-xs-12
                   h3 {{seriesPlayerCtrl.statistics.matches.winRate | number:1}}%
@@ -71,7 +71,7 @@
             .col-sm-6
               .row
                 .col-xs-12
-                  h4 Games
+                  h3 Games
               .row
                 .col-xs-12
                   h3 {{seriesPlayerCtrl.statistics.games.winRate | number:1}}%
@@ -90,3 +90,23 @@
                   h4 {{seriesPlayerCtrl.statistics.games.loss | number:0}}
                     br
                     small Losses
+          .row.text-center
+            .col-xs-12
+              h3 Last {{seriesPlayerCtrl.statistics.latestMatches.length}} Matches
+            .col-sm-4(ng-repeat='match in seriesPlayerCtrl.statistics.latestMatches')
+              .row
+                .col-xs-12
+                  h4 {{match.isWinner ? 'Win' : 'Lose'}}
+              .row(ng-repeat='playerScr in match.playerScr')
+                .col-xs-6
+                  h5 {{playerScr}}
+                .col-xs-6
+                  h5 {{match.opponentScr[$index]}}
+              .row
+                .col-xs-6
+                  h5 {{seriesPlayerCtrl.player.handle}}
+                .col-xs-6
+                  h5 {{match.opponent.handle}}
+              .row
+                .col-xs-12
+                  p {{match.completed_at | date: 'medium'}}
