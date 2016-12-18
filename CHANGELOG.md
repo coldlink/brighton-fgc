@@ -1,4 +1,7 @@
 #Changelog
+##0.5.1
+  - Add last 3 matches to player statistics
+
 ##0.5.0 (2016-12-17)
   - Add statistics to series player pages
   
