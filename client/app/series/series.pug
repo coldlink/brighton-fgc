@@ -1,9 +1,9 @@
 .container
   .row
-    .col-xs-12
+    .col-xs-12.page-header
       h1 Series
   .row
-    .col-xs-12
+    .col-xs-12.page-header
       h3 Current Series
   .row(ng-repeat='series in seriesCtrl.currentSeries')
     .col-xs-12
@@ -42,7 +42,7 @@
           .col-xs-12
             br
   .row
-    .col-xs-12
+    .col-xs-12.page-header
       h3 Past Series
   .row(ng-repeat='series in seriesCtrl.pastSeries')
     .col-xs-12

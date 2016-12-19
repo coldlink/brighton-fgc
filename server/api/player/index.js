@@ -17,4 +17,7 @@ router.delete('/:id', auth.hasRole('admin'), controller.destroy)
 router.get('/:id/statistics', controller.statistics)
 router.get('/:id/statistics/:type/:typeId', controller.statisticsExtra)
 
+router.get('/:playerId/vs/:opponentId', controller.headToHead)
+router.get('/:playerId/vs/:opponentId/:type/:typeId', controller.headToHeadExtra)
+
 module.exports = router

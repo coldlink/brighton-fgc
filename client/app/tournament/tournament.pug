@@ -1,9 +1,9 @@
 .container
   .row
-    .col-xs-12
+    .col-xs-12.page-header
       h1 Tournaments
   .row
-    .col-xs-12
+    .col-xs-12.page-header
       h3 Upcoming Tournaments
   .row(ng-repeat='chunk in tournamentCtrl.upcomingTournamentsChunk')
     .col-sm-4(ng-repeat='tournament in chunk')
@@ -18,7 +18,7 @@
             a(ui-sref='tournamentSingle({id: tournament._id})').btn.btn-primary More Info
             a(ng-href='{{tournament.bracket_url}}', title='{{tournament.name}}', target='_blank').btn.btn-primary Bracket
   .row
-    .col-xs-12
+    .col-xs-12.page-header
       h3 Past Tournaments
   .row(ng-repeat='chunk in tournamentCtrl.pastTournamentsChunk')
     .col-sm-4(ng-repeat='tournament in chunk')

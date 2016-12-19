@@ -1,5 +1,8 @@
 #Changelog
-##0.5.1
+##0.5.2 (2016-12-19)
+  - Add head to head statistics api route
+
+##0.5.1 (2016-12-18)
   - Add last 3 matches to player statistics
 
 ##0.5.0 (2016-12-17)

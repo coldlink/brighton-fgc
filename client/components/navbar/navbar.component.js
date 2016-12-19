@@ -31,6 +31,9 @@ export class NavbarComponent {
       title: 'Games',
       state: 'game'
     }, {
+      title: 'Statistics',
+      state: 'statistics'
+    }, {
       title: 'Stream',
       state: 'stream'
     }]

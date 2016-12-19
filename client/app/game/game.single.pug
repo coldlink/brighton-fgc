@@ -1,7 +1,9 @@
 .container
   .row
-    .col-xs-12
+    .col-xs-12.page-header
       h1 Game
+  .row
+    .col-xs-12.page-header
       h2 {{gameSingleCtrl.game.name}}
   .row
     .col-xs-12
@@ -27,7 +29,7 @@
             .col-xs-12
               p More information coming soon!
   .row
-    .col-xs-12
+    .col-xs-12.page-header
       h3 Tournaments
   .row
     div(ng-class='gameSingleCtrl.game.tournaments.length > 1 ? "col-sm-6" : "col-xs-12"', ng-repeat='tournament in gameSingleCtrl.game.tournaments')

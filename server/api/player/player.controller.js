@@ -330,20 +330,258 @@ const getStats = (req, res, datas) => {
 
   Promise
     .all(proms)
-    .then(values => {
-      let resObj = {
-        matches: {
-          played: values[0],
-          win: values[1],
-          loss: values[2],
-          winRate: values[1] / values[0] * 100
-        },
-        games: values[3],
-        latestMatches: values[4],
-        player: values[values.length - 2],
-        meta: values[values.length - 1]
+    .then(values => res.status(200).json({
+      matches: {
+        played: values[0],
+        win: values[1],
+        loss: values[2],
+        winRate: values[1] / values[0] * 100
+      },
+      games: values[3],
+      latestMatches: values[4],
+      player: values[values.length - 2],
+      meta: values[values.length - 1]
+    }))
+    .catch(handleError(res))
+}
+
+export function headToHead (req, res) {
+  if (!req.params.playerId || !req.params.opponentId) return res.status(422).send('Validation Error')
+
+  let matchQuery = Match
+    .aggregate([{
+      $match: {
+        $or: [{
+          _player1Id: mongoose.Types.ObjectId(req.params.playerId),
+          _player2Id: mongoose.Types.ObjectId(req.params.opponentId)
+        }, {
+          _player1Id: mongoose.Types.ObjectId(req.params.opponentId),
+          _player2Id: mongoose.Types.ObjectId(req.params.playerId)
+        }]
       }
-      return res.status(200).json(resObj)
+    }, {
+      $project: {
+        _id: 1,
+        _tournamentId: 1,
+        _player1Id: 1,
+        _player2Id: 1,
+        _winnerId: 1,
+        _loserId: 1,
+        score: 1,
+        round: 1,
+        completed_at: '$challonge_match_obj.completed_at'
+      }
+    }])
+
+  matchQuery
+    .then(datas => getHeadToHead(req, res, datas))
+    .catch(handleError(res))
+}
+
+export function headToHeadExtra (req, res) {
+  if (!req.params.playerId || !req.params.opponentId) return res.status(422).send('Validation Error')
+
+  if (!req.params.type || (req.params.type !== 'series' && req.params.type !== 'game')) {
+    return res.status(422).send('Validation Error')
+  }
+
+  if (req.params.type && !req.params.typeId) return res.status(422).send('Validation Error')
+
+  // get tournaments by name or series
+  let tournamentQuery = Tournament
+    .find({
+      [req.params.type]: mongoose.Types.ObjectId(req.params.typeId)
+    }, '_id')
+    .exec()
+
+  tournamentQuery
+    .then(tournaments => {
+      tournaments = _.map(tournaments, '_id')
+
+      let matchQuery = Match
+        .aggregate([{
+          $match: {
+            _tournamentId: {
+              $in: tournaments
+            },
+            $or: [{
+              _player1Id: mongoose.Types.ObjectId(req.params.playerId),
+              _player2Id: mongoose.Types.ObjectId(req.params.opponentId)
+            }, {
+              _player1Id: mongoose.Types.ObjectId(req.params.opponentId),
+              _player2Id: mongoose.Types.ObjectId(req.params.playerId)
+            }]
+          }
+        }, {
+          $project: {
+            _id: 1,
+            _tournamentId: 1,
+            _player1Id: 1,
+            _player2Id: 1,
+            _winnerId: 1,
+            _loserId: 1,
+            score: 1,
+            round: 1,
+            completed_at: '$challonge_match_obj.completed_at'
+          }
+        }])
+
+      matchQuery
+        .then(datas => getHeadToHead(req, res, datas))
+        .catch(handleError(res))
     })
+    .catch(handleError(res))
+}
+
+const getHeadToHead = (req, res, datas) => {
+  if (!datas || !datas.length) return res.status(404).send('Not Found')
+
+  // sort by date
+  datas = _.reverse(_.sortBy(datas, o => new Date(o.completed_at)))
+
+  let proms = []
+
+  // calculate total matches
+  proms.push(new Promise((resolve, reject) => {
+    resolve(datas.length)
+  }))
+
+  // calculate player matches won
+  proms.push(new Promise((resolve, reject) => {
+    resolve(_.groupBy(datas, '_winnerId')[req.params.playerId].length)
+  }))
+
+  // calculate opponent matches won
+  proms.push(new Promise((resolve, reject) => {
+    resolve(_.groupBy(datas, '_winnerId')[req.params.opponentId].length)
+  }))
+
+  // calculate games
+  proms.push(new Promise((resolve, reject) => {
+    let games = {
+      played: 0,
+      playerWin: 0
+    }
+    _.each(datas, match => {
+      let player
+      if (match._player1Id.toString() === req.params.id) {
+        player = 1
+      } else {
+        player = 2
+      }
+
+      _.each(match.score, score => {
+        games.played += Number(score.p1) + Number(score.p2)
+        if (player === 1) games.playerWin += Number(score.p1)
+        else games.playerWin += Number(score.p2)
+      })
+    })
+    games.opponentWin = games.played - games.playerWin
+    games.playerWinRate = games.playerWin / games.played * 100
+    games.opponentWinRate = games.opponentWin / games.played * 100
+    resolve(games)
+  }))
+
+  // last 3 matches
+  proms.push(new Promise((resolve, reject) => {
+    let oppProms = []
+
+    _.each(_.slice(datas, 0, 3), match => {
+      oppProms.push(new Promise((resolve, reject) => {
+        let opp
+        if (match._player1Id.toString() === req.params.playerId) opp = 2
+        else opp = 1
+
+        let isWinner
+        if (match._winnerId.toString() === req.params.playerId) isWinner = true
+        else isWinner = false
+
+        let playerScr = []
+        let opponentScr = []
+
+        _.each(match.score, score => {
+          if (opp === 2) {
+            playerScr.push(Number(score.p1))
+            opponentScr.push(Number(score.p2))
+          } else {
+            playerScr.push(Number(score.p2))
+            opponentScr.push(Number(score.p1))
+          }
+        })
+
+        resolve({
+          isWinner,
+          playerScr,
+          opponentScr,
+          completed_at: new Date(match.completed_at).getTime()
+        })
+      }))
+    })
+
+    Promise
+      .all(oppProms)
+      .then(values => resolve(values))
+      .catch(err => reject(err))
+  }))
+
+  // get player info
+  proms.push(new Promise((resolve, reject) => {
+    let query = Player
+      .findById(req.params.playerId, '-name')
+      .exec()
+
+    query
+      .then(player => {
+        if (!player) return reject('Not Found')
+        resolve(player)
+      })
+      .catch(err => reject(err))
+  }))
+
+  // get opponent info
+  proms.push(new Promise((resolve, reject) => {
+    let query = Player
+      .findById(req.params.opponentId, '-name')
+      .exec()
+
+    query
+      .then(player => {
+        if (!player) return reject('Not Found')
+        resolve(player)
+      })
+      .catch(err => reject(err))
+  }))
+
+  // meta information
+  proms.push(new Promise((resolve, reject) => {
+    let meta = {
+      playerId: req.params.playerId,
+      opponentId: req.params.opponentId
+    }
+
+    if (req.params.type && req.params.typeId) {
+      meta.type = req.params.type
+      meta.typeId = req.params.typeId
+    }
+
+    resolve(meta)
+  }))
+
+  Promise
+    .all(proms)
+    .then(values => res.status(200).json({
+      matches: {
+        played: values[0],
+        playerWin: values[1],
+        opponentWin: values[2],
+        playerWinRate: values[1] / values[0] * 100,
+        opponentWinRate: values[2] / values[0] * 100
+      },
+      games: values[3],
+      latestMatches: values[4],
+      player: values[values.length - 3],
+      opponent: values[values.length - 2],
+      meta: values[values.length - 1]
+    }))
     .catch(handleError(res))
 }
