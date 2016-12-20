@@ -8,6 +8,7 @@ const cache = require('express-redis-cache')({ expire: 60 * 60 * 1 })
 var router = express.Router()
 
 router.get('/', cache.route(), controller.index)
+router.get('/min', cache.route(), controller.indexMin)
 router.get('/names', cache.route(), controller.getName)
 router.get('/:id', cache.route(), controller.show)
 router.post('/', auth.hasRole('admin'), controller.create)

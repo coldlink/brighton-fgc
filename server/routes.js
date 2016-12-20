@@ -19,6 +19,7 @@ export default function (app) {
   app.use('/api/events', require('./api/event'))
   app.use('/api/players', require('./api/player'))
   app.use('/api/users', require('./api/user'))
+  app.use('/api/statistics', require('./api/statistics'))
 
   app.use('/auth', require('./auth').default)
 

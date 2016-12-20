@@ -70,6 +70,12 @@ export function index (req, res) {
     .catch(handleError(res))
 }
 
+export function indexMin (req, res) {
+  return Game.find({}, '_id name').exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res))
+}
+
 // Gets a single Game from the DB
 export function show (req, res) {
   return Game.findById(req.params.id)

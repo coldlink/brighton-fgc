@@ -63,6 +63,7 @@ function handleEntityNotFound (res) {
 function handleError (res, statusCode) {
   statusCode = statusCode || 500
   return function (err) {
+    console.log(err)
     res.status(statusCode).send(err)
   }
 }
@@ -70,6 +71,12 @@ function handleError (res, statusCode) {
 // Gets a list of Players
 export function index (req, res) {
   return Player.find({}, '-name').exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res))
+}
+
+export function indexMin (req, res) {
+  return Player.find({}, '_id handle').exec()
     .then(respondWithResult(res))
     .catch(handleError(res))
 }
@@ -448,12 +455,14 @@ const getHeadToHead = (req, res, datas) => {
 
   // calculate player matches won
   proms.push(new Promise((resolve, reject) => {
-    resolve(_.groupBy(datas, '_winnerId')[req.params.playerId].length)
+    let matches = _.groupBy(datas, '_winnerId')[req.params.playerId]
+    resolve(matches ? matches.length : 0)
   }))
 
   // calculate opponent matches won
   proms.push(new Promise((resolve, reject) => {
-    resolve(_.groupBy(datas, '_winnerId')[req.params.opponentId].length)
+    let matches = _.groupBy(datas, '_winnerId')[req.params.opponentId]
+    resolve(matches ? matches.length : 0)
   }))
 
   // calculate games

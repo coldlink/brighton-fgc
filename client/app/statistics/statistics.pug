@@ -3,54 +3,52 @@
     .col-xs-12.page-header
       h1 Statistics
   .row
-    .col-sm-4
+    .col-sm-3.col-xs-6
       .panel.panel-primary
         .panel-body.text-center
-          h2 1000
+          h2 {{statisticsCtrl.statistics[0]}}
             br
             small Tournaments
-    .col-sm-4
+    .col-sm-3.col-xs-6
       .panel.panel-primary
         .panel-body.text-center
-          h2 1000
+          h2 {{statisticsCtrl.statistics[1]}}
             br
             small Events
-    .col-sm-4
+    .col-sm-3.col-xs-6
       .panel.panel-primary
         .panel-body.text-center
-          h2 1000
+          h2 {{statisticsCtrl.statistics[2]}}
             br
             small Players
-  .row
-    .col-xs-6
+    .col-sm-3.col-xs-6
       .panel.panel-primary
         .panel-body.text-center
-          h2 1000
+          h2 {{statisticsCtrl.statistics[3]}}
             br
             small Matches
-    .col-xs-6
-      .panel.panel-primary
-        .panel-body.text-center
-          h2 1000
-            br
-            small Games
   .row
     .col-xs-12.page-header
       h3 Head To Head
   .row
     .col-xs-4.form-group
       label Player 1
-      select.form-control
+      select.form-control(ng-model='statisticsCtrl.player1', ng-change='statisticsCtrl.changeHeadToHead()')
         option(value='') Select Player...
+        option(ng-repeat='player in statisticsCtrl.players', value='{{player._id}}') {{player.handle}}
     .col-xs-4.form-group
       label Player 2
-      select.form-control
+      select.form-control(ng-model='statisticsCtrl.player2', ng-change='statisticsCtrl.changeHeadToHead()')
         option(value='') Select Player...
+        option(ng-repeat='player in statisticsCtrl.players', value='{{player._id}}') {{player.handle}}
     .col-xs-4.form-group
       label Games
-      select.form-control
+      select.form-control(ng-model='statisticsCtrl.game', ng-change='statisticsCtrl.changeHeadToHead()')
         option(value='') Select Game...
-  .panel.panel-primary
+        option(ng-repeat='game in statisticsCtrl.games', value='{{game._id}}') {{game.name}}
+  .panel.panel-primary(ng-if='statisticsCtrl.headToHead')
+    .panel-heading
+      .panel-title {{statisticsCtrl.headToHead.player.handle}} vs {{statisticsCtrl.headToHead.opponent.handle}}
     .panel-body
       .row.text-center
         .col-sm-6
@@ -58,52 +56,60 @@
             .col-xs-12
               h3 Matches
           .row
-            .col-xs-12
-              h3 {{statisticsCtrl.statistics.matches.winRate | number:1}}%
+            .col-xs-6
+              h3 {{statisticsCtrl.headToHead.matches.playerWinRate | number:1}}%
                 br
-                small Win Rate
+                small {{statisticsCtrl.headToHead.player.handle}} Win Rate
+            .col-xs-6
+              h3 {{statisticsCtrl.headToHead.matches.opponentWinRate | number:1}}%
+                br
+                small {{statisticsCtrl.headToHead.opponent.handle}} Win Rate
           .row
             .col-xs-4
-              h4 {{statisticsCtrl.statistics.matches.played | number:0}}
+              h4 {{statisticsCtrl.headToHead.matches.played | number:0}}
                 br
                 small Played
             .col-xs-4
-              h4 {{statisticsCtrl.statistics.matches.win | number:0}}
+              h4 {{statisticsCtrl.headToHead.matches.playerWin | number:0}}
                 br
-                small Wins
+                small {{statisticsCtrl.headToHead.player.handle}} Wins
             .col-xs-4
-              h4 {{statisticsCtrl.statistics.matches.loss | number:0}}
+              h4 {{statisticsCtrl.headToHead.matches.opponentWin | number:0}}
                 br
-                small Losses
+                small {{statisticsCtrl.headToHead.opponent.handle}} Wins
         .col-sm-6
           .row
             .col-xs-12
               h3 Games
           .row
-            .col-xs-12
-              h3 {{statisticsCtrl.statistics.games.winRate | number:1}}%
+            .col-xs-6
+              h3 {{statisticsCtrl.headToHead.games.playerWinRate | number:1}}%
                 br
-                small Win Rate
+                small {{statisticsCtrl.headToHead.player.handle}} Win Rate
+            .col-xs-6
+              h3 {{statisticsCtrl.headToHead.games.opponentWinRate | number:1}}%
+                br
+                small {{statisticsCtrl.headToHead.opponent.handle}} Win Rate
           .row
             .col-xs-4
-              h4 {{statisticsCtrl.statistics.games.played | number:0}}
+              h4 {{statisticsCtrl.headToHead.games.played | number:0}}
                 br
                 small Played
             .col-xs-4
-              h4 {{statisticsCtrl.statistics.games.win | number:0}}
+              h4 {{statisticsCtrl.headToHead.games.playerWin | number:0}}
                 br
-                small Wins
+                small {{statisticsCtrl.headToHead.player.handle}} Wins
             .col-xs-4
-              h4 {{statisticsCtrl.statistics.games.loss | number:0}}
+              h4 {{statisticsCtrl.headToHead.games.opponentWin | number:0}}
                 br
-                small Losses
+                small {{statisticsCtrl.headToHead.opponent.handle}} Wins
         .row.text-center
           .col-xs-12
-            h3 Last {{statisticsCtrl.statistics.latestMatches.length}} Matches
-          .col-sm-4(ng-repeat='match in statisticsCtrl.statistics.latestMatches')
+            h3 Last {{statisticsCtrl.headToHead.latestMatches.length}} Matches
+          .col-sm-4(ng-repeat='match in statisticsCtrl.headToHead.latestMatches')
             .row
               .col-xs-12
-                h4 {{match.isWinner ? 'Win' : 'Lose'}}
+                h4 {{match.isWinner ? (statisticsCtrl.headToHead.player.handle + ' Win') : (statisticsCtrl.headToHead.opponent.handle + ' Win')}}
             .row(ng-repeat='playerScr in match.playerScr')
               .col-xs-6
                 h5 {{playerScr}}
@@ -111,9 +117,14 @@
                 h5 {{match.opponentScr[$index]}}
             .row
               .col-xs-6
-                h5 {{statisticsCtrl.player.handle}}
+                h5 {{statisticsCtrl.headToHead.player.handle}}
               .col-xs-6
-                h5 {{match.opponent.handle}}
+                h5 {{statisticsCtrl.headToHead.opponent.handle}}
             .row
               .col-xs-12
                 p {{match.completed_at | date: 'medium'}}
+  .panel.panel-primary(ng-if='statisticsCtrl.headToHeadErr')
+    .panel-heading
+      .panel-title Not Found
+    .panel-body.text-center
+      h4 No matchups found for the current selection. Please try another selection.
