@@ -35,7 +35,7 @@ export class StatisticsComponent {
       .then(response => {
         this.statistics = response.data
       })
-      .catcH(err => {
+      .catch(err => {
         this.errorHandler(err)
       })
   }
@@ -53,7 +53,7 @@ export class StatisticsComponent {
 
     this.$http.get(`/api/players/${this.player1}/vs/${this.player2}/game/${this.game}`)
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         this.headToHead = response.data
       })
       .catch(err => {

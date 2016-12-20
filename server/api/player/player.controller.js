@@ -473,12 +473,11 @@ const getHeadToHead = (req, res, datas) => {
     }
     _.each(datas, match => {
       let player
-      if (match._player1Id.toString() === req.params.id) {
+      if (match._player1Id.toString() === req.params.playerId) {
         player = 1
       } else {
         player = 2
       }
-
       _.each(match.score, score => {
         games.played += Number(score.p1) + Number(score.p2)
         if (player === 1) games.playerWin += Number(score.p1)
