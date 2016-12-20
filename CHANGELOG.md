@@ -1,4 +1,10 @@
 #Changelog
+##0.6.0 (2016-12-20)
+  - Add statistics page
+  - Add head to head temporarily to statistics page
+  - Add caching to new routes
+  - Update navbar
+
 ##0.5.2 (2016-12-19)
   - Add head to head statistics api route
 
