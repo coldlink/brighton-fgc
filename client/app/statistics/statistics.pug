@@ -34,3 +34,86 @@
           h2 1000
             br
             small Games
+  .row
+    .col-xs-12.page-header
+      h3 Head To Head
+  .row
+    .col-xs-4.form-group
+      label Player 1
+      select.form-control
+        option(value='') Select Player...
+    .col-xs-4.form-group
+      label Player 2
+      select.form-control
+        option(value='') Select Player...
+    .col-xs-4.form-group
+      label Games
+      select.form-control
+        option(value='') Select Game...
+  .panel.panel-primary
+    .panel-body
+      .row.text-center
+        .col-sm-6
+          .row
+            .col-xs-12
+              h3 Matches
+          .row
+            .col-xs-12
+              h3 {{statisticsCtrl.statistics.matches.winRate | number:1}}%
+                br
+                small Win Rate
+          .row
+            .col-xs-4
+              h4 {{statisticsCtrl.statistics.matches.played | number:0}}
+                br
+                small Played
+            .col-xs-4
+              h4 {{statisticsCtrl.statistics.matches.win | number:0}}
+                br
+                small Wins
+            .col-xs-4
+              h4 {{statisticsCtrl.statistics.matches.loss | number:0}}
+                br
+                small Losses
+        .col-sm-6
+          .row
+            .col-xs-12
+              h3 Games
+          .row
+            .col-xs-12
+              h3 {{statisticsCtrl.statistics.games.winRate | number:1}}%
+                br
+                small Win Rate
+          .row
+            .col-xs-4
+              h4 {{statisticsCtrl.statistics.games.played | number:0}}
+                br
+                small Played
+            .col-xs-4
+              h4 {{statisticsCtrl.statistics.games.win | number:0}}
+                br
+                small Wins
+            .col-xs-4
+              h4 {{statisticsCtrl.statistics.games.loss | number:0}}
+                br
+                small Losses
+        .row.text-center
+          .col-xs-12
+            h3 Last {{statisticsCtrl.statistics.latestMatches.length}} Matches
+          .col-sm-4(ng-repeat='match in statisticsCtrl.statistics.latestMatches')
+            .row
+              .col-xs-12
+                h4 {{match.isWinner ? 'Win' : 'Lose'}}
+            .row(ng-repeat='playerScr in match.playerScr')
+              .col-xs-6
+                h5 {{playerScr}}
+              .col-xs-6
+                h5 {{match.opponentScr[$index]}}
+            .row
+              .col-xs-6
+                h5 {{statisticsCtrl.player.handle}}
+              .col-xs-6
+                h5 {{match.opponent.handle}}
+            .row
+              .col-xs-12
+                p {{match.completed_at | date: 'medium'}}
