@@ -1,4 +1,7 @@
 #Changelog
+##0.6.1 (2016-12-20)
+  - Fix issue with head to head scores
+
 ##0.6.0 (2016-12-20)
   - Add statistics page
   - Add head to head temporarily to statistics page
