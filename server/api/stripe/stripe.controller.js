@@ -1,6 +1,7 @@
 'use strict'
-
-const stripe = require('stripe')(process.env.STRIPE)
+import config from '../../config/environment'
+console.log(config)
+const stripe = require('stripe')(config.stripe)
 import Stripe from './stripe.model'
 
 export function charge (req, res) {

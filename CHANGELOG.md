@@ -1,4 +1,7 @@
 #Changelog
+##0.7.1
+  - Fix Stripe API issue
+  
 ##0.7.0 (2017-01-03)
   - Add donation page.
 
