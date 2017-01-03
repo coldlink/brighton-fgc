@@ -1,6 +1,6 @@
 'use strict'
 import config from '../../config/environment'
-console.log(config)
+
 const stripe = require('stripe')(config.stripe)
 import Stripe from './stripe.model'
 
