@@ -36,6 +36,9 @@ export class NavbarComponent {
     }, {
       title: 'Stream',
       state: 'stream'
+    }, {
+      title: 'Donate',
+      state: 'donate'
     }]
 
     this.isCollapsed = true

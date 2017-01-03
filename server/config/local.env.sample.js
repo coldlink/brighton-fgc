@@ -8,6 +8,7 @@
 module.exports = {
   DOMAIN: 'http://localhost:9000',
   SESSION_SECRET: 'fgc-secret',
+  STRIPE: 'STRIPE_SECRET_KEY',
 
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''

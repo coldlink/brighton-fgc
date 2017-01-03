@@ -1,0 +1,137 @@
+.container
+  .row
+    .col-xs-12.page-header
+      h1 Donate
+  .row
+    .col-xs-12
+      .panel.panel-primary
+        .panel-heading
+          .panel-title Donation Form
+        .panel-body
+          form#payment-form.form(name='form', ng-submit='donateCtrl.submitPaymentForm(form)', novalidate='')
+
+            .form-group(ng-class='{ "has-success": form.amount.$valid && (form.amount.$dirty || donateCtrl.invalidForm), "has-error": form.amount.$invalid && (form.amount.$dirty || donateCtrl.invalidForm) }')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  label Amount (GBP)
+              .row
+                .col-sm-6.col-sm-offset-3
+                  input.form-control(type='number', name='amount', ng-model='donateCtrl.amount', min='1', step='0.01', ng-required='true', value='0', placeholder='1.00')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p(ng-show='donateCtrl.amount') Amount: {{donateCtrl.amount | currency:'£'}}
+                    br
+                    | Payment Processing Fees: {{(donateCtrl.amount * 0.014) + 0.2 | currency:'£'}}
+                    br
+                    | Total Donation: {{(donateCtrl.amount - (donateCtrl.amount * 0.014) - 0.2) | currency:'£'}}
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.amount.$error.required && (form.amount.$dirty || donateCtrl.invalidForm)') Amount is required.
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.amount.$error.min && (form.amount.$dirty || donateCtrl.invalidForm)') Minimum amount is £1.00.
+
+            .form-group(ng-class='{ "has-success": form.name.$valid && (form.name.$dirty || donateCtrl.invalidForm), "has-error": form.name.$invalid && (form.name.$dirty || donateCtrl.invalidForm) }')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  label Your Name
+              .row
+                .col-sm-6.col-sm-offset-3
+                  input.form-control(type='text', ng-model='donateCtrl.user.name', name='name', placeholder='Karin Kanzuki', ng-required='true')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.name.$error.required && (form.name.$dirty || donateCtrl.invalidForm)') Your name is required.
+
+            .form-group(ng-class='{ "has-success": form.email.$valid && (form.email.$dirty || donateCtrl.invalidForm), "has-error": form.email.$invalid && (form.email.$dirty || donateCtrl.invalidForm) }')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  label Your Email
+              .row
+                .col-sm-6.col-sm-offset-3
+                  input.form-control(type='email', ng-model='donateCtrl.user.email', name='email', placeholder='karin@kanzuki.jp', ng-required='true')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.email.$error.required && (form.email.$dirty || donateCtrl.invalidForm)') Your email is required.
+                  p.help-block(ng-show='form.email.$invalid && (form.email.$dirty || donateCtrl.invalidForm)') The email is invalid.
+
+            .form-group(ng-class='{ "has-success": form.number.$valid && (form.number.$dirty || donateCtrl.invalidForm), "has-error": form.number.$invalid && (form.number.$dirty || donateCtrl.invalidForm) }')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  label Card Number
+              .row
+                .col-sm-6.col-sm-offset-3
+                  input.form-control(type='text', ng-model='donateCtrl.card.number', name='number', cc-number, cc-type='cardType', placeholder='4012888888881881', ng-required='true')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.number.$ccType') Looks like a {{form.number.$ccType}} card!
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.number.$invalid && (form.number.$dirty || donateCtrl.invalidForm)') Invalid card number.
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.number.$error.required && (form.number.$dirty || donateCtrl.invalidForm)') Card number is required.
+
+            .form-group(ng-class='{ "has-success": (form.exp_month.$valid && form.exp_year.$valid) && ((form.exp_month.$dirty || donateCtrl.invalidForm) && (form.exp_year.$dirty || donateCtrl.invalidForm)), "has-error": (form.exp_month.$invalid || form.exp_year.$invalid) && ((form.exp_month.$dirty || donateCtrl.invalidForm) && (form.exp_year.$dirty || donateCtrl.invalidForm)) }')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  label Expiration Date (MM/YY)
+              .row
+                .col-sm-6.col-sm-offset-3
+                  .row
+                    .col-xs-6
+                      input.form-control(ng-model='donateCtrl.card.exp_month', name='exp_month', cc-exp-month, placeholder='MM', ng-required='true')
+                    .col-xs-6
+                      input.form-control(ng-model='donateCtrl.card.exp_year', name='exp_year', cc-exp-year, placeholder='YY', ng-required='true')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.$error.ccExpYear || form.$error.ccExpMonth') Invalid expiration date
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.exp_month.$error.parse') Month is not a number.
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.exp_month.$error.parse') Year is not a number.
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.exp_month.$error.required && (form.exp_year.$dirty || donateCtrl.invalidForm)') Month is required
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.exp_year.$error.required && (form.exp_year.$dirty || donateCtrl.invalidForm)') Year is required
+
+            .form-group(ng-class='{ "has-success": form.cvc.$valid && (form.cvc.$dirty || donateCtrl.invalidForm), "has-error": form.cvc.$invalid && (form.cvc.$dirty || donateCtrl.invalidForm) }')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  label CVC/CVV (Security Code)
+              .row
+                .col-sm-6.col-sm-offset-3
+                  input.form-control(type='text', ng-model='donateCtrl.card.cvc', name='cvc', cc-cvc, placeholder='123', ng-required='true')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.cvc.$error.required && (form.cvc.$dirty || donateCtrl.invalidForm)') CVC/CVV number is required.
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.cvc.$error.ccCvc && (form.cvc.$dirty || donateCtrl.invalidForm)') CVC/CVV number invalid.
+
+            .form-group(ng-class='{ "has-success": form.address_zip.$valid && (form.address_zip.$dirty || donateCtrl.invalidForm), "has-error": form.address_zip.$invalid && (form.address_zip.$dirty || donateCtrl.invalidForm) }')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  label Billing Postal/Zip Code
+              .row
+                .col-sm-6.col-sm-offset-3
+                  input.form-control(type='text', ng-model='donateCtrl.card.address_zip', name='address_zip', placeholder='BN1 1AA', ng-required='true')
+              .row
+                .col-sm-6.col-sm-offset-3
+                  p.help-block(ng-show='form.address_zip.$error.required && (form.address_zip.$dirty || donateCtrl.invalidForm)') Post code is required.
+            .form-group
+              .row(ng-if='donateCtrl.sucmsg')
+                .col-sm-6.col-sm-offset-3
+                  p.help-block.text-success {{donateCtrl.sucmsg}}
+              .row(ng-if='donateCtrl.errmsg')
+                .col-sm-6.col-sm-offset-3
+                  p.help-block.text-danger {{donateCtrl.errmsg}}
+            .form-group
+              .row
+                .col-sm-6.col-sm-offset-3
+                  input.form-control(type='submit', value='Submit Payment')
+
+

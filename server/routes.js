@@ -20,6 +20,7 @@ export default function (app) {
   app.use('/api/players', require('./api/player'))
   app.use('/api/users', require('./api/user'))
   app.use('/api/statistics', require('./api/statistics'))
+  app.use('/api/stripe', require('./api/stripe'))
 
   app.use('/auth', require('./auth').default)
 

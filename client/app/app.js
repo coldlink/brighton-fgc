@@ -35,11 +35,12 @@ import EventComponent from './event/event.component'
 import ErrorComponent from './error/error.component'
 import StreamComponent from './stream/stream.component'
 import StatisticsComponent from './statistics/statistics.component'
+import DonateComponent from './donate/donate.component'
 
 import './app.scss'
 
 angular.module('fgcApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap, _Auth, account,
-  admin, navbar, footer, main, constants, util, SeriesComponent, TournamentComponent, PlayerComponent, GameComponent, EventComponent, InfoComponent, StreamComponent, ErrorComponent, StatisticsComponent
+  admin, navbar, footer, main, constants, util, SeriesComponent, TournamentComponent, PlayerComponent, GameComponent, EventComponent, InfoComponent, StreamComponent, ErrorComponent, StatisticsComponent, DonateComponent
 ])
   .config(routeConfig)
   .run(function ($rootScope, $location, Auth, $window) {

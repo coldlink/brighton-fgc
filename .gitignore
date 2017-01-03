@@ -7,6 +7,7 @@ client/bower_components
 client/index.html
 dist
 /server/config/local.env.js
+/server/config/environment/shared.js
 npm-debug.log
 coverage
 /scripts/mongo/csv/
