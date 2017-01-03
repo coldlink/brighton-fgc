@@ -62,10 +62,14 @@ export class DonateComponent {
   }
 }
 
-export default angular.module('fgcApp.donate', ['fgcApp.constants', uiRouter, require('angular-stripe'), require('angular-credit-cards')])
+export default angular.module('fgcApp.donate', [uiRouter, require('angular-stripe'), require('angular-credit-cards')])
   .config(routes)
-  .config(function (stripeProvider, appConfig) {
-    stripeProvider.setPublishableKey(appConfig.stripe)
+  .config(function (stripeProvider) {
+    if (window.location.host === 'fgc.mkn.sh') {
+      stripeProvider.setPublishableKey('pk_live_JMtwFhRuQ0zNXydnEjAynz8a')
+    } else {
+      stripeProvider.setPublishableKey('pk_test_PqoXye3evGZ9CZ5vG3Byeeh0')
+    }
   })
   .component('donate', {
     template: require('./donate.pug'),
