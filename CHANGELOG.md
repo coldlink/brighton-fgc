@@ -1,4 +1,7 @@
 #Changelog
+##0.7.0 (2017-01-03)
+  - Add donation page.
+
 ##0.6.1 (2016-12-20)
   - Fix issue with head to head scores
 
