@@ -10,3 +10,4 @@ dist
 npm-debug.log
 coverage
 /scripts/mongo/csv/
+ecosystem.config.js
