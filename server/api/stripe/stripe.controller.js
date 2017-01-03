@@ -1,17 +1,13 @@
 'use strict'
 
 const stripe = require('stripe')(process.env.STRIPE)
+import Stripe from './stripe.model'
 
 export function charge (req, res) {
-  console.log(req.body)
-
   let token = req.body.stripeToken
   let user = req.body.user
   let amount = Number(req.body.amount) * 100
   let type = req.body.type
-
-  console.log(amount)
-  console.log(typeof amount)
 
   if (!token || !user || !amount || !type) {
     return res.status(422).send('Validation Error')
@@ -42,7 +38,20 @@ export function charge (req, res) {
       }
     }
 
-    console.log(charge)
-    return res.status(200).json(charge)
+    let newcharge = new Stripe({
+      user,
+      amount,
+      type,
+      charge
+    })
+
+    newcharge.save(err => {
+      if (err) {
+        console.log(err)
+        return res.status(500).json(err)
+      } else {
+        return res.status(200).json(charge)
+      }
+    })
   })
 }

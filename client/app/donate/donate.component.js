@@ -15,14 +15,16 @@ export class DonateComponent {
   }
 
   submitPaymentForm (form) {
+    // console.log(form)
     this.invalidForm = false
     this.errmsg = ''
     this.sucmsg = ''
+    this.frmdisable = true
 
     if (form.$valid) {
       return this.stripe.card.createToken(this.card)
         .then(response => {
-          console.log(response)
+          // console.log(response)
           return this.$http.post(`/api/stripe`, {
             stripeToken: response.id,
             user: this.user,
@@ -31,21 +33,25 @@ export class DonateComponent {
           })
         })
         .then(payment => {
-          console.log(payment)
+          // console.log(payment)
           this.sucmsg = `Payment successful! Receipt sent to ${this.user.email}.
           If you have any issues or questions then please email contact@mkn.sh.
           `
           this.user = {}
           this.amount = null
           this.card = {}
+          this.frmdisable = false
+          form.$setPristine()
+          form.$setUntouched()
         })
         .catch(err => {
+          this.frmdisable = false
           if (err.data.type) {
-            console.log('Stripe error: ', err.data.message)
+            // console.log('Stripe error: ', err.data.message)
             this.errmsg = `Payment error: ${err.data.message}
             If you have continuous issues or other questions then please email contact@mkn.sh.`
           } else {
-            console.log('Other error occurred, possibly with your API', err.data.message)
+            // console.log('Other error occurred, possibly with your API', err.data.message)
             this.errmsg = `Other error occurred, possibly with the API: ${err.data.message}
             If you have continuous issues or other questions then please email contact@mkn.sh.`
           }
