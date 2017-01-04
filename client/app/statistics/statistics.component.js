@@ -54,9 +54,15 @@ export class StatisticsComponent {
     this.$http.get(`/api/players/${this.player1}/vs/${this.player2}/game/${this.game}`)
       .then(response => {
         // console.log(response.data)
-        this.headToHead = response.data
+        if (response.data === 'Not Found') {
+          this.headToHead = false
+          this.headToHeadErr = 'Not Found'
+        } else {
+          this.headToHead = response.data
+        }
       })
       .catch(err => {
+        // console.log(err)
         this.headToHead = false
         if (err.status === 404) {
           this.headToHeadErr = err
