@@ -1,9 +1,12 @@
 #Changelog
-##0.7.1
+##0.7.2 (2017-01-04)
+  - Add 2017 Series info to info page
+
+##0.7.1 (2017-01-03)
   - Fix Stripe API issue
   
 ##0.7.0 (2017-01-03)
-  - Add donation page.
+  - Add donation page
 
 ##0.6.1 (2016-12-20)
   - Fix issue with head to head scores
@@ -24,17 +27,17 @@
   - Add statistics to series player pages
   
 ##0.4.3 (2016-12-15)
-  - Dynamic Page View event push to GTM on state change success.
+  - Dynamic Page View event push to GTM on state change success
   - Fix issue with new match model
 
 ##0.4.2 (2016-12-14)
-  - Add event venue to events.
+  - Add event venue to events
 
 ##0.4.1 (2016-12-14)
   - Add tournament link to single event page.
 
 ##0.4.0 (2016-12-14)
-  - Add caching to speed up request.
+  - Add caching to speed up request
 
 ##0.3.3 (2016-12-14)
   - Move hosting to DigitalOcean
