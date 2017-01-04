@@ -1,7 +1,10 @@
 #Changelog
+##0.7.4 (2017-01-04)
+  - Add dataLayer event tracking for donation complete
+  
 ##0.7.3 (2017-01-04)
   - Fix bug where a cached head to head match was not correctly set to 'Not Found'CHANGELOG.md
-  
+
 ##0.7.2 (2017-01-04)
   - Add 2017 Series info to info page
 

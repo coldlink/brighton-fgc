@@ -7,9 +7,10 @@ import routes from './donate.routes'
 
 export class DonateComponent {
   /* @ngInject */
-  constructor (stripe, $http) {
+  constructor (stripe, $http, $window) {
     this.stripe = stripe
     this.$http = $http
+    this.$window = $window
     this.card = {}
     this.user = {}
   }
@@ -43,6 +44,7 @@ export class DonateComponent {
           this.frmdisable = false
           form.$setPristine()
           form.$setUntouched()
+          this.$window.dataLayer.push({event: 'donationComplete'})
         })
         .catch(err => {
           this.frmdisable = false
