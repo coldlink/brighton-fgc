@@ -1,10 +1,11 @@
 'use strict'
 
-export default class AdminController {
+export default class AdminPlayerController {
   /* @ngInject */
-  constructor (User) {
+  constructor (Player) {
     // Use the User $resource to fetch all users
-    // this.users = User.query()
+    this.players = Player.query()
+    console.log(this.players)
   }
 
   // delete (user) {

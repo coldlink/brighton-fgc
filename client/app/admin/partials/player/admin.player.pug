@@ -1,0 +1,19 @@
+.row
+  .col-xs-12.page-header
+    h1 Player Management
+
+//- Edit/Add/Delete Player
+.row
+  .col-sm-4
+.row
+  .col-sm-4
+    label Search for a player...
+    input.form-control(type='text', ng-model='adminPlayer.selectedPlayer', uib-typeahead='player as player.handle for player in adminPlayer.players | orderBy:"name" | filter:$viewValue', placeholder='Search...')
+  //- .col-xs-12
+  //-   ul.list-group
+  //-     li.list-group-item(ng-repeat='player in adminPlayer.players')
+  //-       strong {{player.handle}}
+  //-       br
+  //-       span.text-muted {{player.email}}
+  //-       a.trash(ng-click='admin.delete(player)')
+  //-         span.glyphicon.glyphicon-trash.pull-right
