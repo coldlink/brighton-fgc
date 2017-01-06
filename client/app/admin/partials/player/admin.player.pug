@@ -4,11 +4,45 @@
 
 //- Edit/Add/Delete Player
 .row
-  .col-sm-4
+  .col-md-4.col-sm-8.col-md-offset-4.col-sm-offset-2.page-header
+    label Data Model:
+    pre {{adminPlayer.player | json}}
+
 .row
-  .col-sm-4
+  .col-md-4.col-sm-8.col-md-offset-4.col-sm-offset-2.page-header
     label Search for a player...
-    input.form-control(type='text', ng-model='adminPlayer.selectedPlayer', uib-typeahead='player as player.handle for player in adminPlayer.players | orderBy:"name" | filter:$viewValue', placeholder='Search...')
+    input.form-control(type='text', ng-model='adminPlayer.player', uib-typeahead='player as player.handle for player in adminPlayer.players | orderBy:"name" | filter:$viewValue', placeholder='Search...')
+.row
+  .col-md-4.col-sm-8.col-md-offset-4.col-sm-offset-2
+    h4 Player Form
+    form.form(name='form', novalidate='')
+      .form-group
+        label _id
+        input.form-control(type='text', name='handle', ng-model='adminPlayer.player._id', disabled)
+      .form-group
+        label Handle
+        input.form-control(type='text', name='handle', ng-model='adminPlayer.player.handle')
+      .form-group
+        label Team
+        input.form-control(type='text', name='team', ng-model='adminPlayer.player.team')
+      .form-group
+        label Challonge Username
+        input.form-control(type='text', name='challonge_username', ng-model='adminPlayer.player.challonge_username')
+      .form-group
+        label Challonge Names (if no username)
+        ui-select(multiple, tagging, tagging-label='(add new...)', ng-model='adminPlayer.player.challonge_name', sortable='true')
+          ui-select-match(placeholder='Add name...') {{$item}}
+          ui-select-choices(repeat='name in adminPlayer.player.challonge_name | filter:$select.search')
+      .form-group
+        label Twitter
+        input.form-control(type='text', name='twitter', ng-model='adminPlayer.player.twitter')
+      .form-group
+        label isStaff
+        input.form-control(type='checkbox', name='isStaff', ng-model='adminPlayer.player.isStaff')
+      .form-group
+        btn.btn.btn-primary Edit
+        btn.btn.btn-primary Add
+        btn.btn.btn-primary Delete
   //- .col-xs-12
   //-   ul.list-group
   //-     li.list-group-item(ng-repeat='player in adminPlayer.players')

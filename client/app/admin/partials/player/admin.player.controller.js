@@ -12,4 +12,10 @@ export default class AdminPlayerController {
   //   user.$remove()
   //   this.users.splice(this.users.indexOf(user), 1)
   // }
+  setPlayer (selectedPlayer) {
+    console.log(selectedPlayer)
+    if (typeof selectedPlayer === 'object') {
+      this.player = selectedPlayer
+    }
+  }
 }
