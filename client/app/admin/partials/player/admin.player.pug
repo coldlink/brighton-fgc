@@ -40,9 +40,10 @@
         label isStaff
         input.form-control(type='checkbox', name='isStaff', ng-model='adminPlayer.player.isStaff')
       .form-group
-        btn.btn.btn-primary Edit
-        btn.btn.btn-primary Add
-        btn.btn.btn-primary Delete
+        btn.btn.btn-primary(ng-click='adminPlayer.editPlayer(adminPlayer.player)') Edit/Add
+        btn.btn.btn-info(ng-click='adminPlayer.player = null; adminPlayer.confirmDelete = false') Clear
+        btn.btn.btn-danger(ng-click='adminPlayer.confirmDelete = !adminPlayer.confirmDelete') Delete
+        btn.btn.btn-danger(ng-if='adminPlayer.confirmDelete', ng-click='adminPlayer.delete(adminPlayer.player)') Confirm Delete
   //- .col-xs-12
   //-   ul.list-group
   //-     li.list-group-item(ng-repeat='player in adminPlayer.players')

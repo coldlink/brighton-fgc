@@ -11,6 +11,7 @@ export function PlayerResource ($resource) {
       params: {
         id: 'me'
       }
-    }
+    },
+    update: { method: 'PUT' }
   })
 }
