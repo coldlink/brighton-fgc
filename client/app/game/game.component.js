@@ -9,11 +9,12 @@ import routes from './game.routes'
 
 export class GameComponent {
   /* @ngInject */
-  constructor ($http, $window, $timeout, $state) {
+  constructor ($http, $window, $timeout, $state, $log) {
     this.$http = $http
     this.$window = $window
     this.$timeout = $timeout
     this.$state = $state
+    this.$log = $log
     this.games = []
     this.gamesChunk = []
   }
@@ -21,7 +22,7 @@ export class GameComponent {
   $onInit () {
     this.$http.get('/api/games')
       .then(response => {
-        // console.log(response.data)
+        // $log.debug(response.data)
         this.sortGames(response.data)
       })
       .catch(err => {
@@ -46,20 +47,21 @@ export class GameComponent {
 
 export class GameSingleComponent {
   /* @ngInject */
-  constructor ($http, $stateParams, Util, $window, $timeout, $state) {
+  constructor ($http, $stateParams, Util, $window, $timeout, $state, $log) {
     this.$http = $http
     this.$window = $window
     this.$timeout = $timeout
     this.$stateParams = $stateParams
     this.Util = Util
     this.$state = $state
+    this.$log = $log
   }
 
   $onInit () {
-    // console.log(this.$stateParams)
+    // $log.debug(this.$stateParams)
     this.$http.get(`/api/games/${this.$stateParams.id}`)
       .then(response => {
-        // console.log(response.data)
+        // $log.debug(response.data)
         this.game = response.data
         this.game.tournaments = _.reverse(_.sortBy(this.game.tournaments, o => new Date(o.date_time)))
 

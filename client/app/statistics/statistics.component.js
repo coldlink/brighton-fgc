@@ -9,9 +9,10 @@ import routes from './statistics.routes'
 
 export class StatisticsComponent {
   /* @ngInject */
-  constructor ($http, $state) {
+  constructor ($http, $state, $log) {
     this.$http = $http
     this.$state = $state
+    this.$log = $log
   }
 
   $onInit () {
@@ -53,7 +54,7 @@ export class StatisticsComponent {
 
     this.$http.get(`/api/players/${this.player1}/vs/${this.player2}/game/${this.game}`)
       .then(response => {
-        // console.log(response.data)
+        // this.$log.debug(response.data)
         if (response.data === 'Not Found') {
           this.headToHead = false
           this.headToHeadErr = 'Not Found'
@@ -62,7 +63,7 @@ export class StatisticsComponent {
         }
       })
       .catch(err => {
-        // console.log(err)
+        // this.$log.debug(err)
         this.headToHead = false
         if (err.status === 404) {
           this.headToHeadErr = err

@@ -9,11 +9,12 @@ import routes from './tournament.routes'
 
 export class TournamentComponent {
   /* @ngInject */
-  constructor ($http, $window, $timeout, $state) {
+  constructor ($http, $window, $timeout, $state, $log) {
     this.$http = $http
     this.$window = $window
     this.$timeout = $timeout
     this.$state = $state
+    this.$log = $log
     this.pastTournaments = []
     this.pastTournamentsChunk = []
     this.upcomingTournaments = []
@@ -23,7 +24,7 @@ export class TournamentComponent {
   $onInit () {
     this.$http.get('/api/tournaments')
       .then(response => {
-        // console.log(response.data)
+        // this.$log.debug(response.data)
         this.sortTournaments(response.data)
       })
       .catch(err => {
@@ -60,19 +61,20 @@ export class TournamentComponent {
 
 export class TournamentSingleComponent {
   /* @ngInject */
-  constructor ($http, $stateParams, Util, $sce, $state) {
+  constructor ($http, $stateParams, Util, $sce, $state, $log) {
     this.$http = $http
     this.$stateParams = $stateParams
     this.Util = Util
     this.$sce = $sce
     this.$state = $state
+    this.$log = $log
   }
 
   $onInit () {
-    // console.log(this.$stateParams)
+    // this.$log.debug(this.$stateParams)
     this.$http.get(`/api/tournaments/${this.$stateParams.id}`)
       .then(response => {
-        // console.log(response.data)
+        // this.$log.debug(response.data)
         this.tournament = response.data
       })
       .catch(err => {
@@ -85,7 +87,7 @@ export class TournamentSingleComponent {
   }
 
   getEmbed (url) {
-    // console.log(url)
+    // this.$log.debug(url)
     url = url.replace('http', 'https')
     return this.$sce.trustAsResourceUrl(`${url}/module?multiplier=1&match_width_multiplier=1&show_final_results=0&show_standings=1&theme=1`)
   }

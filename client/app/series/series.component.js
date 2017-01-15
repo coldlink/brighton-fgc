@@ -9,9 +9,10 @@ import routes from './series.routes'
 
 export class SeriesComponent {
   /* @ngInject */
-  constructor ($http, $state) {
+  constructor ($http, $state, $log) {
     this.$http = $http
     this.$state = $state
+    this.$log = $log
     this.series = []
     this.currentSeries = []
     this.pastSeries = []
@@ -20,7 +21,7 @@ export class SeriesComponent {
   $onInit () {
     this.$http.get('/api/series')
       .then(response => {
-        // console.log(response.data)
+        // this.$log.debug(response.data)
         this.sortSeries(response.data)
       })
       .catch(err => {
@@ -39,8 +40,8 @@ export class SeriesComponent {
       }
     })
 
-    // console.log(this.currentSeries)
-    // console.log(this.pastSeries)
+    // this.$log.debug(this.currentSeries)
+    // this.$log.debug(this.pastSeries)
   }
 
   errorHandler (err) {
@@ -50,20 +51,21 @@ export class SeriesComponent {
 
 export class SeriesTopPlayerComponent {
   /* @ngInject */
-  constructor ($http, $state) {
+  constructor ($http, $state, $log) {
     this.$http = $http
     this.$state = $state
+    this.$log = $log
   }
 
   $onInit () {
-    // console.log(this.series)
-    // console.log(this.type)
+    // this.$log.debug(this.series)
+    // this.$log.debug(this.type)
 
     if (this.type === 'all') this.limit = 16
 
     this.$http.get(`/api/scores/series/${this.type}/${this.series}`)
       .then(response => {
-        // console.log(response)
+        // this.$log.debug(response)
         this.top = response.data
       })
       .catch(err => {
@@ -100,17 +102,18 @@ export class SeriesTopPlayerComponent {
 
 export class SeriesSingleComponent {
   /* @ngInject */
-  constructor ($http, $stateParams, $state) {
+  constructor ($http, $stateParams, $state, $log) {
     this.$http = $http
     this.$stateParams = $stateParams
     this.$state = $state
+    this.$log = $log
   }
 
   $onInit () {
-    // console.log(this.series)
+    // this.$log.debug(this.series)
     this.$http.get(`/api/series/${this.$stateParams.id}`)
       .then(response => {
-        // console.log(response)
+        // this.$log.debug(response)
         this.series = response.data
       })
       .catch(err => {
@@ -125,18 +128,19 @@ export class SeriesSingleComponent {
 
 export class SeriesPlayerComponent {
   /* @ngInject */
-  constructor ($http, $stateParams, $state) {
+  constructor ($http, $stateParams, $state, $log) {
     this.$http = $http
     this.$stateParams = $stateParams
     this.$state = $state
+    this.$log = $log
     this.limit = 5
   }
 
   $onInit () {
-    // console.log(this.$stateParams)
+    // this.$log.debug(this.$stateParams)
     this.$http.get(`/api/series/${this.$stateParams.series_id}/player/${this.$stateParams.player_id}`)
       .then(response => {
-        // console.log(response)
+        // this.$log.debug(response)
         this.series = response.data[0]
         this.player = response.data[1]
         this.tournaments = response.data[2]
@@ -148,7 +152,7 @@ export class SeriesPlayerComponent {
 
     this.$http.get(`/api/players/${this.$stateParams.player_id}/statistics/series/${this.$stateParams.series_id}`)
       .then(response => {
-        console.log(response)
+        this.$log.debug(response)
         this.statistics = response.data
       })
       .catch(err => {

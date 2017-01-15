@@ -7,16 +7,17 @@ import routes from './donate.routes'
 
 export class DonateComponent {
   /* @ngInject */
-  constructor (stripe, $http, $window) {
+  constructor (stripe, $http, $window, $log) {
     this.stripe = stripe
     this.$http = $http
     this.$window = $window
+    this.$log = $log
     this.card = {}
     this.user = {}
   }
 
   submitPaymentForm (form) {
-    // console.log(form)
+    // this.$log.debug(form)
     this.invalidForm = false
     this.errmsg = ''
     this.sucmsg = ''
@@ -25,7 +26,7 @@ export class DonateComponent {
     if (form.$valid) {
       return this.stripe.card.createToken(this.card)
         .then(response => {
-          // console.log(response)
+          // this.$log.debug(response)
           return this.$http.post(`/api/stripe`, {
             stripeToken: response.id,
             user: this.user,
@@ -34,7 +35,7 @@ export class DonateComponent {
           })
         })
         .then(payment => {
-          // console.log(payment)
+          // this.$log.debug(payment)
           this.sucmsg = `Payment successful! Receipt sent to ${this.user.email}.
           If you have any issues or questions then please email contact@mkn.sh.
           `
@@ -49,11 +50,11 @@ export class DonateComponent {
         .catch(err => {
           this.frmdisable = false
           if (err.data.type) {
-            // console.log('Stripe error: ', err.data.message)
+            // this.$log.debug('Stripe error: ', err.data.message)
             this.errmsg = `Payment error: ${err.data.message}
             If you have continuous issues or other questions then please email contact@mkn.sh.`
           } else {
-            // console.log('Other error occurred, possibly with your API', err.data.message)
+            // this.$log.debug('Other error occurred, possibly with your API', err.data.message)
             this.errmsg = `Other error occurred, possibly with the API: ${err.data.message}
             If you have continuous issues or other questions then please email contact@mkn.sh.`
           }

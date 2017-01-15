@@ -9,11 +9,12 @@ import routes from './event.routes'
 
 export class EventComponent {
   /* @ngInject */
-  constructor ($http, $window, $timeout, $state) {
+  constructor ($http, $window, $timeout, $state, $log) {
     this.$http = $http
     this.$window = $window
     this.$timeout = $timeout
     this.$state = $state
+    this.$log = $log
     this.pastEvents = []
     this.pastEventsChunk = []
     this.upcomingEvents = []
@@ -23,7 +24,7 @@ export class EventComponent {
   $onInit () {
     this.$http.get('/api/events')
       .then(response => {
-        // console.log(response.data)
+        // this.$log.debug(response.data)
         this.sortEvents(response.data)
       })
       .catch(err => {
@@ -59,18 +60,19 @@ export class EventComponent {
 
 export class EventSingleComponent {
   /* @ngInject */
-  constructor ($http, $stateParams, Util, $state) {
+  constructor ($http, $stateParams, Util, $state, $log) {
     this.$http = $http
     this.$stateParams = $stateParams
     this.Util = Util
     this.$state = $state
+    this.$log = $log
   }
 
   $onInit () {
-    // console.log(this)
+    // this.$log.debug(this)
     this.$http.get(`/api/events/${this.$stateParams.id}`)
       .then(response => {
-        // console.log(response.data)
+        // this.$log.debug(response.data)
         this.event = response.data
       })
       .catch(err => {
@@ -79,7 +81,7 @@ export class EventSingleComponent {
 
     this.$http.get(`/api/games/names`)
       .then(response => {
-        console.log(response)
+        this.$log.debug(response)
         this.games = response.data
       })
       .catch(err => {
@@ -96,9 +98,9 @@ export class EventSingleComponent {
   }
 
   getName (id) {
-    console.log(id)
+    this.$log.debug(id)
     let game = _.find(this.games, o => o._id === id)
-    console.log(game)
+    this.$log.debug(game)
     return game ? game.name : 'Game'
   }
 }

@@ -9,11 +9,12 @@ import routes from './player.routes'
 
 export class PlayerComponent {
   /* @ngInject */
-  constructor ($http, $window, $timeout, $state) {
+  constructor ($http, $window, $timeout, $state, $log) {
     this.$http = $http
     this.$window = $window
     this.$timeout = $timeout
     this.$state = $state
+    this.$log = $log
     this.players = []
     this.playersChunk = []
   }
@@ -21,7 +22,7 @@ export class PlayerComponent {
   $onInit () {
     this.$http.get('/api/players')
       .then(response => {
-        // console.log(response.data)
+        // $log.debug(response.data)
         this.sortPlayers(response.data)
       })
       .catch(err => this.errorHandler(err))
