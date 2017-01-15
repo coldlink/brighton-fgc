@@ -18,4 +18,11 @@ export default function routes ($stateProvider) {
       controllerAs: 'adminPlayer'
       // authenticate: 'admin'
     })
+    .state('admin.user', {
+      url: '/user',
+      template: require('./partials/user/admin.user.pug'),
+      controller: 'AdminUserController',
+      controllerAs: 'adminUser'
+      // authenticate: true
+    })
 }

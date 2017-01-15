@@ -1,0 +1,45 @@
+.row
+  .col-xs-12.page-header
+    h1 User Management - Not Yet Working
+
+//- Edit/Add/Delete User
+.row
+  .col-md-4.col-sm-8.col-md-offset-4.col-sm-offset-2.page-header
+    label Data Model:
+    pre {{adminUser.user | json}}
+
+.row
+  .col-md-4.col-sm-8.col-md-offset-4.col-sm-offset-2.page-header
+    label Search for a user...
+    input.form-control(type='text', ng-model='adminUser.user', uib-typeahead='user as user.name for user in adminUser.users | orderBy:"name" | filter:$viewValue', placeholder='Search...')
+.row
+  .col-md-4.col-sm-8.col-md-offset-4.col-sm-offset-2
+    h4 User Form
+    form.form(name='form', novalidate='')
+      .form-group
+        label _id
+        input.form-control(type='text', name='handle', ng-model='adminUser.user._id', disabled)
+      .form-group
+        label Name
+        input.form-control(type='text', name='name', ng-model='adminUser.user.name')
+      .form-group
+        label Email
+        input.form-control(type='email', name='email', ng-model='adminUser.user.email')
+      .form-group
+        label Role
+        select.form-control(name='role', ng-model='adminUser.user.role')
+          option(value='user') User
+          option(value='admin') Admin
+      .form-group
+        btn.btn.btn-primary(ng-click='adminUser.editUser(adminUser.user)') Edit/Add
+        btn.btn.btn-info(ng-click='adminUser.user = null; adminUser.confirmDelete = false') Clear
+        btn.btn.btn-danger(ng-click='adminUser.confirmDelete = !adminUser.confirmDelete') Delete
+        btn.btn.btn-danger(ng-if='adminUser.confirmDelete', ng-click='adminUser.delete(adminUser.user)') Confirm Delete
+  //- .col-xs-12
+  //-   ul.list-group
+  //-     li.list-group-item(ng-repeat='user in adminUser.users')
+  //-       strong {{user.handle}}
+  //-       br
+  //-       span.text-muted {{user.email}}
+  //-       a.trash(ng-click='admin.delete(user)')
+  //-         span.glyphicon.glyphicon-trash.pull-right
